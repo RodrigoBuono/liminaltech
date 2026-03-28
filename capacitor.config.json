@@ -1,0 +1,17 @@
+{
+  "appId": "com.liminaltech.claudio",
+  "appName": "Claudio",
+  "webDir": "www",
+  "server": {
+    "url": "https://claudio-bot-production.up.railway.app",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0a0a0a"
+  },
+  "ios": {
+    "backgroundColor": "#0a0a0a",
+    "contentInset": "always"
+  }
+}

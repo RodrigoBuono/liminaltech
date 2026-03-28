@@ -5,7 +5,16 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "setup": "node setup-gmail.js"
+    "setup": "node setup-gmail.js",
+    "cap:sync": "npx cap sync",
+    "cap:android": "npx cap open android",
+    "cap:ios": "npx cap open ios"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

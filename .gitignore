@@ -1,3 +1,6 @@
 node_modules/
 .env
 .last_checked
+android/
+ios/
+public/icons/*.png
