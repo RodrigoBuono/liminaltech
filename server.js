@@ -34,6 +34,11 @@ function getOAuthClient() {
   );
 }
 
+// ─── Páginas HTML ────────────────────────────────────────────────────────────
+
+app.get('/setup', (req, res) => res.sendFile(path.join(__dirname, 'public', 'setup.html')));
+app.get('/listo', (req, res) => res.sendFile(path.join(__dirname, 'public', 'listo.html')));
+
 // ─── Rutas de setup ──────────────────────────────────────────────────────────
 
 app.post('/setup/start', (req, res) => {
