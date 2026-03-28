@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar Claudio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
+    .logo { font-size: 1.4rem; font-weight: 700; text-decoration: none; color: #fff; }
+    .logo span { color: #25D366; }
+
+    .container { flex: 1; max-width: 560px; margin: 0 auto; padding: 60px 20px; width: 100%; }
+
+    .progress { display: flex; align-items: center; justify-content: center; margin-bottom: 50px; gap: 0; }
+    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .progress-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; transition: all 0.3s; }
+    .progress-dot.active { background: #25D366; color: #000; }
+    .progress-dot.done { background: #25D366; color: #000; }
+    .progress-dot.pending { background: #222; color: #555; border: 2px solid #333; }
+    .progress-label { font-size: 0.75rem; color: #555; white-space: nowrap; }
+    .progress-label.active { color: #25D366; }
+    .progress-line { width: 60px; height: 2px; background: #222; margin-bottom: 26px; transition: background 0.3s; }
+    .progress-line.done { background: #25D366; }
+
+    .step-card { background: #111; border: 1px solid #1e1e1e; border-radius: 20px; padding: 40px; }
+    .step-card h2 { font-size: 1.6rem; margin-bottom: 8px; }
+    .step-card .desc { color: #888; margin-bottom: 32px; line-height: 1.5; }
+
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 8px; font-weight: 500; }
+    .field input { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 16px; color: #fff; font-size: 1rem; transition: border-color 0.2s; outline: none; }
+    .field input:focus { border-color: #25D366; }
+    .field input::placeholder { color: #444; }
+    .field .hint { font-size: 0.78rem; color: #555; margin-top: 6px; line-height: 1.4; }
+
+    .btn-primary { width: 100%; background: #25D366; color: #000; border: none; padding: 16px; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 8px; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(37,211,102,0.35); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .keywords-section { margin-bottom: 20px; }
+    .keywords-section label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 8px; font-weight: 500; }
+    .keywords-section textarea { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 16px; color: #fff; font-size: 0.95rem; resize: vertical; min-height: 80px; outline: none; transition: border-color 0.2s; font-family: inherit; line-height: 1.5; }
+    .keywords-section textarea:focus { border-color: #25D366; }
+
+    .twilio-help { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
+    .twilio-help p { font-size: 0.82rem; color: #666; line-height: 1.6; }
+    .twilio-help a { color: #25D366; text-decoration: none; }
+
+    .gmail-step { text-align: center; }
+    .gmail-icon { font-size: 3.5rem; margin-bottom: 20px; }
+    .gmail-step .desc { max-width: 380px; margin: 0 auto 32px; }
+    .secure-note { display: flex; align-items: center; gap: 8px; background: #0d1f0d; border: 1px solid #1a3a1a; border-radius: 10px; padding: 12px 16px; margin-bottom: 28px; text-align: left; }
+    .secure-note span { font-size: 0.82rem; color: #5a9a5a; line-height: 1.4; }
+
+    .error-msg { background: #1a0a0a; border: 1px solid #5a1a1a; border-radius: 10px; padding: 14px 16px; color: #f87171; font-size: 0.88rem; margin-bottom: 20px; display: none; }
+    .loading-text { display: none; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Clau<span>dio</span></a>
+</nav>
+
+<div class="container">
+
+  <!-- Progress bar -->
+  <div class="progress">
+    <div class="progress-step">
+      <div class="progress-dot active" id="dot1">1</div>
+      <div class="progress-label active" id="lbl1">WhatsApp</div>
+    </div>
+    <div class="progress-line" id="line1"></div>
+    <div class="progress-step">
+      <div class="progress-dot pending" id="dot2">2</div>
+      <div class="progress-label" id="lbl2">Gmail</div>
+    </div>
+    <div class="progress-line" id="line2"></div>
+    <div class="progress-step">
+      <div class="progress-dot pending" id="dot3">3</div>
+      <div class="progress-label" id="lbl3">Listo</div>
+    </div>
+  </div>
+
+  <!-- STEP 1: WhatsApp + Twilio -->
+  <div id="step1" class="step-card">
+    <h2>Configurá tu WhatsApp</h2>
+    <p class="desc">Necesitás una cuenta de Twilio para enviar los mensajes. Es gratis para empezar.</p>
+
+    <div class="twilio-help">
+      <p>¿No tenés Twilio? Creá una cuenta gratis en <a href="https://twilio.com" target="_blank">twilio.com</a>, activá el Sandbox de WhatsApp y copiá tu Account SID y Auth Token del Dashboard.</p>
+    </div>
+
+    <div id="error1" class="error-msg"></div>
+
+    <div class="field">
+      <label>Tu número de WhatsApp</label>
+      <input type="tel" id="whatsapp" placeholder="+5491112345678" />
+      <div class="hint">Con código de país. Ejemplo: +5491112345678 (Argentina)</div>
+    </div>
+
+    <div class="field">
+      <label>Twilio Account SID</label>
+      <input type="text" id="twilio_sid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+    </div>
+
+    <div class="field">
+      <label>Twilio Auth Token</label>
+      <input type="password" id="twilio_token" placeholder="Tu auth token" />
+    </div>
+
+    <div class="keywords-section">
+      <label>Palabras clave (opcional)</label>
+      <textarea id="keywords" placeholder="consulta,cotización,pregunta,info,quiero,necesito">consulta,cotización,pregunta,info,quiero,necesito</textarea>
+      <div class="hint" style="margin-top:6px; font-size:0.78rem; color:#555;">Solo recibirás alertas de emails que contengan estas palabras en el asunto. Separadas por comas.</div>
+    </div>
+
+    <button class="btn-primary" id="btn1" onclick="goToStep2()">
+      <span class="normal-text">Siguiente → Conectar Gmail</span>
+      <span class="loading-text">Preparando...</span>
+    </button>
+  </div>
+
+  <!-- STEP 2: Gmail OAuth -->
+  <div id="step2" class="step-card gmail-step hidden">
+    <div class="gmail-icon">📧</div>
+    <h2>Conectá tu Gmail</h2>
+    <p class="desc">Claudio necesita acceso de solo lectura a tu Gmail para detectar consultas de clientes.</p>
+
+    <div class="secure-note">
+      <span>🔒</span>
+      <span>Solo acceso de <strong>lectura</strong>. Nunca enviamos emails ni accedemos a tu contraseña. Podés revocar el acceso cuando quieras.</span>
+    </div>
+
+    <div id="error2" class="error-msg"></div>
+
+    <button class="btn-primary" id="btn2" onclick="connectGmail()">
+      <span class="normal-text">Autorizar con Google →</span>
+      <span class="loading-text">Redirigiendo...</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Check for errors in URL
+  let _authUrl = null;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlError = urlParams.get('error');
+  if (urlError) {
+    const msgs = {
+      'sesion_expirada': 'Tu sesión expiró. Por favor empezá de nuevo.',
+      'gmail_fallido': 'No pudimos conectar con Gmail. Intentá de nuevo.',
+      'cancelado': 'Cancelaste la autorización. Podés intentar de nuevo cuando quieras.'
+    };
+    const errorEl = document.getElementById('error1');
+    errorEl.textContent = msgs[urlError] || 'Ocurrió un error. Por favor intentá de nuevo.';
+    errorEl.style.display = 'block';
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.querySelector('.normal-text').style.display = loading ? 'none' : 'inline';
+    btn.querySelector('.loading-text').style.display = loading ? 'inline' : 'none';
+  }
+
+  function showError(stepNum, msg) {
+    const el = document.getElementById('error' + stepNum);
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function hideError(stepNum) {
+    document.getElementById('error' + stepNum).style.display = 'none';
+  }
+
+  function updateProgress(step) {
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById('dot' + i);
+      const lbl = document.getElementById('lbl' + i);
+      if (i < step) {
+        dot.className = 'progress-dot done';
+        dot.innerHTML = '✓';
+        lbl.className = 'progress-label';
+      } else if (i === step) {
+        dot.className = 'progress-dot active';
+        dot.innerHTML = i;
+        lbl.className = 'progress-label active';
+      } else {
+        dot.className = 'progress-dot pending';
+        dot.innerHTML = i;
+        lbl.className = 'progress-label';
+      }
+    }
+    if (step > 1) document.getElementById('line1').className = 'progress-line done';
+    if (step > 2) document.getElementById('line2').className = 'progress-line done';
+  }
+
+  async function goToStep2() {
+    hideError(1);
+
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const twilio_sid = document.getElementById('twilio_sid').value.trim();
+    const twilio_token = document.getElementById('twilio_token').value.trim();
+    const keywords = document.getElementById('keywords').value.trim();
+
+    if (!whatsapp || !twilio_sid || !twilio_token) {
+      showError(1, 'Por favor completá todos los campos obligatorios.');
+      return;
+    }
+
+    if (!whatsapp.startsWith('+')) {
+      showError(1, 'El número de WhatsApp debe incluir el código de país. Ejemplo: +5491112345678');
+      return;
+    }
+
+    setLoading('btn1', true);
+
+    try {
+      const resp = await fetch('/setup/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ whatsapp, twilio_sid, twilio_token, keywords })
+      });
+
+      if (!resp.ok) {
+        const data = await resp.json();
+        showError(1, data.error || 'Error al guardar la configuración.');
+        setLoading('btn1', false);
+        return;
+      }
+
+      const data = await resp.json();
+      _authUrl = data.authUrl;
+
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
+      updateProgress(2);
+
+    } catch (e) {
+      showError(1, 'Error de conexión. Por favor intentá de nuevo.');
+      setLoading('btn1', false);
+    }
+  }
+
+  function connectGmail() {
+    if (!_authUrl) {
+      showError(2, 'Sesión expirada. Por favor recargá la página y empezá de nuevo.');
+      return;
+    }
+    setLoading('btn2', true);
+    window.location.href = _authUrl;
+  }
+</script>
+
+</body>
+</html>

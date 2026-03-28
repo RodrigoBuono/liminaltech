@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Claudio está activo!</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
+    .logo { font-size: 1.4rem; font-weight: 700; text-decoration: none; color: #fff; }
+    .logo span { color: #25D366; }
+
+    .container { flex: 1; max-width: 520px; margin: 0 auto; padding: 60px 20px; width: 100%; text-align: center; }
+
+    .success-icon { font-size: 4rem; margin-bottom: 24px; animation: pop 0.4s ease-out; }
+    @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
+    h1 span { color: #25D366; }
+    .subtitle { color: #888; font-size: 1.05rem; line-height: 1.6; margin-bottom: 40px; }
+
+    .info-card { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 28px; margin-bottom: 24px; text-align: left; }
+    .info-card h3 { font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row .key { color: #888; font-size: 0.9rem; }
+    .info-row .value { font-weight: 600; font-size: 0.9rem; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; background: #25D366; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .code-card { background: #0d1f0d; border: 1px solid #1a3a1a; border-radius: 16px; padding: 28px; margin-bottom: 32px; }
+    .code-card h3 { font-size: 0.85rem; color: #5a9a5a; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+    .code-card p { font-size: 0.88rem; color: #5a9a5a; line-height: 1.5; margin-bottom: 16px; }
+    .code-display { background: #0a0a0a; border: 2px solid #25D366; border-radius: 10px; padding: 16px; text-align: center; }
+    .code-display .code { font-size: 2rem; font-weight: 800; letter-spacing: 0.15em; color: #25D366; font-family: monospace; }
+    .copy-btn { margin-top: 10px; background: none; border: 1px solid #25D366; color: #25D366; padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; cursor: pointer; transition: background 0.2s; }
+    .copy-btn:hover { background: rgba(37,211,102,0.1); }
+
+    .next-steps { background: #111; border: 1px solid #1e1e1e; border-radius: 16px; padding: 28px; margin-bottom: 32px; text-align: left; }
+    .next-steps h3 { font-size: 1rem; margin-bottom: 16px; }
+    .next-step-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
+    .next-step-item:last-child { border-bottom: none; }
+    .step-check { width: 24px; height: 24px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.75rem; color: #000; font-weight: 700; }
+    .next-step-item p { font-size: 0.88rem; color: #aaa; line-height: 1.5; padding-top: 3px; }
+    .next-step-item p strong { color: #fff; }
+
+    .btn-secondary { display: inline-block; border: 1px solid #333; color: #aaa; padding: 14px 32px; border-radius: 50px; font-size: 0.95rem; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+    .btn-secondary:hover { border-color: #555; color: #fff; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Clau<span>dio</span></a>
+</nav>
+
+<div class="container">
+  <div class="success-icon">🎉</div>
+  <h1>¡<span>Claudio</span> está activo!</h1>
+  <p class="subtitle">Tu asistente está corriendo en la nube y va a avisarte cada vez que llegue una consulta de cliente a tu Gmail.</p>
+
+  <div class="info-card">
+    <h3>Tu configuración</h3>
+    <div class="info-row">
+      <span class="key">Gmail</span>
+      <span class="value" id="gmail-display">—</span>
+    </div>
+    <div class="info-row">
+      <span class="key">WhatsApp</span>
+      <span class="value" id="wa-display">—</span>
+    </div>
+    <div class="info-row">
+      <span class="key">Estado</span>
+      <span class="value"><span class="status-dot"></span>Activo</span>
+    </div>
+  </div>
+
+  <div class="code-card">
+    <h3>Tu código de acceso</h3>
+    <p>Guardá este código. Te sirve para pausar o reactivar Claudio en cualquier momento.</p>
+    <div class="code-display">
+      <div class="code" id="access-code">——</div>
+    </div>
+    <div style="text-align:center">
+      <button class="copy-btn" onclick="copyCode()">Copiar código</button>
+    </div>
+  </div>
+
+  <div class="next-steps">
+    <h3>¿Qué pasa ahora?</h3>
+    <div class="next-step-item">
+      <div class="step-check">✓</div>
+      <p><strong>Claudio revisa tu Gmail cada 60 segundos.</strong> Si llega un email con las palabras clave que configuraste, te manda un WhatsApp al toque.</p>
+    </div>
+    <div class="next-step-item">
+      <div class="step-check">✓</div>
+      <p><strong>Corre en la nube 24/7.</strong> No necesitás tener la computadora encendida ni ninguna app abierta.</p>
+    </div>
+    <div class="next-step-item">
+      <div class="step-check">✓</div>
+      <p><strong>Para pausarlo o reactivarlo</strong> usá tu código de acceso. Anotalo en un lugar seguro.</p>
+    </div>
+  </div>
+
+  <a href="/" class="btn-secondary">← Volver al inicio</a>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const gmail = params.get('gmail');
+
+  if (code) {
+    document.getElementById('access-code').textContent = code;
+  }
+  if (gmail) {
+    document.getElementById('gmail-display').textContent = gmail;
+  }
+
+  // Fetch WhatsApp number from API
+  if (code) {
+    fetch('/api/status/' + code)
+      .then(r => r.json())
+      .then(data => {
+        if (data.whatsapp_number) {
+          document.getElementById('wa-display').textContent = data.whatsapp_number;
+        }
+      })
+      .catch(() => {});
+  }
+
+  function copyCode() {
+    const code = document.getElementById('access-code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar código', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

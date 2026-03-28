@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claudio — Tu asistente de WhatsApp</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; }
+
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
+    .logo { font-size: 1.4rem; font-weight: 700; }
+    .logo span { color: #25D366; }
+
+    .hero { text-align: center; padding: 100px 20px 60px; }
+    .badge { display: inline-block; background: #1a1a1a; border: 1px solid #25D366; color: #25D366; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 30px; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+    h1 span { color: #25D366; }
+    .subtitle { font-size: 1.2rem; color: #888; max-width: 600px; margin: 0 auto 40px; line-height: 1.6; }
+
+    .cta-btn { display: inline-block; background: #25D366; color: #000; padding: 16px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.4); }
+
+    .how { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    .how h2 { text-align: center; font-size: 2rem; margin-bottom: 60px; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+    .step { background: #111; border: 1px solid #222; border-radius: 16px; padding: 30px; text-align: center; }
+    .step-num { width: 48px; height: 48px; background: #25D366; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; margin: 0 auto 16px; }
+    .step h3 { margin-bottom: 10px; font-size: 1.1rem; }
+    .step p { color: #888; font-size: 0.9rem; line-height: 1.5; }
+
+    .features { background: #0d0d0d; padding: 80px 20px; }
+    .features-inner { max-width: 900px; margin: 0 auto; }
+    .features h2 { text-align: center; font-size: 2rem; margin-bottom: 60px; }
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .feat { background: #111; border: 1px solid #1a1a1a; border-radius: 12px; padding: 24px; }
+    .feat-icon { font-size: 2rem; margin-bottom: 12px; }
+    .feat h3 { margin-bottom: 8px; }
+    .feat p { color: #888; font-size: 0.9rem; line-height: 1.5; }
+
+    .cta-section { text-align: center; padding: 100px 20px; }
+    .cta-section h2 { font-size: 2.5rem; margin-bottom: 16px; }
+    .cta-section p { color: #888; margin-bottom: 40px; font-size: 1.1rem; }
+
+    footer { text-align: center; padding: 30px; color: #444; border-top: 1px solid #1a1a1a; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Clau<span>dio</span></div>
+  <a href="/setup" class="cta-btn" style="padding: 10px 24px; font-size: 0.95rem;">Empezar gratis</a>
+</nav>
+
+<section class="hero">
+  <div class="badge">✨ Sin código. Sin técnicos. Listo en 2 minutos.</div>
+  <h1>Tu Gmail conectado<br>a <span>WhatsApp</span>.</h1>
+  <p class="subtitle">Cada vez que te llega una consulta de un cliente por email, Claudio te avisa al instante por WhatsApp. Nunca más pierdas un cliente.</p>
+  <a href="/setup" class="cta-btn">Activar Claudio gratis →</a>
+</section>
+
+<section class="how">
+  <h2>¿Cómo funciona?</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Conectás tu WhatsApp</h3>
+      <p>Ingresás tu número y conectás tu cuenta de Twilio en menos de 2 minutos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Autorizás tu Gmail</h3>
+      <p>Con un click autorizás a Claudio para leer tus emails. Solo lectura, sin acceso a nada más.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Recibís alertas</h3>
+      <p>Cada vez que llega una consulta, te llega un WhatsApp con el nombre y asunto del email.</p>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-inner">
+    <h2>Todo lo que necesitás</h2>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <h3>Tiempo real</h3>
+        <p>Revisa tu Gmail cada 60 segundos. Siempre estás informado.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎯</div>
+        <h3>Palabras clave</h3>
+        <p>Solo te avisa de emails con palabras como "consulta", "cotización" o las que vos configures.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔒</div>
+        <h3>Seguro</h3>
+        <p>Solo acceso de lectura a tu Gmail. Tus datos están encriptados.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">☁️</div>
+        <h3>Siempre activo</h3>
+        <p>Corre en la nube 24/7. No necesitás tener la computadora encendida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>¿Listo para probarlo?</h2>
+  <p>Gratis para siempre en el plan básico. Sin tarjeta de crédito.</p>
+  <a href="/setup" class="cta-btn">Activar Claudio gratis →</a>
+</section>
+
+<footer>
+  <p>© 2025 Claudio · Hecho con ❤️ para emprendedores</p>
+</footer>
+
+</body>
+</html>
