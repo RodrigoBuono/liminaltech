@@ -20,8 +20,9 @@ class GmailClient {
       const profile = await this.gmail.users.getProfile({ userId: 'me' });
       console.log(`✅ Gmail conectado: ${profile.data.emailAddress}`);
     } catch (error) {
+      const detail = error.response ? JSON.stringify(error.response.data) : error.message;
       throw new Error(
-        `No se pudo conectar a Gmail. Verifica tus credenciales.\nDetalle: ${error.message}`
+        `No se pudo conectar a Gmail. Verifica tus credenciales.\nDetalle: ${detail}`
       );
     }
   }
