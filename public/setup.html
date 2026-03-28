@@ -117,8 +117,9 @@
 
     <div class="keywords-section">
       <label>Palabras clave (opcional)</label>
-      <textarea id="keywords" placeholder="consulta,cotización,pregunta,info,quiero,necesito">consulta,cotización,pregunta,info,quiero,necesito</textarea>
-      <div class="hint" style="margin-top:6px; font-size:0.78rem; color:#555;">Solo recibirás alertas de emails que contengan estas palabras en el asunto. Separadas por comas.</div>
+      <div style="font-size:0.82rem; color:#666; margin-bottom:10px; line-height:1.5;">Escribí las palabras separadas por comas. El sistema detecta automáticamente esas palabras <strong style="color:#aaa">y palabras similares</strong> — no necesitás ser exacto.</div>
+      <textarea id="keywords" placeholder="consulta, cotización, pregunta, info, quiero, necesito">consulta,cotización,pregunta,info,quiero,necesito</textarea>
+      <div class="hint" style="margin-top:6px; font-size:0.78rem; color:#555;">Ejemplo: <em>consulta, cotización, precio</em> — también detectará "consulté", "cotizar", "precios", etc.</div>
     </div>
 
     <button class="btn-primary" id="btn1" onclick="goToStep2()">
