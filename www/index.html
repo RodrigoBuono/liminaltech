@@ -1,23 +1,420 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claudio</title>
+  <title>Rodrigo Buono — Antropólogo · Comunidades · IA</title>
+  <meta name="description" content="Ayudo a diseñar nuevas formas de vivir, trabajar y organizarnos como sociedad, combinando comunidades, tecnología e inteligencia artificial.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; background: #0a0a0a; color: #fff;
-      font-family: -apple-system, sans-serif;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #4a7c59;
+      --green-light: #6b9e7a;
+      --green-pale: #e8f0e5;
+      --earth: #8b7355;
+      --earth-light: #c4a882;
+      --sand: #f5f0e8;
+      --white: #fefefe;
+      --black: #1a1a1a;
+      --gray: #555;
+      --gray-light: #888;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(254,254,254,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 24px;
+    }
+    nav .nav-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    nav .logo {
+      font-weight: 700; font-size: 1.1rem; color: var(--black);
+      text-decoration: none; letter-spacing: -0.5px;
+    }
+    nav .logo span { color: var(--green); }
+    nav ul {
+      list-style: none; display: flex; gap: 28px;
+    }
+    nav ul li a {
+      text-decoration: none; color: var(--gray); font-size: 0.88rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    nav ul li a:hover { color: var(--green); }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 28px; height: 28px; position: relative;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px; background: var(--black);
+      position: absolute; left: 3px; transition: all 0.3s;
+    }
+    .hamburger span:nth-child(1) { top: 7px; }
+    .hamburger span:nth-child(2) { top: 13px; }
+    .hamburger span:nth-child(3) { top: 19px; }
+    .hamburger.active span:nth-child(1) { top: 13px; transform: rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { top: 13px; transform: rotate(-45deg); }
+
+    /* SECTIONS */
+    section { padding: 100px 24px; }
+    .container { max-width: 800px; margin: 0 auto; }
+
+    h1 { font-size: 2.8rem; font-weight: 700; line-height: 1.15; letter-spacing: -1.5px; }
+    h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 16px; }
+    h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+
+    .subtitle {
+      font-size: 1.15rem; color: var(--gray); margin-top: 20px;
+      max-width: 560px; line-height: 1.7;
+    }
+    .tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 600;
+      color: var(--green); text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 60px;
+      background: linear-gradient(170deg, var(--white) 0%, var(--green-pale) 50%, var(--sand) 100%);
+    }
+    #hero .tagline {
+      font-size: 1.05rem; color: var(--green); font-weight: 500;
+      margin-bottom: 16px;
+    }
+    #hero h1 span { color: var(--green); }
+    .cta-btn {
+      display: inline-block; margin-top: 32px; padding: 14px 32px;
+      background: var(--green); color: #fff; text-decoration: none;
+      border-radius: 50px; font-weight: 600; font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .cta-btn:hover { background: var(--green-light); transform: translateY(-1px); }
+
+    /* ABOUT */
+    #sobre-mi { background: var(--white); }
+    #sobre-mi p { color: var(--gray); margin-bottom: 16px; }
+
+    /* SERVICES */
+    #servicios { background: var(--sand); }
+    .services-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin-top: 40px;
+    }
+    .service-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 32px; border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    .service-icon {
+      width: 44px; height: 44px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; text-align: center; }
-    .logo { font-size: 2rem; font-weight: 800; }
-    .logo span { color: #25D366; }
-    p { color: #666; margin-top: 12px; }
+      font-size: 1.3rem; margin-bottom: 16px;
+    }
+    .icon-green { background: var(--green-pale); }
+    .icon-earth { background: #f0e6d6; }
+    .service-card p { color: var(--gray); font-size: 0.92rem; margin-top: 8px; }
+    .service-card ul {
+      margin-top: 12px; padding-left: 18px; color: var(--gray); font-size: 0.9rem;
+    }
+    .service-card ul li { margin-bottom: 4px; }
+
+    /* METHODOLOGY */
+    #forma-de-trabajo { background: var(--white); }
+    .method-block {
+      margin-top: 48px; padding: 36px; background: var(--sand);
+      border-radius: var(--radius); border-left: 4px solid var(--green);
+    }
+    .method-block + .method-block { margin-top: 32px; }
+    .method-block h3 { font-size: 1.2rem; margin-bottom: 16px; color: var(--black); }
+    .method-block .intro { color: var(--gray); margin-bottom: 20px; font-size: 0.95rem; }
+    .step {
+      display: flex; gap: 16px; margin-bottom: 20px;
+    }
+    .step-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      background: var(--green); color: #fff; font-weight: 700; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-num.earth { background: var(--earth); }
+    .step-content h4 {
+      font-size: 0.95rem; font-weight: 600; margin-bottom: 4px;
+    }
+    .step-content p { font-size: 0.9rem; color: var(--gray); }
+
+    /* CONTACT */
+    #contacto {
+      background: var(--black); color: #fff;
+      text-align: center;
+    }
+    #contacto h2 { color: #fff; }
+    #contacto p { color: var(--gray-light); margin-bottom: 8px; }
+    .contact-links { margin-top: 32px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-block; padding: 12px 28px;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 50px;
+      color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { background: var(--green); border-color: var(--green); }
+    .contact-link.primary { background: var(--green); border-color: var(--green); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); color: var(--gray-light);
+      text-align: center; padding: 24px; font-size: 0.82rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      section { padding: 72px 20px; }
+      .services-grid { grid-template-columns: 1fr; }
+      nav ul {
+        display: none; position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(254,254,254,0.98); backdrop-filter: blur(12px);
+        flex-direction: column; padding: 20px 24px; gap: 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+      }
+      nav ul.open { display: flex; }
+      .hamburger { display: block; }
+      .step { flex-direction: column; gap: 8px; }
+    }
   </style>
 </head>
 <body>
-  <div>
-    <div class="logo">Clau<span>dio</span></div>
-    <p>Cargando...</p>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="logo">rodrigo<span>buono</span></a>
+    <button class="hamburger" aria-label="Menú" onclick="this.classList.toggle('active');document.getElementById('nav-menu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="nav-menu">
+      <li><a href="#sobre-mi" onclick="closeMenu()">Sobre mí</a></li>
+      <li><a href="#servicios" onclick="closeMenu()">Servicios</a></li>
+      <li><a href="#forma-de-trabajo" onclick="closeMenu()">Forma de trabajo</a></li>
+      <li><a href="#contacto" onclick="closeMenu()">Contacto</a></li>
+    </ul>
   </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <p class="tagline">Antropólogo · Comunidades · Inteligencia Artificial</p>
+    <h1>Ayudo a diseñar nuevas formas de <span>vivir, trabajar y organizarnos</span> como sociedad.</h1>
+    <p class="subtitle">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
+    <a href="#contacto" class="cta-btn">Conversemos</a>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi">
+  <div class="container">
+    <span class="tag">Sobre mí</span>
+    <h2>Rodrigo Buono</h2>
+    <p>Soy antropólogo social especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en transición hacia la vida comunitaria.</p>
+    <p>Mi trabajo se sitúa en la intersección entre la organización social, la sustentabilidad y la inteligencia artificial. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos, abordando aspectos sociales, organizativos, económicos, territoriales y tecnológicos.</p>
+    <p>También implemento inteligencia artificial en proyectos, organizaciones y emprendimientos, con un enfoque que no es solo técnico sino antropológico: estudio cómo la IA modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
+    <p>Mi perfil es transversal: combino antropología, consultoría en comunidades, desarrollo de proyectos, innovación tecnológica, modelos habitacionales alternativos y acompañamiento de procesos personales y grupales.</p>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="container">
+    <span class="tag">Servicios</span>
+    <h2>En qué puedo ayudarte</h2>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon icon-green">🌿</div>
+        <h3>Proyectos comunitarios y ecoaldeas</h3>
+        <p>Asesoramiento y acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
+        <ul>
+          <li>Transición a vida en comunidad</li>
+          <li>Creación y desarrollo de ecoaldeas</li>
+          <li>Diseño de comunidades intencionales</li>
+          <li>Organización social y gobernanza</li>
+          <li>Diseño de proyectos territoriales</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon icon-green">🏡</div>
+        <h3>Co-living, co-working y espacios compartidos</h3>
+        <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
+        <ul>
+          <li>Diseño de co-livings</li>
+          <li>Espacios de co-working comunitarios</li>
+          <li>Modelos habitacionales alternativos</li>
+          <li>Estrategia y modelo de negocio</li>
+          <li>Organización y convivencia</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon icon-earth">🤖</div>
+        <h3>Implementación de Inteligencia Artificial</h3>
+        <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
+        <ul>
+          <li>Automatización de procesos</li>
+          <li>IA para comunicación y marketing</li>
+          <li>Organización interna con IA</li>
+          <li>Estrategia y toma de decisiones</li>
+          <li>Vínculo humano–tecnología</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon icon-earth">🧭</div>
+        <h3>Acompañamiento de procesos de cambio</h3>
+        <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
+        <ul>
+          <li>Cambio de vida y transición</li>
+          <li>Estrategia personal de transición</li>
+          <li>Proyectos con impacto social</li>
+          <li>Desarrollo estratégico de proyectos</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FORMA DE TRABAJO -->
+<section id="forma-de-trabajo">
+  <div class="container">
+    <span class="tag">Forma de trabajo</span>
+    <h2>Cómo trabajamos juntos</h2>
+
+    <!-- BLOQUE 1: Comunidades -->
+    <div class="method-block">
+      <h3>🌿 Asesoría sobre comunidades y espacios de co-living</h3>
+      <p class="intro">Ofrezco sesiones de asesoramiento individual orientadas a personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Se trata de un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición hacia un nuevo modo de habitar.</p>
+      <p class="intro">Durante la sesión se comparten herramientas digitales y metodologías que facilitan la búsqueda de comunidades, la evaluación de proyectos y la planificación de una transición progresiva y realista.</p>
+      <p class="intro">Como continuidad del proceso, se propone un ciclo de tres sesiones en las que se estructura un acompañamiento que va desde la idea inicial hasta la implementación práctica:</p>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Diagnóstico personal y modelo de vida comunitaria</h4>
+          <p>Análisis de motivaciones, expectativas, capacidades, limitaciones, tipo de comunidad buscada y grado de transición posible.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Diseño del plan de transición y estrategia de inserción</h4>
+          <p>Definición de pasos concretos: economía personal, trabajo, vivienda, tiempos de transición, comunidades posibles, estrategia de llegada e integración.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Implementación, red de contactos y planificación</h4>
+          <p>Plan de acción concreto, contactos, comunidades específicas, cronograma de transición y proyección de vida comunitaria sostenible.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOQUE 2: IA -->
+    <div class="method-block">
+      <h3>🤖 Asesoría sobre implementación de IA en tu vida o empresa</h3>
+      <p class="intro">Ofrezco un proceso de acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica en su día a día o en sus operaciones. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
+      <p class="intro">El proceso comienza con una sesión de diagnóstico inicial, seguida de tres sesiones de implementación progresiva:</p>
+
+      <div class="step">
+        <div class="step-num earth">0</div>
+        <div class="step-content">
+          <h4>Sesión de diagnóstico</h4>
+          <p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos las áreas donde la IA puede generar mayor impacto en tu vida o negocio.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num earth">1</div>
+        <div class="step-content">
+          <h4>Mapa de oportunidades y selección de herramientas</h4>
+          <p>Diseño de un mapa personalizado de oportunidades de automatización e integración de IA. Selección de las herramientas más adecuadas para tu caso: asistentes, automatizaciones, generación de contenido, organización, análisis de datos.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num earth">2</div>
+        <div class="step-content">
+          <h4>Implementación práctica y configuración</h4>
+          <p>Instalación, configuración y puesta en marcha de las herramientas seleccionadas. Armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num earth">3</div>
+        <div class="step-content">
+          <h4>Optimización, autonomía y seguimiento</h4>
+          <p>Revisión de resultados, ajustes de los procesos implementados, resolución de dudas y transferencia de conocimiento para que puedas seguir evolucionando de forma autónoma con la IA.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="container">
+    <span class="tag" style="color: var(--green-light);">Contacto</span>
+    <h2>Trabajemos juntos</h2>
+    <p>Si estás pensando en un cambio de vida, en crear una comunidad,</p>
+    <p>en implementar IA en tu proyecto, o simplemente querés conversar.</p>
+    <div class="contact-links">
+      <a href="mailto:hola@rodrigobuono.com" class="contact-link primary">hola@rodrigobuono.com</a>
+      <a href="https://www.instagram.com/rodrigobuono" class="contact-link" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/rodrigobuono" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Rodrigo Buono. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+  function closeMenu() {
+    document.getElementById('nav-menu').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('active');
+  }
+</script>
+
 </body>
 </html>
