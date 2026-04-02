@@ -3,417 +3,655 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rodrigo Buono — Antropólogo · Comunidades · IA</title>
-  <meta name="description" content="Ayudo a diseñar nuevas formas de vivir, trabajar y organizarnos como sociedad, combinando comunidades, tecnología e inteligencia artificial.">
+  <title>Rodrigo Buono</title>
+  <meta name="description" content="Ayudo a diseñar nuevas formas de vivir, trabajar y organizarnos como sociedad.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --green: #4a7c59;
-      --green-light: #6b9e7a;
-      --green-pale: #e8f0e5;
-      --earth: #8b7355;
-      --earth-light: #c4a882;
-      --sand: #f5f0e8;
-      --white: #fefefe;
-      --black: #1a1a1a;
-      --gray: #555;
-      --gray-light: #888;
-      --radius: 12px;
+      --bg: #0a0a0a;
+      --fg: #e8e4de;
+      --fg-dim: #8a857e;
+      --green: #7d9b76;
+      --green-dim: rgba(125,155,118,0.15);
+      --earth: #c4a87c;
+      --earth-dim: rgba(196,168,124,0.15);
+      --border: rgba(255,255,255,0.08);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--black);
-      background: var(--white);
-      line-height: 1.7;
-      font-size: 16px;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--fg);
+      line-height: 1.7; font-size: 16px;
+      cursor: none; overflow-x: hidden;
     }
+
+    ::selection { background: var(--green); color: var(--bg); }
+
+    /* GRAIN */
+    .grain {
+      position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.5;
+    }
+
+    /* CURSOR */
+    .cursor {
+      width: 8px; height: 8px; background: var(--green);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s;
+      mix-blend-mode: difference;
+    }
+    .cursor.hover { width: 48px; height: 48px; background: var(--fg); mix-blend-mode: difference; }
+    .cursor-follower {
+      width: 36px; height: 36px; border: 1px solid rgba(125,155,118,0.4);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 9999; transform: translate(-50%, -50%);
+      transition: width 0.5s cubic-bezier(0.16,1,0.3,1), height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+    }
+    .cursor.hover ~ .cursor-follower { width: 60px; height: 60px; opacity: 0.3; }
 
     /* NAV */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(254,254,254,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      padding: 0 24px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 48px; mix-blend-mode: difference;
     }
-    nav .nav-inner {
-      max-width: 1000px; margin: 0 auto;
+    .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
-      height: 60px;
+      height: 80px; border-bottom: 1px solid var(--border);
     }
-    nav .logo {
-      font-weight: 700; font-size: 1.1rem; color: var(--black);
-      text-decoration: none; letter-spacing: -0.5px;
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem; color: var(--fg); text-decoration: none;
+      letter-spacing: -0.5px;
     }
-    nav .logo span { color: var(--green); }
-    nav ul {
-      list-style: none; display: flex; gap: 28px;
+    .nav-links { list-style: none; display: flex; gap: 36px; }
+    .nav-link {
+      color: var(--fg-dim); text-decoration: none; font-size: 0.82rem;
+      font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
+      position: relative; transition: color 0.3s;
     }
-    nav ul li a {
-      text-decoration: none; color: var(--gray); font-size: 0.88rem;
-      font-weight: 500; transition: color 0.2s;
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+      background: var(--green); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
     }
-    nav ul li a:hover { color: var(--green); }
-
-    /* HAMBURGER */
+    .nav-link:hover { color: var(--fg); }
+    .nav-link:hover::after { width: 100%; }
     .hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      width: 28px; height: 28px; position: relative;
+      display: none; background: none; border: none; cursor: none;
+      width: 32px; height: 32px; position: relative;
     }
     .hamburger span {
-      display: block; width: 22px; height: 2px; background: var(--black);
-      position: absolute; left: 3px; transition: all 0.3s;
+      display: block; width: 24px; height: 1px; background: var(--fg);
+      position: absolute; left: 4px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     }
-    .hamburger span:nth-child(1) { top: 7px; }
-    .hamburger span:nth-child(2) { top: 13px; }
-    .hamburger span:nth-child(3) { top: 19px; }
-    .hamburger.active span:nth-child(1) { top: 13px; transform: rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { top: 13px; transform: rotate(-45deg); }
+    .hamburger span:first-child { top: 11px; }
+    .hamburger span:last-child { top: 20px; }
+    .hamburger.active span:first-child { top: 15px; transform: rotate(45deg); }
+    .hamburger.active span:last-child { top: 15px; transform: rotate(-45deg); }
 
-    /* SECTIONS */
-    section { padding: 100px 24px; }
-    .container { max-width: 800px; margin: 0 auto; }
-
-    h1 { font-size: 2.8rem; font-weight: 700; line-height: 1.15; letter-spacing: -1.5px; }
-    h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 16px; }
-    h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
-
-    .subtitle {
-      font-size: 1.15rem; color: var(--gray); margin-top: 20px;
-      max-width: 560px; line-height: 1.7;
+    /* REVEAL */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
     }
-    .tag {
-      display: inline-block; font-size: 0.78rem; font-weight: 600;
-      color: var(--green); text-transform: uppercase; letter-spacing: 1.5px;
-      margin-bottom: 12px;
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* HERO */
     #hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding-top: 60px;
-      background: linear-gradient(170deg, var(--white) 0%, var(--green-pale) 50%, var(--sand) 100%);
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 120px 48px 60px;
+      position: relative;
     }
-    #hero .tagline {
-      font-size: 1.05rem; color: var(--green); font-weight: 500;
-      margin-bottom: 16px;
+    .hero-tag {
+      font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 32px; font-weight: 400;
     }
-    #hero h1 span { color: var(--green); }
-    .cta-btn {
-      display: inline-block; margin-top: 32px; padding: 14px 32px;
-      background: var(--green); color: #fff; text-decoration: none;
-      border-radius: 50px; font-weight: 600; font-size: 0.95rem;
-      transition: background 0.2s, transform 0.2s;
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 7.5rem); font-weight: 400;
+      line-height: 1.05; letter-spacing: -2px; color: var(--fg);
     }
-    .cta-btn:hover { background: var(--green-light); transform: translateY(-1px); }
+    .hero-title .line { display: block; overflow: hidden; }
+    .hero-title .word { display: inline-block; }
+    .hero-title .accent { color: var(--green); font-style: italic; }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--fg-dim); margin-top: 40px;
+      max-width: 520px; line-height: 1.8; font-weight: 300;
+    }
+    .scroll-indicator {
+      position: absolute; bottom: 40px; right: 48px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .scroll-indicator span {
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--fg-dim); writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 60px; background: var(--border); position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%; left: 0;
+      width: 1px; height: 100%; background: var(--green);
+      animation: scrollAnim 2s ease-in-out infinite;
+    }
+    @keyframes scrollAnim {
+      0% { top: -100%; } 50% { top: 0; } 100% { top: 100%; }
+    }
+
+    /* SECTIONS */
+    section { padding: 120px 48px; position: relative; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 8rem; color: rgba(255,255,255,0.03);
+      line-height: 1; letter-spacing: -4px; font-weight: 400;
+    }
+    .section-label {
+      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 24px; display: block;
+    }
 
     /* ABOUT */
-    #sobre-mi { background: var(--white); }
-    #sobre-mi p { color: var(--gray); margin-bottom: 16px; }
+    #sobre-mi .section-grid {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 40px; max-width: 1200px; margin: 0 auto;
+      position: relative;
+    }
+    #sobre-mi .section-num {
+      position: absolute; top: -40px; left: -20px; font-size: 12rem;
+    }
+    #sobre-mi h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem; font-weight: 400; margin-bottom: 32px;
+      letter-spacing: -1px;
+    }
+    #sobre-mi p { color: var(--fg-dim); margin-bottom: 20px; font-weight: 300; font-size: 1.02rem; }
+    .about-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    }
+    .about-tags span {
+      padding: 8px 18px; border: 1px solid var(--border); border-radius: 50px;
+      font-size: 0.8rem; color: var(--fg-dim); letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+    .about-tags span:hover {
+      border-color: var(--green); color: var(--green);
+    }
 
     /* SERVICES */
-    #servicios { background: var(--sand); }
-    .services-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-      margin-top: 40px;
+    .section-header {
+      max-width: 1200px; margin: 0 auto 60px; position: relative;
     }
+    .section-header .section-num {
+      position: absolute; top: -60px; right: 0;
+    }
+    .services-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.2rem; font-weight: 400; letter-spacing: -1px;
+    }
+    .services-track {
+      display: flex; gap: 24px; overflow-x: auto;
+      padding: 0 48px 40px; margin: 0 -48px;
+      scrollbar-width: none; -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+    .services-track::-webkit-scrollbar { display: none; }
     .service-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 32px; border: 1px solid rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      min-width: 340px; max-width: 380px; flex-shrink: 0;
+      padding: 40px; border: 1px solid var(--border);
+      border-radius: 2px; position: relative;
+      transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+      scroll-snap-align: start;
     }
     .service-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      border-color: var(--green);
+      background: rgba(125,155,118,0.04);
+      transform: translateY(-8px);
     }
-    .service-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; margin-bottom: 16px;
+    .card-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 4rem; color: rgba(255,255,255,0.04);
+      position: absolute; top: 16px; right: 24px;
     }
-    .icon-green { background: var(--green-pale); }
-    .icon-earth { background: #f0e6d6; }
-    .service-card p { color: var(--gray); font-size: 0.92rem; margin-top: 8px; }
+    .service-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; font-weight: 400; margin-bottom: 16px;
+      line-height: 1.3; letter-spacing: -0.3px;
+    }
+    .service-card p { color: var(--fg-dim); font-size: 0.92rem; font-weight: 300; margin-bottom: 16px; }
     .service-card ul {
-      margin-top: 12px; padding-left: 18px; color: var(--gray); font-size: 0.9rem;
+      list-style: none; margin-top: 20px;
+      border-top: 1px solid var(--border); padding-top: 16px;
     }
-    .service-card ul li { margin-bottom: 4px; }
+    .service-card ul li {
+      color: var(--fg-dim); font-size: 0.85rem; padding: 4px 0;
+      padding-left: 16px; position: relative; font-weight: 300;
+    }
+    .service-card ul li::before {
+      content: ''; position: absolute; left: 0; top: 12px;
+      width: 6px; height: 1px; background: var(--green);
+    }
 
-    /* METHODOLOGY */
-    #forma-de-trabajo { background: var(--white); }
-    .method-block {
-      margin-top: 48px; padding: 36px; background: var(--sand);
-      border-radius: var(--radius); border-left: 4px solid var(--green);
+    /* PROCESS */
+    #proceso .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.2rem; font-weight: 400; letter-spacing: -1px;
     }
-    .method-block + .method-block { margin-top: 32px; }
-    .method-block h3 { font-size: 1.2rem; margin-bottom: 16px; color: var(--black); }
-    .method-block .intro { color: var(--gray); margin-bottom: 20px; font-size: 0.95rem; }
-    .step {
-      display: flex; gap: 16px; margin-bottom: 20px;
+    .process-block {
+      max-width: 900px; margin: 0 auto 80px; position: relative;
     }
-    .step-num {
-      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
-      background: var(--green); color: #fff; font-weight: 700; font-size: 0.85rem;
-      display: flex; align-items: center; justify-content: center;
+    .process-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
     }
-    .step-num.earth { background: var(--earth); }
-    .step-content h4 {
-      font-size: 0.95rem; font-weight: 600; margin-bottom: 4px;
+    .process-icon { color: var(--green); font-size: 1.2rem; }
+    .process-header h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem; font-weight: 400; letter-spacing: -0.5px;
     }
-    .step-content p { font-size: 0.9rem; color: var(--gray); }
+    .process-intro {
+      color: var(--fg-dim); font-size: 0.95rem; font-weight: 300;
+      margin-bottom: 16px; max-width: 700px; padding-left: 36px;
+    }
+    .timeline { margin-top: 40px; padding-left: 36px; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 52px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item {
+      display: flex; gap: 32px; margin-bottom: 40px; position: relative;
+    }
+    .timeline-marker {
+      flex-shrink: 0; width: 36px; height: 36px; border: 1px solid var(--green);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 0.82rem; color: var(--green);
+      background: var(--bg); z-index: 1;
+    }
+    .timeline-marker.alt { border-color: var(--earth); color: var(--earth); }
+    .timeline-content h4 {
+      font-size: 1.05rem; font-weight: 500; margin-bottom: 6px; color: var(--fg);
+    }
+    .timeline-content p { color: var(--fg-dim); font-size: 0.9rem; font-weight: 300; }
 
     /* CONTACT */
     #contacto {
-      background: var(--black); color: #fff;
-      text-align: center;
+      text-align: center; padding: 160px 48px;
+      background: linear-gradient(180deg, var(--bg) 0%, #0d0f0a 100%);
     }
-    #contacto h2 { color: #fff; }
-    #contacto p { color: var(--gray-light); margin-bottom: 8px; }
-    .contact-links { margin-top: 32px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .contact-link {
-      display: inline-block; padding: 12px 28px;
-      border: 1px solid rgba(255,255,255,0.2); border-radius: 50px;
-      color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 500;
-      transition: all 0.2s;
+    .contact-tag {
+      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 32px;
     }
-    .contact-link:hover { background: var(--green); border-color: var(--green); }
-    .contact-link.primary { background: var(--green); border-color: var(--green); }
+    .contact-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 9vw, 8rem); font-weight: 400;
+      line-height: 1.05; letter-spacing: -3px; margin-bottom: 32px;
+    }
+    .contact-sub {
+      color: var(--fg-dim); font-size: 1.1rem; font-weight: 300;
+      max-width: 480px; margin: 0 auto 48px; line-height: 1.8;
+    }
+    .magnetic-btn {
+      display: inline-block; padding: 18px 48px;
+      border: 1px solid var(--green); color: var(--green);
+      text-decoration: none; font-size: 1rem; letter-spacing: 0.5px;
+      border-radius: 50px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      position: relative; overflow: hidden;
+    }
+    .magnetic-btn::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: var(--green); transition: left 0.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: -1;
+    }
+    .magnetic-btn:hover { color: var(--bg); }
+    .magnetic-btn:hover::before { left: 0; }
+    .contact-social {
+      margin-top: 40px; display: flex; justify-content: center; gap: 32px;
+    }
+    .social-link {
+      color: var(--fg-dim); text-decoration: none; font-size: 0.85rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      position: relative; transition: color 0.3s;
+    }
+    .social-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+      background: var(--fg); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .social-link:hover { color: var(--fg); }
+    .social-link:hover::after { width: 100%; }
 
     /* FOOTER */
     footer {
-      background: var(--black); color: var(--gray-light);
-      text-align: center; padding: 24px; font-size: 0.82rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 48px; border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: var(--fg-dim); letter-spacing: 0.5px;
     }
 
-    /* RESPONSIVE */
+    /* MOBILE */
     @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.5rem; }
-      section { padding: 72px 20px; }
-      .services-grid { grid-template-columns: 1fr; }
-      nav ul {
-        display: none; position: absolute; top: 60px; left: 0; right: 0;
-        background: rgba(254,254,254,0.98); backdrop-filter: blur(12px);
-        flex-direction: column; padding: 20px 24px; gap: 16px;
-        border-bottom: 1px solid rgba(0,0,0,0.06);
+      body { cursor: auto; }
+      .cursor, .cursor-follower { display: none; }
+      nav { padding: 0 24px; }
+      .nav-inner { height: 64px; }
+      .nav-links {
+        display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.98); backdrop-filter: blur(20px);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 32px; z-index: 999;
       }
-      nav ul.open { display: flex; }
-      .hamburger { display: block; }
-      .step { flex-direction: column; gap: 8px; }
+      .nav-links.open { display: flex; }
+      .nav-link { font-size: 1.2rem; }
+      .hamburger { display: block; z-index: 1001; }
+      section { padding: 80px 24px; }
+      #hero { padding: 100px 24px 60px; }
+      .hero-title { font-size: clamp(2.2rem, 10vw, 3.5rem); letter-spacing: -1px; }
+      .hero-sub { font-size: 1rem; }
+      .scroll-indicator { display: none; }
+      #sobre-mi .section-grid { grid-template-columns: 1fr; }
+      #sobre-mi .section-num { font-size: 6rem; position: static; }
+      .services-track { padding: 0 24px 30px; margin: 0 -24px; }
+      .service-card { min-width: 280px; }
+      .services-title, #proceso .section-header h2 { font-size: 2.2rem; }
+      .process-intro, .timeline { padding-left: 0; }
+      .timeline::before { left: 16px; }
+      .contact-title { letter-spacing: -1px; }
+      footer { padding: 24px; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
 <body>
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+<div class="grain"></div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#hero" class="logo">rodrigo<span>buono</span></a>
-    <button class="hamburger" aria-label="Menú" onclick="this.classList.toggle('active');document.getElementById('nav-menu').classList.toggle('open')">
-      <span></span><span></span><span></span>
+    <a href="#" class="logo">RB</a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span>
     </button>
-    <ul id="nav-menu">
-      <li><a href="#sobre-mi" onclick="closeMenu()">Sobre mí</a></li>
-      <li><a href="#servicios" onclick="closeMenu()">Servicios</a></li>
-      <li><a href="#forma-de-trabajo" onclick="closeMenu()">Forma de trabajo</a></li>
-      <li><a href="#contacto" onclick="closeMenu()">Contacto</a></li>
+    <ul class="nav-links">
+      <li><a href="#sobre-mi" class="nav-link">Sobre mí</a></li>
+      <li><a href="#servicios" class="nav-link">Servicios</a></li>
+      <li><a href="#proceso" class="nav-link">Proceso</a></li>
+      <li><a href="#contacto" class="nav-link">Contacto</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <div class="container">
-    <p class="tagline">Antropólogo · Comunidades · Inteligencia Artificial</p>
-    <h1>Ayudo a diseñar nuevas formas de <span>vivir, trabajar y organizarnos</span> como sociedad.</h1>
-    <p class="subtitle">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
-    <a href="#contacto" class="cta-btn">Conversemos</a>
+  <div class="hero-content">
+    <p class="hero-tag reveal">Antropología &middot; Comunidades &middot; Inteligencia Artificial</p>
+    <h1 class="hero-title">
+      <span class="line reveal"><span class="word">Diseño</span> <span class="word">nuevas</span></span>
+      <span class="line reveal"><span class="word">formas</span> <span class="word">de</span> <span class="word accent">vivir,</span></span>
+      <span class="line reveal"><span class="word accent">trabajar</span> <span class="word">y</span></span>
+      <span class="line reveal"><span class="word accent">organizarnos</span></span>
+    </h1>
+    <p class="hero-sub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
+  </div>
+  <div class="scroll-indicator reveal">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- SOBRE MÍ -->
 <section id="sobre-mi">
-  <div class="container">
-    <span class="tag">Sobre mí</span>
-    <h2>Rodrigo Buono</h2>
-    <p>Soy antropólogo social especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en transición hacia la vida comunitaria.</p>
-    <p>Mi trabajo se sitúa en la intersección entre la organización social, la sustentabilidad y la inteligencia artificial. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos, abordando aspectos sociales, organizativos, económicos, territoriales y tecnológicos.</p>
-    <p>También implemento inteligencia artificial en proyectos, organizaciones y emprendimientos, con un enfoque que no es solo técnico sino antropológico: estudio cómo la IA modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
-    <p>Mi perfil es transversal: combino antropología, consultoría en comunidades, desarrollo de proyectos, innovación tecnológica, modelos habitacionales alternativos y acompañamiento de procesos personales y grupales.</p>
-  </div>
-</section>
-
-<!-- SERVICIOS -->
-<section id="servicios">
-  <div class="container">
-    <span class="tag">Servicios</span>
-    <h2>En qué puedo ayudarte</h2>
-    <div class="services-grid">
-
-      <div class="service-card">
-        <div class="service-icon icon-green">🌿</div>
-        <h3>Proyectos comunitarios y ecoaldeas</h3>
-        <p>Asesoramiento y acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
-        <ul>
-          <li>Transición a vida en comunidad</li>
-          <li>Creación y desarrollo de ecoaldeas</li>
-          <li>Diseño de comunidades intencionales</li>
-          <li>Organización social y gobernanza</li>
-          <li>Diseño de proyectos territoriales</li>
-        </ul>
+  <div class="section-grid">
+    <div class="section-num reveal">01</div>
+    <div class="section-label reveal">Sobre mí</div>
+    <div class="section-content">
+      <h2 class="reveal">Rodrigo Buono</h2>
+      <p class="reveal">Soy antropólogo social especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en transición hacia la vida comunitaria.</p>
+      <p class="reveal">Mi trabajo se sitúa en la intersección entre la organización social, la sustentabilidad y la inteligencia artificial. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos.</p>
+      <p class="reveal">También implemento inteligencia artificial en proyectos, organizaciones y emprendimientos, con un enfoque que no es solo técnico sino antropológico: estudio cómo la IA modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
+      <div class="about-tags reveal">
+        <span>Antropología</span><span>Comunidades</span><span>Ecoaldeas</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
       </div>
-
-      <div class="service-card">
-        <div class="service-icon icon-green">🏡</div>
-        <h3>Co-living, co-working y espacios compartidos</h3>
-        <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
-        <ul>
-          <li>Diseño de co-livings</li>
-          <li>Espacios de co-working comunitarios</li>
-          <li>Modelos habitacionales alternativos</li>
-          <li>Estrategia y modelo de negocio</li>
-          <li>Organización y convivencia</li>
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon icon-earth">🤖</div>
-        <h3>Implementación de Inteligencia Artificial</h3>
-        <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
-        <ul>
-          <li>Automatización de procesos</li>
-          <li>IA para comunicación y marketing</li>
-          <li>Organización interna con IA</li>
-          <li>Estrategia y toma de decisiones</li>
-          <li>Vínculo humano–tecnología</li>
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon icon-earth">🧭</div>
-        <h3>Acompañamiento de procesos de cambio</h3>
-        <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
-        <ul>
-          <li>Cambio de vida y transición</li>
-          <li>Estrategia personal de transición</li>
-          <li>Proyectos con impacto social</li>
-          <li>Desarrollo estratégico de proyectos</li>
-        </ul>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- FORMA DE TRABAJO -->
-<section id="forma-de-trabajo">
-  <div class="container">
-    <span class="tag">Forma de trabajo</span>
-    <h2>Cómo trabajamos juntos</h2>
+<section id="servicios">
+  <div class="section-header">
+    <span class="section-num reveal">02</span>
+    <span class="section-label reveal">Servicios</span>
+    <h2 class="services-title reveal">En qué puedo ayudarte</h2>
+  </div>
+  <div class="services-track">
+    <div class="service-card reveal">
+      <span class="card-num">01</span>
+      <h3>Proyectos comunitarios y ecoaldeas</h3>
+      <p>Asesoramiento y acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
+      <ul>
+        <li>Transición a vida en comunidad</li>
+        <li>Creación y desarrollo de ecoaldeas</li>
+        <li>Diseño de comunidades intencionales</li>
+        <li>Organización social y gobernanza</li>
+        <li>Diseño de proyectos territoriales</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="card-num">02</span>
+      <h3>Co-living, co-working y espacios compartidos</h3>
+      <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
+      <ul>
+        <li>Diseño de co-livings</li>
+        <li>Espacios de co-working comunitarios</li>
+        <li>Modelos habitacionales alternativos</li>
+        <li>Estrategia y modelo de negocio</li>
+        <li>Organización y convivencia</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="card-num">03</span>
+      <h3>Implementación de Inteligencia Artificial</h3>
+      <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
+      <ul>
+        <li>Automatización de procesos</li>
+        <li>IA para comunicación y marketing</li>
+        <li>Organización interna con IA</li>
+        <li>Estrategia y toma de decisiones</li>
+        <li>Vínculo humano-tecnología</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="card-num">04</span>
+      <h3>Acompañamiento de procesos de cambio</h3>
+      <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
+      <ul>
+        <li>Cambio de vida y transición</li>
+        <li>Estrategia personal de transición</li>
+        <li>Proyectos con impacto social</li>
+        <li>Desarrollo estratégico de proyectos</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <!-- BLOQUE 1: Comunidades -->
-    <div class="method-block">
-      <h3>🌿 Asesoría sobre comunidades y espacios de co-living</h3>
-      <p class="intro">Ofrezco sesiones de asesoramiento individual orientadas a personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Se trata de un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición hacia un nuevo modo de habitar.</p>
-      <p class="intro">Durante la sesión se comparten herramientas digitales y metodologías que facilitan la búsqueda de comunidades, la evaluación de proyectos y la planificación de una transición progresiva y realista.</p>
-      <p class="intro">Como continuidad del proceso, se propone un ciclo de tres sesiones en las que se estructura un acompañamiento que va desde la idea inicial hasta la implementación práctica:</p>
+<section id="proceso">
+  <div class="section-header">
+    <span class="section-num reveal">03</span>
+    <span class="section-label reveal">Proceso</span>
+    <h2 class="reveal">Cómo trabajamos juntos</h2>
+  </div>
 
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
+  <div class="process-block">
+    <div class="process-header reveal">
+      <span class="process-icon">&#9670;</span>
+      <h3>Asesoría sobre comunidades y espacios de co-living</h3>
+    </div>
+    <p class="process-intro reveal">Ofrezco sesiones de asesoramiento individual orientadas a personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición.</p>
+    <p class="process-intro reveal">Durante la sesión se comparten herramientas digitales y metodologías que facilitan la búsqueda de comunidades, la evaluación de proyectos y la planificación de una transición progresiva y realista.</p>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">01</div>
+        <div class="timeline-content">
           <h4>Diagnóstico personal y modelo de vida comunitaria</h4>
           <p>Análisis de motivaciones, expectativas, capacidades, limitaciones, tipo de comunidad buscada y grado de transición posible.</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">02</div>
+        <div class="timeline-content">
           <h4>Diseño del plan de transición y estrategia de inserción</h4>
           <p>Definición de pasos concretos: economía personal, trabajo, vivienda, tiempos de transición, comunidades posibles, estrategia de llegada e integración.</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker">03</div>
+        <div class="timeline-content">
           <h4>Implementación, red de contactos y planificación</h4>
           <p>Plan de acción concreto, contactos, comunidades específicas, cronograma de transición y proyección de vida comunitaria sostenible.</p>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- BLOQUE 2: IA -->
-    <div class="method-block">
-      <h3>🤖 Asesoría sobre implementación de IA en tu vida o empresa</h3>
-      <p class="intro">Ofrezco un proceso de acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica en su día a día o en sus operaciones. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
-      <p class="intro">El proceso comienza con una sesión de diagnóstico inicial, seguida de tres sesiones de implementación progresiva:</p>
+  <div class="process-block">
+    <div class="process-header reveal">
+      <span class="process-icon">&#9671;</span>
+      <h3>Asesoría sobre implementación de IA en tu vida o empresa</h3>
+    </div>
+    <p class="process-intro reveal">Acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
 
-      <div class="step">
-        <div class="step-num earth">0</div>
-        <div class="step-content">
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker alt">00</div>
+        <div class="timeline-content">
           <h4>Sesión de diagnóstico</h4>
-          <p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos las áreas donde la IA puede generar mayor impacto en tu vida o negocio.</p>
+          <p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos las áreas donde la IA puede generar mayor impacto.</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num earth">1</div>
-        <div class="step-content">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker alt">01</div>
+        <div class="timeline-content">
           <h4>Mapa de oportunidades y selección de herramientas</h4>
-          <p>Diseño de un mapa personalizado de oportunidades de automatización e integración de IA. Selección de las herramientas más adecuadas para tu caso: asistentes, automatizaciones, generación de contenido, organización, análisis de datos.</p>
+          <p>Diseño de un mapa personalizado de oportunidades de automatización e integración de IA. Selección de las herramientas más adecuadas para tu caso.</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num earth">2</div>
-        <div class="step-content">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker alt">02</div>
+        <div class="timeline-content">
           <h4>Implementación práctica y configuración</h4>
-          <p>Instalación, configuración y puesta en marcha de las herramientas seleccionadas. Armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p>
+          <p>Puesta en marcha de las herramientas seleccionadas. Armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num earth">3</div>
-        <div class="step-content">
+      <div class="timeline-item reveal">
+        <div class="timeline-marker alt">03</div>
+        <div class="timeline-content">
           <h4>Optimización, autonomía y seguimiento</h4>
-          <p>Revisión de resultados, ajustes de los procesos implementados, resolución de dudas y transferencia de conocimiento para que puedas seguir evolucionando de forma autónoma con la IA.</p>
+          <p>Revisión de resultados, ajustes de procesos, resolución de dudas y transferencia de conocimiento para que puedas seguir evolucionando de forma autónoma con la IA.</p>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- CONTACTO -->
 <section id="contacto">
-  <div class="container">
-    <span class="tag" style="color: var(--green-light);">Contacto</span>
-    <h2>Trabajemos juntos</h2>
-    <p>Si estás pensando en un cambio de vida, en crear una comunidad,</p>
-    <p>en implementar IA en tu proyecto, o simplemente querés conversar.</p>
-    <div class="contact-links">
-      <a href="mailto:hola@rodrigobuono.com" class="contact-link primary">hola@rodrigobuono.com</a>
-      <a href="https://www.instagram.com/rodrigobuono" class="contact-link" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.linkedin.com/in/rodrigobuono" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+  <div class="contact-inner">
+    <p class="contact-tag reveal">04 &mdash; Contacto</p>
+    <h2 class="contact-title reveal">Trabajemos<br>juntos</h2>
+    <p class="contact-sub reveal">Si estás pensando en un cambio de vida, en crear una comunidad, en implementar IA en tu proyecto, o simplemente querés conversar.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:hola@rodrigobuono.com" class="magnetic-btn">hola@rodrigobuono.com</a>
+    </div>
+    <div class="contact-social reveal">
+      <a href="https://www.instagram.com/rodrigobuono" target="_blank" rel="noopener" class="social-link">Instagram</a>
+      <a href="https://www.linkedin.com/in/rodrigobuono" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <p>&copy; 2026 Rodrigo Buono. Todos los derechos reservados.</p>
+  <div class="footer-inner">
+    <span>&copy; 2026 Rodrigo Buono</span>
+    <span>Buenos Aires, Argentina</span>
+  </div>
 </footer>
 
 <script>
-  function closeMenu() {
-    document.getElementById('nav-menu').classList.remove('open');
-    document.querySelector('.hamburger').classList.remove('active');
-  }
+// Custom cursor
+const cursor = document.querySelector('.cursor');
+const follower = document.querySelector('.cursor-follower');
+let mx = 0, my = 0, fx = 0, fy = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+
+(function followLoop() {
+  fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+  follower.style.left = fx + 'px'; follower.style.top = fy + 'px';
+  requestAnimationFrame(followLoop);
+})();
+
+document.querySelectorAll('a, button, .service-card, .about-tags span, .magnetic-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Hamburger
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('open');
+});
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('open');
+  });
+});
+
+// Hero word animation
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hero-title .word').forEach((w, i) => {
+    w.style.opacity = '0';
+    w.style.transform = 'translateY(100%)';
+    w.style.transition = `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 0.1 + 0.3}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 0.1 + 0.3}s`;
+    setTimeout(() => { w.style.opacity = '1'; w.style.transform = 'translateY(0)'; }, 50);
+  });
+});
+
+// Magnetic button effect
+document.querySelectorAll('.magnetic-btn').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0, 0)';
+  });
+});
 </script>
 
 </body>
