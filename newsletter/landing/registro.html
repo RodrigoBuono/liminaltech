@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IA Weekly - Suscribite al Newsletter de Inteligencia Artificial</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #0A0A0A;
+      color: #E0E0E0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fondo animado con grid */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    .bg-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(123, 47, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 40%, transparent 70%);
+      z-index: 0;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      display: block;
+      filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
+    }
+
+    .logo-text {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .logo-text .highlight {
+      background: linear-gradient(135deg, #00D4FF, #7B2FFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: #7B8CA3;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    /* Descripcion */
+    .description {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .description h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .description p {
+      font-size: 16px;
+      color: #8A9BB0;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+
+    .feature {
+      background: rgba(26, 26, 62, 0.5);
+      border: 1px solid rgba(123, 47, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .feature:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .feature-text {
+      font-size: 13px;
+      color: #8A9BB0;
+      line-height: 1.4;
+    }
+
+    .feature-text strong {
+      color: #E0E0E0;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    /* Formulario */
+    .form-card {
+      background: linear-gradient(135deg, rgba(13, 13, 43, 0.8), rgba(26, 26, 62, 0.6));
+      border: 1px solid rgba(123, 47, 255, 0.3);
+      border-radius: 16px;
+      padding: 36px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: #FFFFFF;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #7B8CA3;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(10, 10, 30, 0.8);
+      border: 1px solid rgba(123, 47, 255, 0.2);
+      border-radius: 10px;
+      color: #E0E0E0;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input::placeholder {
+      color: #4A4A6A;
+    }
+
+    .form-group input:focus {
+      border-color: #00D4FF;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #00D4FF, #7B2FFF);
+      border: none;
+      border-radius: 10px;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-note {
+      text-align: center;
+      font-size: 12px;
+      color: #4A4A6A;
+      margin-top: 16px;
+    }
+
+    /* Mensaje de resultado */
+    .result-message {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .result-message.success {
+      display: block;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: #00D4FF;
+    }
+
+    .result-message.error {
+      display: block;
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid rgba(255, 71, 87, 0.3);
+      color: #FF4757;
+    }
+
+    /* Fuentes */
+    .sources {
+      margin-top: 40px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .sources-title {
+      font-size: 12px;
+      color: #4A4A6A;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .sources-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .source-badge {
+      background: rgba(26, 26, 62, 0.5);
+      border: 1px solid rgba(42, 42, 78, 0.5);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 11px;
+      color: #6A7A8A;
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #3A3A5A;
+    }
+
+    .footer a {
+      color: #7B2FFF;
+      text-decoration: none;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .logo-text { font-size: 36px; }
+      .tagline { font-size: 14px; letter-spacing: 2px; }
+      .features { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+      .container { padding: 40px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <span class="logo-icon">&#129302;</span>
+      <div class="logo-text">IA <span class="highlight">Weekly</span></div>
+      <div class="tagline">Newsletter de Inteligencia Artificial</div>
+    </div>
+
+    <!-- Descripcion -->
+    <div class="description">
+      <h2>Las 10 noticias de IA m&aacute;s importantes de la semana, directo a tu inbox</h2>
+      <p>Cada viernes recib&iacute; un resumen curado con las novedades m&aacute;s relevantes del mundo de la Inteligencia Artificial. En espa&ntilde;ol, conciso y con estilo.</p>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">&#127919;</span>
+        <div class="feature-text">
+          <strong>Top 10 Curado</strong>
+          Seleccionamos las noticias que realmente importan
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#127760;</span>
+        <div class="feature-text">
+          <strong>Fuentes Globales</strong>
+          TechCrunch, MIT, Wired, Xataka y m&aacute;s
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#128640;</span>
+        <div class="feature-text">
+          <strong>Cada Viernes</strong>
+          Arrancá el fin de semana informado
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="form-card">
+      <div class="form-title">&#9889; Suscribite gratis</div>
+      <form id="registroForm">
+        <div class="form-group">
+          <label for="nombre">Tu nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej: Rodrigo" autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <label for="email">Tu email *</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Quiero recibir IA Weekly
+        </button>
+        <div id="resultMessage" class="result-message"></div>
+        <p class="form-note">Sin spam. Pod&eacute;s desuscribirte cuando quieras. Solo IA, solo lo mejor.</p>
+      </form>
+    </div>
+
+    <!-- Fuentes -->
+    <div class="sources">
+      <div class="sources-title">Nuestras fuentes</div>
+      <div class="sources-list">
+        <span class="source-badge">TechCrunch</span>
+        <span class="source-badge">The Verge</span>
+        <span class="source-badge">MIT Technology Review</span>
+        <span class="source-badge">VentureBeat</span>
+        <span class="source-badge">Wired</span>
+        <span class="source-badge">Ars Technica</span>
+        <span class="source-badge">Xataka</span>
+        <span class="source-badge">Hipertextual</span>
+        <span class="source-badge">Genbeta</span>
+        <span class="source-badge">WWWhat's New</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Powered by <a href="#">LiminalTech</a></p>
+    </div>
+  </div>
+
+  <script>
+    // ==============================================================
+    // CONFIGURACION - Modificá esta URL con tu webhook de N8N
+    // ==============================================================
+    const WEBHOOK_URL = 'https://TU-INSTANCIA-N8N.com/webhook/registro-newsletter';
+    // ==============================================================
+
+    const form = document.getElementById('registroForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultMessage = document.getElementById('resultMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const nombre = document.getElementById('nombre').value.trim();
+
+      if (!email) return;
+
+      // Estado de carga
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span> Registrando...';
+      resultMessage.style.display = 'none';
+      resultMessage.className = 'result-message';
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, nombre })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          resultMessage.textContent = data.message;
+          resultMessage.className = 'result-message success';
+          form.reset();
+        } else {
+          resultMessage.textContent = data.message || 'Ocurrió un error. Intentá de nuevo.';
+          resultMessage.className = 'result-message error';
+        }
+      } catch (error) {
+        resultMessage.textContent = 'Error de conexión. Verificá tu internet e intentá de nuevo.';
+        resultMessage.className = 'result-message error';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Quiero recibir IA Weekly';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+{
+  "name": "AI Newsletter Semanal - Top 10 Noticias IA",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [5],
+              "triggerAtHour": 9,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Trigger Semanal (Viernes 9am)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 500]
+    },
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-0001-4000-8000-000000000000",
+      "name": "Trigger Manual (Testing)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000001",
+      "name": "RSS - TechCrunch AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 100]
+    },
+    {
+      "parameters": {
+        "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
+      "name": "RSS - The Verge AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 250]
+    },
+    {
+      "parameters": {
+        "url": "https://www.technologyreview.com/feed/",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000003",
+      "name": "RSS - MIT Technology Review",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 400]
+    },
+    {
+      "parameters": {
+        "url": "https://venturebeat.com/category/ai/feed/",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000004",
+      "name": "RSS - VentureBeat AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 550]
+    },
+    {
+      "parameters": {
+        "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000005",
+      "name": "RSS - Wired AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 700]
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.arstechnica.com/arstechnica/technology-lab",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000006",
+      "name": "RSS - Ars Technica",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 850]
+    },
+    {
+      "parameters": {
+        "url": "https://www.xataka.com/tag/inteligencia-artificial/feed",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000007",
+      "name": "RSS - Xataka IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 1000]
+    },
+    {
+      "parameters": {
+        "url": "https://hipertextual.com/tag/inteligencia-artificial/feed",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000008",
+      "name": "RSS - Hipertextual IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 1150]
+    },
+    {
+      "parameters": {
+        "url": "https://www.genbeta.com/tag/inteligencia-artificial/feed",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000009",
+      "name": "RSS - Genbeta IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 1300]
+    },
+    {
+      "parameters": {
+        "url": "https://wwwhatsnew.com/category/inteligencia-artificial/feed/",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1b2c3d4-0002-4000-8000-000000000010",
+      "name": "RSS - WWWhatsNew IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [550, 1450]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {},
+        "combinationMode": "multiplex",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0003-4000-8000-000000000001",
+      "name": "Merge Feeds",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parsear todos los feeds RSS y extraer articulos de los ultimos 7 dias\nconst allItems = $input.all();\nconst articles = [];\nconst sevenDaysAgo = new Date();\nsevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);\n\nfor (const item of allItems) {\n  const xmlText = item.json.data || item.json.body || '';\n  \n  // Extraer items del RSS usando regex (compatible con RSS y Atom)\n  const itemRegex = /<item[^>]*>[\\s\\S]*?<\\/item>|<entry[^>]*>[\\s\\S]*?<\\/entry>/gi;\n  const items = xmlText.match(itemRegex) || [];\n  \n  for (const xmlItem of items) {\n    // Extraer titulo\n    const titleMatch = xmlItem.match(/<title[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/title>/s);\n    const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : '';\n    \n    // Extraer link\n    const linkMatch = xmlItem.match(/<link[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/link>|<link[^>]*href=[\"']([^\"']+)[\"']/s);\n    const link = linkMatch ? (linkMatch[1] || linkMatch[2] || '').trim() : '';\n    \n    // Extraer descripcion\n    const descMatch = xmlItem.match(/<description[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/description>|<summary[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/summary>|<content[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/content>/s);\n    let description = descMatch ? (descMatch[1] || descMatch[2] || descMatch[3] || '').trim() : '';\n    description = description.replace(/<[^>]+>/g, '').substring(0, 500);\n    \n    // Extraer fecha\n    const dateMatch = xmlItem.match(/<pubDate[^>]*>(.*?)<\\/pubDate>|<published[^>]*>(.*?)<\\/published>|<updated[^>]*>(.*?)<\\/updated>/s);\n    const dateStr = dateMatch ? (dateMatch[1] || dateMatch[2] || dateMatch[3] || '').trim() : '';\n    const pubDate = dateStr ? new Date(dateStr) : new Date();\n    \n    // Extraer fuente del feed\n    const sourceMatch = xmlItem.match(/<source[^>]*>(.*?)<\\/source>/) || \n                        xmlText.match(/<title[^>]*>(?:<\\!\\[CDATA\\[)?(.*?)(?:\\]\\]>)?<\\/title>/);\n    const source = sourceMatch ? sourceMatch[1].replace(/<[^>]+>/g, '').trim() : 'Desconocida';\n    \n    // Filtrar: solo articulos de los ultimos 7 dias relacionados con IA\n    const aiKeywords = /\\b(ai|artificial intelligence|inteligencia artificial|machine learning|deep learning|llm|gpt|openai|google ai|meta ai|claude|anthropic|chatgpt|gemini|copilot|neural|modelo de lenguaje|transformers|difusion|generativ)\\b/i;\n    \n    if (title && pubDate >= sevenDaysAgo && (aiKeywords.test(title) || aiKeywords.test(description))) {\n      articles.push({\n        title,\n        link,\n        description,\n        pubDate: pubDate.toISOString(),\n        source\n      });\n    }\n  }\n}\n\n// Ordenar por fecha (mas recientes primero) y limitar a 30\narticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));\nconst topArticles = articles.slice(0, 30);\n\n// Devolver como un solo item con el array de articulos\nreturn [{\n  json: {\n    totalArticles: topArticles.length,\n    articles: topArticles,\n    articlesSummary: topArticles.map((a, i) => \n      `${i+1}. [${a.source}] ${a.title}\\n   ${a.description.substring(0, 200)}...\\n   Link: ${a.link}\\n   Fecha: ${a.pubDate}`\n    ).join('\\n\\n')\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0004-4000-8000-000000000001",
+      "name": "Parsear y Filtrar Articulos IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, 500]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "= Sos un editor experto de newsletters tecnológicos en español. Tu estilo es moderno, dinámico y accesible.\n\nA partir de los siguientes artículos sobre Inteligencia Artificial de esta semana, seleccioná los 10 más relevantes e impactantes y escribí el newsletter.\n\nREGLAS:\n1. Seleccioná exactamente 10 noticias, priorizando diversidad de temas (no repetir el mismo tema)\n2. Escribí todo en español rioplatense profesional pero cercano\n3. Cada noticia debe tener:\n   - Un título atrapante y conciso (máx 80 caracteres)\n   - Un resumen de 2-3 oraciones explicando la noticia y su impacto\n   - La fuente original\n   - El link original\n4. Agregá una intro editorial de 2-3 oraciones sobre el panorama de IA de la semana\n5. Cerrá con un párrafo de cierre motivacional/reflexivo\n\nFORMATO DE SALIDA (JSON estricto):\n{\n  \"fecha\": \"semana del DD al DD de MES YYYY\",\n  \"intro\": \"texto de la intro editorial\",\n  \"noticias\": [\n    {\n      \"numero\": 1,\n      \"titulo\": \"título atrapante\",\n      \"resumen\": \"resumen de 2-3 oraciones\",\n      \"fuente\": \"nombre de la fuente\",\n      \"link\": \"url original\"\n    }\n  ],\n  \"cierre\": \"texto del cierre\"\n}\n\nARTÍCULOS DISPONIBLES:\n{{ $json.articlesSummary }}",
+              "role": "user"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 4000
+        }
+      },
+      "id": "a1b2c3d4-0005-4000-8000-000000000001",
+      "name": "AI - Curar y Redactar Newsletter",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [1350, 500],
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURAR_OPENAI_CREDENTIALS",
+          "name": "OpenAI API"
+        }
+      },
+      "notesInFlow": true,
+      "notes": "CONFIGURAR: Credenciales de OpenAI API.\nPodés cambiar a Claude/Anthropic si preferís."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar el HTML del newsletter a partir del JSON de la IA\nconst input = $input.first().json;\nlet newsletterData;\n\n// Parsear la respuesta de la IA\ntry {\n  const responseText = input.message?.content || input.text || input.choices?.[0]?.message?.content || JSON.stringify(input);\n  // Buscar el JSON en la respuesta\n  const jsonMatch = responseText.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    newsletterData = JSON.parse(jsonMatch[0]);\n  } else {\n    throw new Error('No se encontró JSON en la respuesta');\n  }\n} catch (e) {\n  return [{ json: { error: 'Error parseando respuesta IA: ' + e.message, raw: input } }];\n}\n\nconst { fecha, intro, noticias, cierre } = newsletterData;\n\n// Generar las noticias en HTML\nconst noticiasHtml = noticias.map((n, i) => `\n  <tr>\n    <td style=\"padding: 0 0 30px 0;\">\n      <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-left: 3px solid #00D4FF; padding-left: 20px;\">\n        <tr>\n          <td>\n            <span style=\"display: inline-block; background: linear-gradient(135deg, #00D4FF, #7B2FFF); color: #ffffff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 8px;\">#${n.numero}</span>\n            <h3 style=\"color: #E0E0E0; font-size: 18px; font-weight: 700; margin: 10px 0 8px 0; line-height: 1.3;\">${n.titulo}</h3>\n            <p style=\"color: #A0A0A0; font-size: 14px; line-height: 1.6; margin: 0 0 10px 0;\">${n.resumen}</p>\n            <table cellpadding=\"0\" cellspacing=\"0\">\n              <tr>\n                <td style=\"padding-right: 15px;\">\n                  <span style=\"color: #7B2FFF; font-size: 12px; font-weight: 600;\">Fuente: ${n.fuente}</span>\n                </td>\n                <td>\n                  <a href=\"${n.link}\" style=\"color: #00D4FF; font-size: 12px; text-decoration: none; font-weight: 600;\" target=\"_blank\">Leer artículo completo &rarr;</a>\n                </td>\n              </tr>\n            </table>\n          </td>\n        </tr>\n      </table>\n    </td>\n  </tr>\n`).join('');\n\n// Template completo del newsletter\nconst html = `<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>IA Weekly - Newsletter Semanal de Inteligencia Artificial</title>\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #0A0A0A; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\">\n  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color: #0A0A0A; padding: 20px 0;\">\n    <tr>\n      <td align=\"center\">\n        <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px; width: 100%;\">\n          \n          <!-- HEADER -->\n          <tr>\n            <td style=\"background: linear-gradient(135deg, #0D0D2B 0%, #1A1A3E 50%, #0D0D2B 100%); padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0; border-top: 3px solid #00D4FF;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n                <tr>\n                  <td align=\"center\">\n                    <div style=\"font-size: 42px; margin-bottom: 5px;\">&#129302;</div>\n                    <h1 style=\"color: #FFFFFF; font-size: 28px; margin: 0 0 5px 0; font-weight: 800; letter-spacing: -0.5px;\">IA <span style=\"background: linear-gradient(135deg, #00D4FF, #7B2FFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;\">Weekly</span></h1>\n                    <p style=\"color: #7B8CA3; font-size: 13px; margin: 0; letter-spacing: 2px; text-transform: uppercase;\">Top 10 Noticias de Inteligencia Artificial</p>\n                    <div style=\"width: 60px; height: 2px; background: linear-gradient(90deg, #00D4FF, #7B2FFF); margin: 15px auto 10px auto;\"></div>\n                    <p style=\"color: #5A6A7A; font-size: 12px; margin: 0;\">${fecha}</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n          \n          <!-- INTRO EDITORIAL -->\n          <tr>\n            <td style=\"background-color: #111111; padding: 30px; border-left: 1px solid #1A1A2E; border-right: 1px solid #1A1A2E;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background: linear-gradient(135deg, #1A1A3E, #111128); border-radius: 8px; padding: 25px;\">\n                <tr>\n                  <td>\n                    <p style=\"color: #00D4FF; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 10px 0;\">&#9889; Editorial de la semana</p>\n                    <p style=\"color: #C0C0C0; font-size: 15px; line-height: 1.7; margin: 0; font-style: italic;\">${intro}</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n          \n          <!-- NOTICIAS -->\n          <tr>\n            <td style=\"background-color: #111111; padding: 20px 30px; border-left: 1px solid #1A1A2E; border-right: 1px solid #1A1A2E;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n                ${noticiasHtml}\n              </table>\n            </td>\n          </tr>\n          \n          <!-- CIERRE -->\n          <tr>\n            <td style=\"background-color: #111111; padding: 10px 30px 30px 30px; border-left: 1px solid #1A1A2E; border-right: 1px solid #1A1A2E;\">\n              <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background: linear-gradient(135deg, #1A1A3E, #111128); border-radius: 8px; padding: 25px; border: 1px solid #2A2A4E;\">\n                <tr>\n                  <td style=\"text-align: center;\">\n                    <p style=\"color: #00D4FF; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 10px 0;\">&#128640; Reflexión final</p>\n                    <p style=\"color: #C0C0C0; font-size: 14px; line-height: 1.7; margin: 0;\">${cierre}</p>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n          \n          <!-- FOOTER -->\n          <tr>\n            <td style=\"background-color: #0D0D1A; padding: 25px 30px; text-align: center; border-radius: 0 0 12px 12px; border-bottom: 3px solid #7B2FFF; border-left: 1px solid #1A1A2E; border-right: 1px solid #1A1A2E;\">\n              <p style=\"color: #4A4A6A; font-size: 12px; margin: 0 0 8px 0;\">IA Weekly - Tu resumen semanal de Inteligencia Artificial</p>\n              <p style=\"color: #3A3A5A; font-size: 11px; margin: 0;\">Powered by <span style=\"color: #7B2FFF;\">LiminalTech</span> | <a href=\"{{UNSUB_URL}}\" style=\"color: #3A3A5A; text-decoration: underline;\">Desuscribirse</a></p>\n            </td>\n          </tr>\n          \n        </table>\n      </td>\n    </tr>\n  </table>\n</body>\n</html>`;\n\nconst asunto = `&#129302; IA Weekly: Las 10 noticias de IA más importantes | ${fecha}`;\n\nreturn [{\n  json: {\n    html,\n    asunto,\n    fecha,\n    newsletterData\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0006-4000-8000-000000000001",
+      "name": "Generar HTML del Newsletter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1600, 500]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "={{$env.GOOGLE_SHEET_NEWSLETTER_URL}}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "suscriptores"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "condition": {
+                "left": "activo",
+                "operation": "equals",
+                "right": "true"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0007-4000-8000-000000000001",
+      "name": "Leer Suscriptores (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1850, 500],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_GOOGLE_SHEETS_CREDENTIALS",
+          "name": "Google Sheets OAuth2"
+        }
+      },
+      "notesInFlow": true,
+      "notes": "CONFIGURAR: Credenciales de Google Sheets.\nLa hoja debe tener columnas: email, nombre, tipo, activo, fecha_registro"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "filter-tipo",
+              "leftValue": "={{ $json.tipo }}",
+              "rightValue": "={{$env.NEWSLETTER_ENVIAR_A || 'todos'}}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-0008-4000-8000-000000000001",
+      "name": "Filtrar por Tipo de Envio",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [2100, 400],
+      "notesInFlow": true,
+      "notes": "Variable NEWSLETTER_ENVIAR_A:\n- 'muestra': solo emails de prueba\n- 'lista': solo suscriptores reales\n- 'todos': ambos grupos"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pasar los suscriptores filtrados con el HTML del newsletter\nconst subscribers = $input.all();\nconst newsletterNode = $('Generar HTML del Newsletter').first().json;\n\nreturn subscribers.map(sub => ({\n  json: {\n    email: sub.json.email,\n    nombre: sub.json.nombre || 'Suscriptor',\n    tipo: sub.json.tipo,\n    html: newsletterNode.html.replace('{{NOMBRE}}', sub.json.nombre || 'Suscriptor'),\n    asunto: newsletterNode.asunto\n  }\n}));"
+      },
+      "id": "a1b2c3d4-0008-4000-8000-000000000002",
+      "name": "Preparar Envio Individual",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2100, 600]
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "id": "a1b2c3d4-0009-4000-8000-000000000001",
+      "name": "Enviar en Lotes",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [2350, 500]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{$env.NEWSLETTER_FROM_EMAIL || 'newsletter@liminaltech.com'}}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.asunto }}",
+        "emailType": "html",
+        "html": "={{ $json.html }}",
+        "options": {
+          "replyTo": "={{$env.NEWSLETTER_REPLY_TO || 'contacto@liminaltech.com'}}"
+        }
+      },
+      "id": "a1b2c3d4-0010-4000-8000-000000000001",
+      "name": "Enviar Email (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [2600, 500],
+      "credentials": {
+        "smtp": {
+          "id": "CONFIGURAR_SMTP_CREDENTIALS",
+          "name": "SMTP Newsletter"
+        }
+      },
+      "notesInFlow": true,
+      "notes": "CONFIGURAR: Credenciales SMTP.\nPodés usar Gmail SMTP, SendGrid, Mailgun, etc."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Resumen final del envio\nconst items = $input.all();\nconst total = items.length;\nconst fecha = new Date().toLocaleString('es-AR');\n\nreturn [{\n  json: {\n    mensaje: `Newsletter enviado exitosamente`,\n    totalEnviados: total,\n    fechaEnvio: fecha,\n    destinatarios: items.map(i => i.json.email || 'desconocido')\n  }\n}];"
+      },
+      "id": "a1b2c3d4-0011-4000-8000-000000000001",
+      "name": "Resumen de Envio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2850, 500]
+    }
+  ],
+  "connections": {
+    "Trigger Semanal (Viernes 9am)": {
+      "main": [
+        [
+          { "node": "RSS - TechCrunch AI", "type": "main", "index": 0 },
+          { "node": "RSS - The Verge AI", "type": "main", "index": 0 },
+          { "node": "RSS - MIT Technology Review", "type": "main", "index": 0 },
+          { "node": "RSS - VentureBeat AI", "type": "main", "index": 0 },
+          { "node": "RSS - Wired AI", "type": "main", "index": 0 },
+          { "node": "RSS - Ars Technica", "type": "main", "index": 0 },
+          { "node": "RSS - Xataka IA", "type": "main", "index": 0 },
+          { "node": "RSS - Hipertextual IA", "type": "main", "index": 0 },
+          { "node": "RSS - Genbeta IA", "type": "main", "index": 0 },
+          { "node": "RSS - WWWhatsNew IA", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Trigger Manual (Testing)": {
+      "main": [
+        [
+          { "node": "RSS - TechCrunch AI", "type": "main", "index": 0 },
+          { "node": "RSS - The Verge AI", "type": "main", "index": 0 },
+          { "node": "RSS - MIT Technology Review", "type": "main", "index": 0 },
+          { "node": "RSS - VentureBeat AI", "type": "main", "index": 0 },
+          { "node": "RSS - Wired AI", "type": "main", "index": 0 },
+          { "node": "RSS - Ars Technica", "type": "main", "index": 0 },
+          { "node": "RSS - Xataka IA", "type": "main", "index": 0 },
+          { "node": "RSS - Hipertextual IA", "type": "main", "index": 0 },
+          { "node": "RSS - Genbeta IA", "type": "main", "index": 0 },
+          { "node": "RSS - WWWhatsNew IA", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "RSS - TechCrunch AI": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - The Verge AI": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - MIT Technology Review": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - VentureBeat AI": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - Wired AI": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - Ars Technica": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - Xataka IA": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - Hipertextual IA": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - Genbeta IA": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "RSS - WWWhatsNew IA": {
+      "main": [[ { "node": "Merge Feeds", "type": "main", "index": 0 } ]]
+    },
+    "Merge Feeds": {
+      "main": [[ { "node": "Parsear y Filtrar Articulos IA", "type": "main", "index": 0 } ]]
+    },
+    "Parsear y Filtrar Articulos IA": {
+      "main": [[ { "node": "AI - Curar y Redactar Newsletter", "type": "main", "index": 0 } ]]
+    },
+    "AI - Curar y Redactar Newsletter": {
+      "main": [[ { "node": "Generar HTML del Newsletter", "type": "main", "index": 0 } ]]
+    },
+    "Generar HTML del Newsletter": {
+      "main": [[
+        { "node": "Leer Suscriptores (Google Sheets)", "type": "main", "index": 0 }
+      ]]
+    },
+    "Leer Suscriptores (Google Sheets)": {
+      "main": [[
+        { "node": "Filtrar por Tipo de Envio", "type": "main", "index": 0 },
+        { "node": "Preparar Envio Individual", "type": "main", "index": 0 }
+      ]]
+    },
+    "Filtrar por Tipo de Envio": {
+      "main": [[ { "node": "Preparar Envio Individual", "type": "main", "index": 0 } ]]
+    },
+    "Preparar Envio Individual": {
+      "main": [[ { "node": "Enviar en Lotes", "type": "main", "index": 0 } ]]
+    },
+    "Enviar en Lotes": {
+      "main": [
+        [ { "node": "Enviar Email (SMTP)", "type": "main", "index": 0 } ],
+        [ { "node": "Resumen de Envio", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Enviar Email (SMTP)": {
+      "main": [[ { "node": "Enviar en Lotes", "type": "main", "index": 0 } ]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "newsletter" },
+    { "name": "ia" },
+    { "name": "automatizacion" }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-08T00:00:00.000Z",
+  "versionId": "newsletter-v1-001"
+}
