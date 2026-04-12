@@ -12,7 +12,7 @@
 
 ## Correcciones recibidas
 
-_(Se actualiza a medida que Rodrigo corrige respuestas)_
+- 2026-04-12: El nombre correcto es **UniverzIA** (con Z), no "UnivezIA". Tambien es URGENTE, no IMPORTANTE — es su proyecto propio.
 
 ## Decisiones tecnicas tomadas
 

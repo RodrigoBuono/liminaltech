@@ -24,7 +24,7 @@ Soy **Rodrigo Ezequiel Pedernera**, antropologo social (Licenciado por la UBA co
 
 - **DM CLINICAL** — Asistente en Innovacion (oct 2025-presente): optimizo procesos internos, integro herramientas de IA (data analyst), acompanho el crecimiento organizacional
 - **AUREA Hub** — Consultor de Implementacion "Prometheo" (part-time escalando a full-time): agentes de venta IA, Smart Tags, CRM y embudos comerciales para emprendedores y pymes en Argentina, Uruguay y Paraguay. Onboarding con Etapa 1 Discovery y los 12 bloques del framework Prometheo
-- **UnivezIA** — Fundador (may 2024-presente): plataforma de difusion, comunicacion y acompanhamiento en la incorporacion de IA en proyectos y empresas
+- **UniverzIA** — Fundador (may 2024-presente): plataforma de difusion, comunicacion y acompanhamiento en la incorporacion de IA en proyectos y empresas
 
 ## Trayectoria laboral previa
 

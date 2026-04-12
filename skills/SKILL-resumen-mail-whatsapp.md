@@ -19,7 +19,7 @@ Revisar la bandeja de entrada de Gmail, identificar los mails importantes (espec
 Categorizar cada mail en:
 
 1. **URGENTE** — Consultas de clientes, oportunidades de negocio, temas de DM Clinical o AUREA Hub
-2. **IMPORTANTE** — Respuestas pendientes, seguimientos, temas de UnivezIA
+2. **IMPORTANTE** — Respuestas pendientes, seguimientos, temas de UniverzIA
 3. **INFORMATIVO** — Newsletters, notificaciones, actualizaciones generales
 4. **IGNORAR** — Spam, promociones irrelevantes
 
