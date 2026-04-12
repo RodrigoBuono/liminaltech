@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "TodoWrite"
+    ],
+    "deny": []
+  },
+  "preferences": {
+    "language": "es",
+    "autoUpdaterStatus": "enabled"
+  }
+}

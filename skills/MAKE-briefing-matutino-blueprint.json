@@ -1,0 +1,56 @@
+{
+  "name": "Briefing - Resumen de Mails Nuevos",
+  "metadata": {
+    "version": 1
+  },
+  "flow": [
+    {
+      "id": 1,
+      "module": "google-email:TriggerNewEmail",
+      "version": 2,
+      "parameters": {
+        "account": "__GMAIL_CONNECTION_ID__",
+        "folder": "INBOX",
+        "searchType": "simple",
+        "markSeen": false,
+        "maxResults": 20
+      },
+      "mapper": {
+        "criteria": "UNSEEN"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 }
+      }
+    },
+    {
+      "id": 2,
+      "module": "util:TextAggregator",
+      "version": 1,
+      "parameters": {
+        "rowSeparator": "\n\n"
+      },
+      "mapper": {
+        "text": "- De: {{1.from.name}} ({{1.from.address}})\n  Asunto: {{1.subject}}\n  Fecha: {{1.date}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "google-email:ActionSendEmail",
+      "version": 2,
+      "parameters": {
+        "account": "__GMAIL_CONNECTION_ID__"
+      },
+      "mapper": {
+        "to": ["rodri.epb@gmail.com"],
+        "subject": "Briefing - Resumen de Mails Nuevos",
+        "html": "<h2>Briefing - Mails Nuevos</h2><p>Estos son tus mails no leidos desde la ultima revision:</p><pre>{{2.text}}</pre><p><em>Generado automaticamente por Make.com para Rodrigo Pedernera</em></p>"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ]
+}
