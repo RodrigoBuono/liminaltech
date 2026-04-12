@@ -17,6 +17,7 @@ _(Se actualiza a medida que Rodrigo corrige respuestas)_
 ## Decisiones tecnicas tomadas
 
 - 2026-04-12: Setup inicial de CLAUDE.md, memory.md, skills/ y .claude/settings.json siguiendo el framework del video de Remy Gaskell sobre agentes de IA
+- 2026-04-12: Make.com NO puede usar Gmail con cuentas @gmail.com (restricted scopes de Google). Usar N8N para automatizaciones con Gmail en su lugar
 
 ## Patrones de trabajo aprendidos
 
@@ -30,4 +31,4 @@ _(Se actualiza a medida que se identifican patrones)_
 
 ## Notas de sesiones anteriores
 
-_(Se actualiza al final de cada sesion con items pendientes o contexto importante para retomar)_
+- 2026-04-12: Se creo workflow N8N para briefing matutino (skills/N8N-briefing-matutino-workflow.json). Rodrigo necesita importarlo en su N8N y configurar la credencial de Gmail OAuth2. El workflow corre todos los dias a las 8 AM hora Argentina, lee mails no leidos, los clasifica por prioridad (urgente/importante/informativo) y envia un resumen por mail.
