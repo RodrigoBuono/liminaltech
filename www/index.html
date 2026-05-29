@@ -1,658 +1,625 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rodrigo Buono</title>
-  <meta name="description" content="Ayudo a diseñar nuevas formas de vivir, trabajar y organizarnos como sociedad.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodrigo Buono — De la ciudad a la comunidad</title>
+<meta name="description" content="Diseño nuevas formas de vivir, trabajar y organizarnos como sociedad, combinando comunidades, tecnología e inteligencia artificial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-    :root {
-      --bg: #0a0a0a;
-      --fg: #e8e4de;
-      --fg-dim: #8a857e;
-      --green: #7d9b76;
-      --green-dim: rgba(125,155,118,0.15);
-      --earth: #c4a87c;
-      --earth-dim: rgba(196,168,124,0.15);
-      --border: rgba(255,255,255,0.08);
-    }
+  :root{
+    --fg:#ece7df;
+    --fg-dim:#9a948a;
+    --sage:#86a37a;
+    --earth:#c9a679;
+    --line:rgba(236,231,223,0.12);
+    --p:0;            /* progreso global de scroll 0..1, lo setea JS */
+  }
 
-    html { scroll-behavior: smooth; }
+  html{ -webkit-font-smoothing:antialiased; }
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--fg);
+    background:#0d0f12;
+    line-height:1.65;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  ::selection{ background:var(--sage); color:#0d0f12; }
+  a{ color:inherit; text-decoration:none; }
 
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg); color: var(--fg);
-      line-height: 1.7; font-size: 16px;
-      cursor: none; overflow-x: hidden;
-    }
+  /* ---------- CAPAS DE FONDO ---------- */
+  #bg{ position:fixed; inset:0; z-index:-3; background:#0d0f12; transition:background .2s linear; }
+  #glow{
+    position:fixed; left:50%; top:20%; z-index:-2;
+    width:120vmax; height:120vmax; transform:translate(-50%,-50%);
+    border-radius:50%; filter:blur(40px); opacity:.5;
+    background:radial-gradient(circle, rgba(125,155,118,.25) 0%, transparent 55%);
+    pointer-events:none;
+  }
+  .grain{
+    position:fixed; inset:-50%; z-index:-1; width:200%; height:200%;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events:none; opacity:.6;
+  }
 
-    ::selection { background: var(--green); color: var(--bg); }
+  /* ---------- CURSOR ---------- */
+  .cur{ position:fixed; top:0; left:0; width:7px; height:7px; border-radius:50%;
+    background:var(--sage); z-index:10000; pointer-events:none;
+    transform:translate(-50%,-50%); transition:width .3s,height .3s,background .3s; mix-blend-mode:difference; }
+  .cur.big{ width:54px; height:54px; background:var(--fg); }
+  .cur-ring{ position:fixed; top:0; left:0; width:34px; height:34px; border:1px solid rgba(134,163,122,.5);
+    border-radius:50%; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); }
 
-    /* GRAIN */
-    .grain {
-      position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9999; opacity: 0.5;
-    }
+  /* ---------- NAV ---------- */
+  nav{ position:fixed; top:0; left:0; right:0; z-index:900; mix-blend-mode:difference; }
+  .nav-in{ display:flex; align-items:center; justify-content:space-between; padding:26px 40px; }
+  .brand{ font-family:'Fraunces',serif; font-size:1.15rem; letter-spacing:.5px; }
+  .nav-links{ display:flex; gap:30px; list-style:none; }
+  .nav-links a{ font-size:.74rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg); opacity:.75; position:relative; }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-5px; width:0; height:1px; background:var(--fg); transition:width .4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ opacity:1; } .nav-links a:hover::after{ width:100%; }
+  .burger{ display:none; flex-direction:column; gap:6px; background:none; border:0; cursor:none; }
+  .burger span{ width:26px; height:1.5px; background:var(--fg); transition:.35s cubic-bezier(.16,1,.3,1); }
+  .burger.on span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .burger.on span:nth-child(2){ opacity:0; }
+  .burger.on span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
 
-    /* CURSOR */
-    .cursor {
-      width: 8px; height: 8px; background: var(--green);
-      border-radius: 50%; position: fixed; pointer-events: none;
-      z-index: 10000; transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, background 0.3s;
-      mix-blend-mode: difference;
-    }
-    .cursor.hover { width: 48px; height: 48px; background: var(--fg); mix-blend-mode: difference; }
-    .cursor-follower {
-      width: 36px; height: 36px; border: 1px solid rgba(125,155,118,0.4);
-      border-radius: 50%; position: fixed; pointer-events: none;
-      z-index: 9999; transform: translate(-50%, -50%);
-      transition: width 0.5s cubic-bezier(0.16,1,0.3,1), height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
-    }
-    .cursor.hover ~ .cursor-follower { width: 60px; height: 60px; opacity: 0.3; }
+  /* ---------- COLUMNA VERTEBRAL (spine) ---------- */
+  #spine{ position:fixed; left:0; top:0; height:100vh; width:140px; z-index:800; pointer-events:none; }
+  #spine svg{ width:100%; height:100%; display:block; }
+  #spine .track{ fill:none; stroke:var(--line); stroke-width:1.4; }
+  #spine .prog{ fill:none; stroke:url(#sg); stroke-width:2.2; stroke-linecap:round; }
+  .node{ pointer-events:auto; }
+  .node circle{ fill:#0d0f12; stroke:var(--line); stroke-width:1.4; transition:stroke .5s, r .5s; }
+  .node text{ font-family:'Inter'; font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    fill:var(--fg-dim); opacity:0; transform:translateX(-6px); transition:.5s; }
+  .node.active circle{ stroke:var(--sage); }
+  .node.active text{ opacity:1; transform:translateX(0); fill:var(--fg); }
+  #traveler{ fill:var(--sage); filter:drop-shadow(0 0 6px rgba(134,163,122,.9)); }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      padding: 0 48px; mix-blend-mode: difference;
-    }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 80px; border-bottom: 1px solid var(--border);
-    }
-    .logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem; color: var(--fg); text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-    .nav-links { list-style: none; display: flex; gap: 36px; }
-    .nav-link {
-      color: var(--fg-dim); text-decoration: none; font-size: 0.82rem;
-      font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
-      position: relative; transition: color 0.3s;
-    }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--green); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .nav-link:hover { color: var(--fg); }
-    .nav-link:hover::after { width: 100%; }
-    .hamburger {
-      display: none; background: none; border: none; cursor: none;
-      width: 32px; height: 32px; position: relative;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 1px; background: var(--fg);
-      position: absolute; left: 4px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .hamburger span:first-child { top: 11px; }
-    .hamburger span:last-child { top: 20px; }
-    .hamburger.active span:first-child { top: 15px; transform: rotate(45deg); }
-    .hamburger.active span:last-child { top: 15px; transform: rotate(-45deg); }
+  /* indicador de profundidad a la derecha */
+  #depth{ position:fixed; right:34px; bottom:34px; z-index:800; text-align:right; mix-blend-mode:difference; }
+  #depth .pct{ font-family:'Fraunces',serif; font-size:2.4rem; line-height:1; }
+  #depth .lab{ font-size:.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); margin-top:4px; }
 
-    /* REVEAL */
-    .reveal {
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* barra de progreso (mobile) */
+  #bar{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--sage); z-index:950; display:none; }
 
-    /* HERO */
-    #hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; padding: 120px 48px 60px;
-      position: relative;
-    }
-    .hero-tag {
-      font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--green); margin-bottom: 32px; font-weight: 400;
-    }
-    .hero-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(3rem, 8vw, 7.5rem); font-weight: 400;
-      line-height: 1.05; letter-spacing: -2px; color: var(--fg);
-    }
-    .hero-title .line { display: block; overflow: hidden; }
-    .hero-title .word { display: inline-block; }
-    .hero-title .accent { color: var(--green); font-style: italic; }
-    .hero-sub {
-      font-size: 1.1rem; color: var(--fg-dim); margin-top: 40px;
-      max-width: 520px; line-height: 1.8; font-weight: 300;
-    }
-    .scroll-indicator {
-      position: absolute; bottom: 40px; right: 48px;
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-    }
-    .scroll-indicator span {
-      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--fg-dim); writing-mode: vertical-rl;
-    }
-    .scroll-line {
-      width: 1px; height: 60px; background: var(--border); position: relative;
-      overflow: hidden;
-    }
-    .scroll-line::after {
-      content: ''; position: absolute; top: -100%; left: 0;
-      width: 1px; height: 100%; background: var(--green);
-      animation: scrollAnim 2s ease-in-out infinite;
-    }
-    @keyframes scrollAnim {
-      0% { top: -100%; } 50% { top: 0; } 100% { top: 100%; }
-    }
+  /* ---------- TIPOGRAFÍA BASE ---------- */
+  .eyebrow{ font-size:.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--sage); }
+  .ser{ font-family:'Fraunces',serif; font-weight:340; }
+  .reveal{ opacity:0; transform:translateY(38px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+  .reveal.in{ opacity:1; transform:none; }
+  .ghost{ position:absolute; font-family:'Fraunces',serif; font-weight:300; color:rgba(236,231,223,.035);
+    line-height:.8; pointer-events:none; user-select:none; z-index:0; }
 
-    /* SECTIONS */
-    section { padding: 120px 48px; position: relative; }
-    section + section { border-top: 1px solid var(--border); }
+  section{ position:relative; z-index:1; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 40px 0 160px; }
 
-    .section-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 8rem; color: rgba(255,255,255,0.03);
-      line-height: 1; letter-spacing: -4px; font-weight: 400;
-    }
-    .section-label {
-      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--green); margin-bottom: 24px; display: block;
-    }
+  /* ---------- HERO ---------- */
+  #hero{ min-height:100vh; display:flex; align-items:center; }
+  .hero-in{ will-change:transform; }
+  #hero .eyebrow{ margin-bottom:30px; }
+  .htitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.6rem,8.2vw,7.4rem);
+    line-height:1.02; letter-spacing:-.02em; }
+  .htitle .ln{ display:block; overflow:hidden; }
+  .htitle .w{ display:inline-block; transform:translateY(110%); }
+  .htitle em{ font-style:italic; color:var(--sage); }
+  .hsub{ margin-top:34px; max-width:440px; color:var(--fg-dim); font-weight:300; font-size:1.05rem; }
+  .hint{ position:absolute; bottom:38px; left:160px; display:flex; align-items:center; gap:14px;
+    font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  .hint .l{ width:60px; height:1px; background:var(--line); position:relative; overflow:hidden; }
+  .hint .l::after{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-100%); animation:slide 2.4s infinite; }
+  @keyframes slide{ 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
 
-    /* ABOUT */
-    #sobre-mi .section-grid {
-      display: grid; grid-template-columns: 200px 1fr;
-      gap: 40px; max-width: 1200px; margin: 0 auto;
-      position: relative;
-    }
-    #sobre-mi .section-num {
-      position: absolute; top: -40px; left: -20px; font-size: 12rem;
-    }
-    #sobre-mi h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.8rem; font-weight: 400; margin-bottom: 32px;
-      letter-spacing: -1px;
-    }
-    #sobre-mi p { color: var(--fg-dim); margin-bottom: 20px; font-weight: 300; font-size: 1.02rem; }
-    .about-tags {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
-    }
-    .about-tags span {
-      padding: 8px 18px; border: 1px solid var(--border); border-radius: 50px;
-      font-size: 0.8rem; color: var(--fg-dim); letter-spacing: 0.5px;
-      transition: all 0.3s;
-    }
-    .about-tags span:hover {
-      border-color: var(--green); color: var(--green);
-    }
+  /* ---------- SOBRE MÍ ---------- */
+  #sobre{ padding:30vh 0; }
+  #sobre .ghost{ top:8vh; left:120px; font-size:34vh; }
+  .about-grid{ display:grid; grid-template-columns:1fr 1.3fr; gap:60px; align-items:start; }
+  .about-side .eyebrow{ margin-bottom:18px; }
+  .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,3.4vw,3.1rem); line-height:1.05; }
+  .about-portrait{ margin-top:34px; aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px;
+    background:linear-gradient(160deg, rgba(134,163,122,.10), rgba(201,166,121,.06)); position:relative; overflow:hidden; will-change:transform; }
+  .about-portrait span{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:20px;
+    font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:20px; font-size:1.06rem; }
+  .about-body p strong{ color:var(--fg); font-weight:400; }
+  .tags{ display:flex; flex-wrap:wrap; gap:9px; margin-top:30px; }
+  .tags span{ padding:7px 16px; border:1px solid var(--line); border-radius:40px; font-size:.76rem; color:var(--fg-dim); transition:.3s; }
+  .tags span:hover{ border-color:var(--sage); color:var(--sage); }
 
-    /* SERVICES */
-    .section-header {
-      max-width: 1200px; margin: 0 auto 60px; position: relative;
-    }
-    .section-header .section-num {
-      position: absolute; top: -60px; right: 0;
-    }
-    .services-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 3.2rem; font-weight: 400; letter-spacing: -1px;
-    }
-    .services-track {
-      display: flex; gap: 24px; overflow-x: auto;
-      padding: 0 48px 40px; margin: 0 -48px;
-      scrollbar-width: none; -ms-overflow-style: none;
-      scroll-snap-type: x mandatory;
-    }
-    .services-track::-webkit-scrollbar { display: none; }
-    .service-card {
-      min-width: 340px; max-width: 380px; flex-shrink: 0;
-      padding: 40px; border: 1px solid var(--border);
-      border-radius: 2px; position: relative;
-      transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
-      scroll-snap-align: start;
-    }
-    .service-card:hover {
-      border-color: var(--green);
-      background: rgba(125,155,118,0.04);
-      transform: translateY(-8px);
-    }
-    .card-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 4rem; color: rgba(255,255,255,0.04);
-      position: absolute; top: 16px; right: 24px;
-    }
-    .service-card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.5rem; font-weight: 400; margin-bottom: 16px;
-      line-height: 1.3; letter-spacing: -0.3px;
-    }
-    .service-card p { color: var(--fg-dim); font-size: 0.92rem; font-weight: 300; margin-bottom: 16px; }
-    .service-card ul {
-      list-style: none; margin-top: 20px;
-      border-top: 1px solid var(--border); padding-top: 16px;
-    }
-    .service-card ul li {
-      color: var(--fg-dim); font-size: 0.85rem; padding: 4px 0;
-      padding-left: 16px; position: relative; font-weight: 300;
-    }
-    .service-card ul li::before {
-      content: ''; position: absolute; left: 0; top: 12px;
-      width: 6px; height: 1px; background: var(--green);
-    }
+  /* ---------- SERVICIOS (scroll horizontal / habitaciones) ---------- */
+  #servicios{ height:480vh; }
+  .serv-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+  .serv-head{ display:flex; justify-content:space-between; align-items:flex-end; padding:30px 40px 0 160px; }
+  .serv-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3vw,2.8rem); }
+  .serv-counter{ font-family:'Fraunces',serif; font-size:1.4rem; color:var(--fg-dim); }
+  .serv-counter b{ color:var(--sage); font-weight:400; }
+  .serv-track{ flex:1; display:flex; align-items:center; will-change:transform; }
+  .serv-panel{ width:100vw; height:100%; flex-shrink:0; display:flex; align-items:center;
+    padding:0 40px 0 160px; position:relative; }
+  .serv-panel .pn{ position:absolute; top:14%; right:6%; font-family:'Fraunces',serif; font-weight:300;
+    font-size:24vh; color:rgba(236,231,223,.04); line-height:1; }
+  .serv-card{ max-width:560px; }
+  .serv-card .k{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
+  .serv-card h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,4.4vw,3.6rem);
+    line-height:1.04; margin:18px 0 22px; }
+  .serv-card p{ color:var(--fg-dim); font-weight:300; max-width:440px; }
+  .serv-card ul{ list-style:none; margin-top:26px; border-top:1px solid var(--line); }
+  .serv-card li{ padding:13px 0 13px 24px; border-bottom:1px solid var(--line); position:relative;
+    color:var(--fg); font-weight:300; font-size:.96rem; }
+  .serv-card li::before{ content:''; position:absolute; left:0; top:21px; width:9px; height:1px; background:var(--sage); }
 
-    /* PROCESS */
-    #proceso .section-header h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 3.2rem; font-weight: 400; letter-spacing: -1px;
-    }
-    .process-block {
-      max-width: 900px; margin: 0 auto 80px; position: relative;
-    }
-    .process-header {
-      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-    }
-    .process-icon { color: var(--green); font-size: 1.2rem; }
-    .process-header h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem; font-weight: 400; letter-spacing: -0.5px;
-    }
-    .process-intro {
-      color: var(--fg-dim); font-size: 0.95rem; font-weight: 300;
-      margin-bottom: 16px; max-width: 700px; padding-left: 36px;
-    }
-    .timeline { margin-top: 40px; padding-left: 36px; position: relative; }
-    .timeline::before {
-      content: ''; position: absolute; left: 52px; top: 0; bottom: 0;
-      width: 1px; background: var(--border);
-    }
-    .timeline-item {
-      display: flex; gap: 32px; margin-bottom: 40px; position: relative;
-    }
-    .timeline-marker {
-      flex-shrink: 0; width: 36px; height: 36px; border: 1px solid var(--green);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Serif Display', serif; font-size: 0.82rem; color: var(--green);
-      background: var(--bg); z-index: 1;
-    }
-    .timeline-marker.alt { border-color: var(--earth); color: var(--earth); }
-    .timeline-content h4 {
-      font-size: 1.05rem; font-weight: 500; margin-bottom: 6px; color: var(--fg);
-    }
-    .timeline-content p { color: var(--fg-dim); font-size: 0.9rem; font-weight: 300; }
+  /* ---------- PROCESO ---------- */
+  #proceso{ padding:24vh 0; }
+  #proceso .ghost{ top:6vh; right:6%; font-size:30vh; }
+  .proc-head{ max-width:680px; margin-bottom:14vh; }
+  .proc-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.2rem,4.6vw,4rem); line-height:1.02; margin-top:18px; }
+  .proc-head p{ color:var(--fg-dim); font-weight:300; margin-top:20px; max-width:520px; }
+  .block{ position:relative; margin-bottom:16vh; }
+  .block-h{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
+  .block-h .dot{ width:11px; height:11px; border-radius:50%; background:var(--sage); flex-shrink:0; }
+  .block.earth .block-h .dot{ background:var(--earth); }
+  .block-h h3{ font-family:'Fraunces',serif; font-weight:340; font-size:clamp(1.4rem,2.6vw,2.1rem); line-height:1.1; }
+  .block>p.intro{ color:var(--fg-dim); font-weight:300; max-width:560px; margin:0 0 8px 29px; font-size:1rem; }
+  .steps{ position:relative; margin:38px 0 0 5px; padding-left:50px; }
+  .steps .rail{ position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line); }
+  .steps .rail i{ position:absolute; left:0; top:0; width:1px; background:var(--sage); height:0; }
+  .block.earth .steps .rail i{ background:var(--earth); }
+  .step{ position:relative; margin-bottom:42px; }
+  .step .m{ position:absolute; left:-50px; top:-2px; width:40px; height:40px; border-radius:50%;
+    border:1px solid var(--line); background:#0d0f12; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:.82rem; color:var(--fg-dim); transition:.5s; }
+  .step.lit .m{ border-color:var(--sage); color:var(--sage); transform:scale(1.05); }
+  .block.earth .step.lit .m{ border-color:var(--earth); color:var(--earth); }
+  .step h4{ font-size:1.06rem; font-weight:500; margin-bottom:6px; }
+  .step p{ color:var(--fg-dim); font-weight:300; font-size:.95rem; max-width:540px; }
 
-    /* CONTACT */
-    #contacto {
-      text-align: center; padding: 160px 48px;
-      background: linear-gradient(180deg, var(--bg) 0%, #0d0f0a 100%);
-    }
-    .contact-tag {
-      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--green); margin-bottom: 32px;
-    }
-    .contact-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(3rem, 9vw, 8rem); font-weight: 400;
-      line-height: 1.05; letter-spacing: -3px; margin-bottom: 32px;
-    }
-    .contact-sub {
-      color: var(--fg-dim); font-size: 1.1rem; font-weight: 300;
-      max-width: 480px; margin: 0 auto 48px; line-height: 1.8;
-    }
-    .magnetic-btn {
-      display: inline-block; padding: 18px 48px;
-      border: 1px solid var(--green); color: var(--green);
-      text-decoration: none; font-size: 1rem; letter-spacing: 0.5px;
-      border-radius: 50px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-      position: relative; overflow: hidden;
-    }
-    .magnetic-btn::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-      background: var(--green); transition: left 0.4s cubic-bezier(0.16,1,0.3,1);
-      z-index: -1;
-    }
-    .magnetic-btn:hover { color: var(--bg); }
-    .magnetic-btn:hover::before { left: 0; }
-    .contact-social {
-      margin-top: 40px; display: flex; justify-content: center; gap: 32px;
-    }
-    .social-link {
-      color: var(--fg-dim); text-decoration: none; font-size: 0.85rem;
-      letter-spacing: 1px; text-transform: uppercase;
-      position: relative; transition: color 0.3s;
-    }
-    .social-link::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--fg); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .social-link:hover { color: var(--fg); }
-    .social-link:hover::after { width: 100%; }
+  /* ---------- CONTACTO ---------- */
+  #contacto{ min-height:100vh; display:flex; align-items:center; text-align:center;
+    background:linear-gradient(180deg, transparent, rgba(134,163,122,.06)); }
+  .cta-in{ width:100%; max-width:900px; margin:0 auto; padding:0 40px; }
+  .cta-in .eyebrow{ display:block; margin-bottom:26px; }
+  .ctitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(3rem,11vw,9rem); line-height:.96; letter-spacing:-.02em; }
+  .ctitle em{ font-style:italic; color:var(--sage); }
+  .csub{ color:var(--fg-dim); font-weight:300; max-width:460px; margin:30px auto 46px; }
+  .mbtn{ display:inline-block; padding:19px 50px; border:1px solid var(--sage); border-radius:50px;
+    color:var(--sage); font-size:1rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; }
+  .mbtn span{ position:relative; z-index:1; transition:color .4s; }
+  .mbtn::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
+  .mbtn:hover::before{ transform:translateX(0); }
+  .mbtn:hover span{ color:#0d0f12; }
+  .social{ margin-top:40px; display:flex; gap:30px; justify-content:center; }
+  .social a{ font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg-dim); position:relative; }
+  .social a::after{ content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--fg); transition:width .4s; }
+  .social a:hover{ color:var(--fg); } .social a:hover::after{ width:100%; }
 
-    /* FOOTER */
-    footer {
-      padding: 32px 48px; border-top: 1px solid var(--border);
-    }
-    .footer-inner {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.78rem; color: var(--fg-dim); letter-spacing: 0.5px;
-    }
+  footer{ padding:30px 40px; border-top:1px solid var(--line); position:relative; z-index:1; }
+  .foot-in{ display:flex; justify-content:space-between; font-size:.74rem; color:var(--fg-dim); letter-spacing:.5px; }
 
-    /* MOBILE */
-    @media (max-width: 768px) {
-      body { cursor: auto; }
-      .cursor, .cursor-follower { display: none; }
-      nav { padding: 0 24px; }
-      .nav-inner { height: 64px; }
-      .nav-links {
-        display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(10,10,10,0.98); backdrop-filter: blur(20px);
-        flex-direction: column; align-items: center; justify-content: center;
-        gap: 32px; z-index: 999;
-      }
-      .nav-links.open { display: flex; }
-      .nav-link { font-size: 1.2rem; }
-      .hamburger { display: block; z-index: 1001; }
-      section { padding: 80px 24px; }
-      #hero { padding: 100px 24px 60px; }
-      .hero-title { font-size: clamp(2.2rem, 10vw, 3.5rem); letter-spacing: -1px; }
-      .hero-sub { font-size: 1rem; }
-      .scroll-indicator { display: none; }
-      #sobre-mi .section-grid { grid-template-columns: 1fr; }
-      #sobre-mi .section-num { font-size: 6rem; position: static; }
-      .services-track { padding: 0 24px 30px; margin: 0 -24px; }
-      .service-card { min-width: 280px; }
-      .services-title, #proceso .section-header h2 { font-size: 2.2rem; }
-      .process-intro, .timeline { padding-left: 0; }
-      .timeline::before { left: 16px; }
-      .contact-title { letter-spacing: -1px; }
-      footer { padding: 24px; }
-      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
-    }
-  </style>
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    body{ cursor:auto; }
+    .cur,.cur-ring,#spine,#depth{ display:none; }
+    #bar{ display:block; }
+    .burger{ display:flex; }
+    .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column;
+      align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
+    .nav-links.open{ transform:none; }
+    .nav-links a{ font-size:1.1rem; }
+    .wrap,.serv-head,.serv-panel{ padding-left:24px; padding-right:24px; }
+    .hint{ left:24px; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .about-portrait{ max-width:280px; }
+    /* servicios -> stack vertical */
+    #servicios{ height:auto; }
+    .serv-sticky{ position:static; height:auto; }
+    .serv-head{ padding:80px 24px 0; }
+    .serv-track{ flex-direction:column; transform:none!important; }
+    .serv-panel{ width:auto; height:auto; padding:60px 24px; }
+    .serv-panel .pn{ font-size:18vh; top:30px; }
+    .steps{ padding-left:42px; } .step .m{ left:-42px; width:34px; height:34px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .htitle .w{ transform:none; }
+  }
+</style>
 </head>
 <body>
-<div class="cursor"></div>
-<div class="cursor-follower"></div>
-<div class="grain"></div>
 
+<div id="bg"></div>
+<div id="glow"></div>
+<div class="grain"></div>
+<div class="cur"></div>
+<div class="cur-ring"></div>
+<div id="bar"></div>
+
+<!-- NAV -->
 <nav>
-  <div class="nav-inner">
-    <a href="#" class="logo">RB</a>
-    <button class="hamburger" aria-label="Menu">
-      <span></span><span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="#sobre-mi" class="nav-link">Sobre mí</a></li>
-      <li><a href="#servicios" class="nav-link">Servicios</a></li>
-      <li><a href="#proceso" class="nav-link">Proceso</a></li>
-      <li><a href="#contacto" class="nav-link">Contacto</a></li>
+  <div class="nav-in">
+    <a href="#hero" class="brand">Rodrigo Buono</a>
+    <ul class="nav-links" id="menu">
+      <li><a href="#sobre">Sobre mí</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
+    <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
+<!-- COLUMNA VERTEBRAL -->
+<div id="spine">
+  <svg viewBox="0 0 140 1000" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8fa6c2"/>
+        <stop offset="0.5" stop-color="#c9a679"/>
+        <stop offset="1" stop-color="#86a37a"/>
+      </linearGradient>
+    </defs>
+    <path id="spineTrack" class="track" d="M70 30 C 28 180, 112 320, 70 470 S 28 760, 70 970"/>
+    <path id="spineProg"  class="prog"  d="M70 30 C 28 180, 112 320, 70 470 S 28 760, 70 970"/>
+    <g id="nodes"></g>
+    <circle id="traveler" r="5" cx="70" cy="30"/>
+  </svg>
+</div>
+
+<!-- INDICADOR PROFUNDIDAD -->
+<div id="depth">
+  <div class="pct" id="pct">00</div>
+  <div class="lab" id="dlab">El recorrido</div>
+</div>
+
+<!-- HERO -->
 <section id="hero">
-  <div class="hero-content">
-    <p class="hero-tag reveal">Antropología &middot; Comunidades &middot; Inteligencia Artificial</p>
-    <h1 class="hero-title">
-      <span class="line reveal"><span class="word">Diseño</span> <span class="word">nuevas</span></span>
-      <span class="line reveal"><span class="word">formas</span> <span class="word">de</span> <span class="word accent">vivir,</span></span>
-      <span class="line reveal"><span class="word accent">trabajar</span> <span class="word">y</span></span>
-      <span class="line reveal"><span class="word accent">organizarnos</span></span>
+  <div class="wrap hero-in">
+    <p class="eyebrow reveal">Antropología · Comunidades · Inteligencia Artificial</p>
+    <h1 class="htitle">
+      <span class="ln"><span class="w">Diseño</span> <span class="w">nuevas</span></span>
+      <span class="ln"><span class="w">formas</span> <span class="w">de</span> <span class="w"><em>vivir,</em></span></span>
+      <span class="ln"><span class="w"><em>trabajar</em></span> <span class="w">y</span></span>
+      <span class="ln"><span class="w"><em>organizarnos</em></span></span>
     </h1>
-    <p class="hero-sub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
+    <p class="hsub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
   </div>
-  <div class="scroll-indicator reveal">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="hint"><span>De la ciudad a la comunidad</span><span class="l"></span><span>Bajá</span></div>
 </section>
 
-<section id="sobre-mi">
-  <div class="section-grid">
-    <div class="section-num reveal">01</div>
-    <div class="section-label reveal">Sobre mí</div>
-    <div class="section-content">
-      <h2 class="reveal">Rodrigo Buono</h2>
-      <p class="reveal">Soy antropólogo social especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en transición hacia la vida comunitaria.</p>
-      <p class="reveal">Mi trabajo se sitúa en la intersección entre la organización social, la sustentabilidad y la inteligencia artificial. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos.</p>
-      <p class="reveal">También implemento inteligencia artificial en proyectos, organizaciones y emprendimientos, con un enfoque que no es solo técnico sino antropológico: estudio cómo la IA modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
-      <div class="about-tags reveal">
-        <span>Antropología</span><span>Comunidades</span><span>Ecoaldeas</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
+<!-- SOBRE MÍ -->
+<section id="sobre">
+  <span class="ghost">01</span>
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-side">
+        <p class="eyebrow reveal">Sobre mí</p>
+        <h2 class="reveal">Habito aquello<br>que investigo.</h2>
+        <div class="about-portrait reveal"><span>Rodrigo Buono · Antropólogo social</span></div>
+      </div>
+      <div class="about-body">
+        <p class="reveal">Soy <strong>antropólogo social</strong> especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en su transición hacia la vida comunitaria.</p>
+        <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>, la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos.</p>
+        <p class="reveal">También implemento IA en proyectos y organizaciones, con un enfoque que no es solo técnico sino antropológico: estudio cómo la tecnología modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
+        <div class="tags reveal">
+          <span>Antropología</span><span>Ecoaldeas</span><span>Comunidades</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- SERVICIOS (habitaciones horizontales) -->
 <section id="servicios">
-  <div class="section-header">
-    <span class="section-num reveal">02</span>
-    <span class="section-label reveal">Servicios</span>
-    <h2 class="services-title reveal">En qué puedo ayudarte</h2>
-  </div>
-  <div class="services-track">
-    <div class="service-card reveal">
-      <span class="card-num">01</span>
-      <h3>Proyectos comunitarios y ecoaldeas</h3>
-      <p>Asesoramiento y acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
-      <ul>
-        <li>Transición a vida en comunidad</li>
-        <li>Creación y desarrollo de ecoaldeas</li>
-        <li>Diseño de comunidades intencionales</li>
-        <li>Organización social y gobernanza</li>
-        <li>Diseño de proyectos territoriales</li>
-      </ul>
+  <div class="serv-sticky">
+    <div class="serv-head">
+      <h2 class="ser">En qué puedo ayudarte</h2>
+      <div class="serv-counter"><b id="servNum">01</b> / 04</div>
     </div>
-    <div class="service-card reveal">
-      <span class="card-num">02</span>
-      <h3>Co-living, co-working y espacios compartidos</h3>
-      <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
-      <ul>
-        <li>Diseño de co-livings</li>
-        <li>Espacios de co-working comunitarios</li>
-        <li>Modelos habitacionales alternativos</li>
-        <li>Estrategia y modelo de negocio</li>
-        <li>Organización y convivencia</li>
-      </ul>
-    </div>
-    <div class="service-card reveal">
-      <span class="card-num">03</span>
-      <h3>Implementación de Inteligencia Artificial</h3>
-      <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
-      <ul>
-        <li>Automatización de procesos</li>
-        <li>IA para comunicación y marketing</li>
-        <li>Organización interna con IA</li>
-        <li>Estrategia y toma de decisiones</li>
-        <li>Vínculo humano-tecnología</li>
-      </ul>
-    </div>
-    <div class="service-card reveal">
-      <span class="card-num">04</span>
-      <h3>Acompañamiento de procesos de cambio</h3>
-      <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
-      <ul>
-        <li>Cambio de vida y transición</li>
-        <li>Estrategia personal de transición</li>
-        <li>Proyectos con impacto social</li>
-        <li>Desarrollo estratégico de proyectos</li>
-      </ul>
+    <div class="serv-track" id="servTrack">
+
+      <div class="serv-panel">
+        <span class="pn">01</span>
+        <div class="serv-card">
+          <span class="k">Comunidades</span>
+          <h3 class="ser">Proyectos comunitarios y ecoaldeas</h3>
+          <p>Acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
+          <ul>
+            <li>Transición a vida en comunidad</li>
+            <li>Creación y desarrollo de ecoaldeas</li>
+            <li>Diseño de comunidades intencionales</li>
+            <li>Organización social y gobernanza</li>
+            <li>Diseño de proyectos territoriales</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="serv-panel">
+        <span class="pn">02</span>
+        <div class="serv-card">
+          <span class="k">Espacios</span>
+          <h3 class="ser">Co-living, co-working y espacios compartidos</h3>
+          <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
+          <ul>
+            <li>Diseño de co-livings</li>
+            <li>Espacios de co-working comunitarios</li>
+            <li>Modelos habitacionales alternativos</li>
+            <li>Estrategia y modelo de negocio</li>
+            <li>Organización y convivencia</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="serv-panel">
+        <span class="pn">03</span>
+        <div class="serv-card">
+          <span class="k">Tecnología</span>
+          <h3 class="ser">Implementación de Inteligencia Artificial</h3>
+          <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
+          <ul>
+            <li>Automatización de procesos</li>
+            <li>IA para comunicación y marketing</li>
+            <li>Organización interna con IA</li>
+            <li>Estrategia y toma de decisiones</li>
+            <li>Vínculo humano–tecnología</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="serv-panel">
+        <span class="pn">04</span>
+        <div class="serv-card">
+          <span class="k">Acompañamiento</span>
+          <h3 class="ser">Procesos de cambio de vida</h3>
+          <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
+          <ul>
+            <li>Cambio de vida y transición</li>
+            <li>Estrategia personal de transición</li>
+            <li>Proyectos con impacto social</li>
+            <li>Desarrollo estratégico de proyectos</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- PROCESO -->
 <section id="proceso">
-  <div class="section-header">
-    <span class="section-num reveal">03</span>
-    <span class="section-label reveal">Proceso</span>
-    <h2 class="reveal">Cómo trabajamos juntos</h2>
-  </div>
-
-  <div class="process-block">
-    <div class="process-header reveal">
-      <span class="process-icon">&#9670;</span>
-      <h3>Asesoría sobre comunidades y espacios de co-living</h3>
+  <span class="ghost">03</span>
+  <div class="wrap">
+    <div class="proc-head">
+      <p class="eyebrow reveal">El proceso</p>
+      <h2 class="reveal">Cómo recorremos<br>el camino juntos.</h2>
+      <p class="reveal">Cada acompañamiento es un recorrido por etapas: de la idea inicial a la implementación práctica. Dos caminos posibles, según hacia dónde quieras transicionar.</p>
     </div>
-    <p class="process-intro reveal">Ofrezco sesiones de asesoramiento individual orientadas a personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición.</p>
-    <p class="process-intro reveal">Durante la sesión se comparten herramientas digitales y metodologías que facilitan la búsqueda de comunidades, la evaluación de proyectos y la planificación de una transición progresiva y realista.</p>
 
-    <div class="timeline">
-      <div class="timeline-item reveal">
-        <div class="timeline-marker">01</div>
-        <div class="timeline-content">
-          <h4>Diagnóstico personal y modelo de vida comunitaria</h4>
-          <p>Análisis de motivaciones, expectativas, capacidades, limitaciones, tipo de comunidad buscada y grado de transición posible.</p>
-        </div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-marker">02</div>
-        <div class="timeline-content">
-          <h4>Diseño del plan de transición y estrategia de inserción</h4>
-          <p>Definición de pasos concretos: economía personal, trabajo, vivienda, tiempos de transición, comunidades posibles, estrategia de llegada e integración.</p>
-        </div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-marker">03</div>
-        <div class="timeline-content">
-          <h4>Implementación, red de contactos y planificación</h4>
-          <p>Plan de acción concreto, contactos, comunidades específicas, cronograma de transición y proyección de vida comunitaria sostenible.</p>
-        </div>
+    <!-- BLOQUE A -->
+    <div class="block" data-block>
+      <div class="block-h reveal"><span class="dot"></span><h3 class="ser">Asesoría sobre comunidades y espacios de co-living</h3></div>
+      <p class="intro reveal">Sesiones de asesoramiento individual para personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición. Compartimos herramientas digitales y metodologías para buscar comunidades, evaluar proyectos y planificar una transición progresiva y realista.</p>
+      <div class="steps">
+        <div class="rail"><i data-fill></i></div>
+        <div class="step reveal"><div class="m">01</div><h4>Diagnóstico personal y modelo de vida comunitaria</h4><p>Análisis de motivaciones, expectativas, capacidades, limitaciones, tipo de comunidad buscada y grado de transición posible.</p></div>
+        <div class="step reveal"><div class="m">02</div><h4>Diseño del plan de transición y estrategia de inserción</h4><p>Pasos concretos: economía personal, trabajo, vivienda, tiempos de transición, comunidades posibles, estrategia de llegada e integración.</p></div>
+        <div class="step reveal"><div class="m">03</div><h4>Implementación, red de contactos y planificación</h4><p>Plan de acción concreto, contactos, comunidades específicas, cronograma de transición y proyección de vida comunitaria sostenible.</p></div>
       </div>
     </div>
-  </div>
 
-  <div class="process-block">
-    <div class="process-header reveal">
-      <span class="process-icon">&#9671;</span>
-      <h3>Asesoría sobre implementación de IA en tu vida o empresa</h3>
-    </div>
-    <p class="process-intro reveal">Acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
-
-    <div class="timeline">
-      <div class="timeline-item reveal">
-        <div class="timeline-marker alt">00</div>
-        <div class="timeline-content">
-          <h4>Sesión de diagnóstico</h4>
-          <p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos las áreas donde la IA puede generar mayor impacto.</p>
-        </div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-marker alt">01</div>
-        <div class="timeline-content">
-          <h4>Mapa de oportunidades y selección de herramientas</h4>
-          <p>Diseño de un mapa personalizado de oportunidades de automatización e integración de IA. Selección de las herramientas más adecuadas para tu caso.</p>
-        </div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-marker alt">02</div>
-        <div class="timeline-content">
-          <h4>Implementación práctica y configuración</h4>
-          <p>Puesta en marcha de las herramientas seleccionadas. Armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p>
-        </div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-marker alt">03</div>
-        <div class="timeline-content">
-          <h4>Optimización, autonomía y seguimiento</h4>
-          <p>Revisión de resultados, ajustes de procesos, resolución de dudas y transferencia de conocimiento para que puedas seguir evolucionando de forma autónoma con la IA.</p>
-        </div>
+    <!-- BLOQUE B -->
+    <div class="block earth" data-block>
+      <div class="block-h reveal"><span class="dot"></span><h3 class="ser">Asesoría sobre implementación de IA en tu vida o empresa</h3></div>
+      <p class="intro reveal">Acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
+      <div class="steps">
+        <div class="rail"><i data-fill></i></div>
+        <div class="step reveal"><div class="m">00</div><h4>Sesión de diagnóstico</h4><p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos dónde la IA puede generar mayor impacto.</p></div>
+        <div class="step reveal"><div class="m">01</div><h4>Mapa de oportunidades y selección de herramientas</h4><p>Un mapa personalizado de oportunidades de automatización e integración de IA, con las herramientas más adecuadas para tu caso.</p></div>
+        <div class="step reveal"><div class="m">02</div><h4>Implementación práctica y configuración</h4><p>Puesta en marcha de las herramientas: armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p></div>
+        <div class="step reveal"><div class="m">03</div><h4>Optimización, autonomía y seguimiento</h4><p>Revisión de resultados, ajustes de procesos y transferencia de conocimiento para que sigas evolucionando de forma autónoma con la IA.</p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- CONTACTO -->
 <section id="contacto">
-  <div class="contact-inner">
-    <p class="contact-tag reveal">04 &mdash; Contacto</p>
-    <h2 class="contact-title reveal">Trabajemos<br>juntos</h2>
-    <p class="contact-sub reveal">Si estás pensando en un cambio de vida, en crear una comunidad, en implementar IA en tu proyecto, o simplemente querés conversar.</p>
-    <div class="contact-links reveal">
-      <a href="mailto:hola@rodrigobuono.com" class="magnetic-btn">hola@rodrigobuono.com</a>
-    </div>
-    <div class="contact-social reveal">
-      <a href="https://www.instagram.com/rodrigobuono" target="_blank" rel="noopener" class="social-link">Instagram</a>
-      <a href="https://www.linkedin.com/in/rodrigobuono" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+  <div class="cta-in">
+    <span class="eyebrow reveal">04 — El destino</span>
+    <h2 class="ctitle reveal">Empecemos<br>tu <em>recorrido</em></h2>
+    <p class="csub reveal">Si estás pensando en un cambio de vida, en crear una comunidad, en implementar IA en tu proyecto, o simplemente querés conversar.</p>
+    <a href="mailto:hola@rodrigobuono.com" class="mbtn reveal"><span>hola@rodrigobuono.com</span></a>
+    <div class="social reveal">
+      <a href="https://www.instagram.com/rodrigobuono" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/rodrigobuono" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <span>&copy; 2026 Rodrigo Buono</span>
-    <span>Buenos Aires, Argentina</span>
-  </div>
+  <div class="foot-in"><span>© 2026 Rodrigo Buono</span><span>De la ciudad a la comunidad</span></div>
 </footer>
 
 <script>
-// Custom cursor
-const cursor = document.querySelector('.cursor');
-const follower = document.querySelector('.cursor-follower');
-let mx = 0, my = 0, fx = 0, fy = 0;
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v,a,b)=>v<a?a:v>b?b:v;
+  const lerp = (a,b,t)=>a+(b-a)*t;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-});
+  /* ---- CURSOR ---- */
+  const cur=document.querySelector('.cur'), ring=document.querySelector('.cur-ring');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+  document.querySelectorAll('a,button,.serv-card,.tags span,.about-portrait').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+  });
 
-(function followLoop() {
-  fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
-  follower.style.left = fx + 'px'; follower.style.top = fy + 'px';
-  requestAnimationFrame(followLoop);
-})();
+  /* ---- NAV mobile ---- */
+  const burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  burger.addEventListener('click',()=>{ burger.classList.toggle('on'); menu.classList.toggle('open'); });
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ burger.classList.remove('on'); menu.classList.remove('open'); }));
 
-document.querySelectorAll('a, button, .service-card, .about-tags span, .magnetic-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-});
+  /* ---- REVEAL ---- */
+  const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      observer.unobserve(entry.target);
+  /* ---- HERO palabras ---- */
+  addEventListener('load',()=>{
+    document.querySelectorAll('.htitle .w').forEach((w,i)=>{
+      w.style.transition=`transform .9s cubic-bezier(.16,1,.3,1) ${i*0.08+0.15}s`;
+      requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; });
+    });
+  });
+
+  /* ---- COLORES del recorrido (ciudad -> naturaleza) ---- */
+  const bgStops=[
+    [0.00,[13,15,18]],   // ciudad / noche urbana fría
+    [0.30,[20,19,16]],   // umbral
+    [0.55,[24,20,13]],   // tierra
+    [0.80,[16,20,14]],   // musgo
+    [1.00,[12,19,13]]    // bosque
+  ];
+  const glowStops=[
+    [0.00,[143,166,194]],// acero frío
+    [0.50,[201,166,121]],// tierra
+    [1.00,[134,163,122]] // verde salvia
+  ];
+  function sample(stops,t){
+    for(let i=0;i<stops.length-1;i++){
+      const [a,ca]=stops[i],[b,cb]=stops[i+1];
+      if(t>=a&&t<=b){ const k=(t-a)/(b-a||1); return ca.map((v,j)=>Math.round(lerp(v,cb[j],k))); }
     }
-  });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(el => observer.observe(el));
+    return stops[stops.length-1][1];
+  }
 
-// Hamburger
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('open');
-});
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navLinks.classList.remove('open');
-  });
-});
+  /* ---- COLUMNA VERTEBRAL ---- */
+  const spine=document.getElementById('spine');
+  const prog=document.getElementById('spineProg');
+  const traveler=document.getElementById('traveler');
+  const nodesG=document.getElementById('nodes');
+  const sections=[
+    {id:'hero',label:'Inicio'},
+    {id:'sobre',label:'Sobre mí'},
+    {id:'servicios',label:'Servicios'},
+    {id:'proceso',label:'Proceso'},
+    {id:'contacto',label:'Contacto'}
+  ];
+  let spineLen=0, nodeEls=[];
+  function buildNodes(maxScroll){
+    nodesG.innerHTML=''; nodeEls=[];
+    sections.forEach(s=>{
+      const el=document.getElementById(s.id); if(!el) return;
+      const frac=clamp(el.offsetTop/maxScroll,0,1);
+      const pt=prog.getPointAtLength(spineLen*frac);
+      const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('class','node');
+      g.innerHTML=`<circle cx="${pt.x}" cy="${pt.y}" r="4"></circle><text x="${pt.x+14}" y="${pt.y+3}">${s.label}</text>`;
+      nodesG.appendChild(g);
+      nodeEls.push({g,frac});
+    });
+  }
 
-// Hero word animation
-window.addEventListener('load', () => {
-  document.querySelectorAll('.hero-title .word').forEach((w, i) => {
-    w.style.opacity = '0';
-    w.style.transform = 'translateY(100%)';
-    w.style.transition = `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 0.1 + 0.3}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${i * 0.1 + 0.3}s`;
-    setTimeout(() => { w.style.opacity = '1'; w.style.transform = 'translateY(0)'; }, 50);
-  });
-});
+  /* ---- medidas ---- */
+  let vw=innerWidth, vh=innerHeight, maxScroll=1, horizontal=false;
+  const serv=document.getElementById('servicios');
+  const track=document.getElementById('servTrack');
+  const servNum=document.getElementById('servNum');
+  const heroIn=document.querySelector('.hero-in');
+  const bg=document.getElementById('bg'), glow=document.getElementById('glow');
+  const pct=document.getElementById('pct'), dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
+  const fills=[...document.querySelectorAll('[data-fill]')];
+  const blocks=[...document.querySelectorAll('[data-block]')];
 
-// Magnetic button effect
-document.querySelectorAll('.magnetic-btn').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  function measure(){
+    vw=innerWidth; vh=innerHeight;
+    maxScroll=Math.max(1,document.documentElement.scrollHeight-vh);
+    horizontal = vw>980 && !reduce;
+    if(vw>980){
+      spineLen=prog.getTotalLength();
+      prog.style.strokeDasharray=spineLen;
+      buildNodes(maxScroll);
+    }
+  }
+
+  /* ---- loop ---- */
+  function tick(){
+    const y=scrollY||pageYOffset;
+    const p=clamp(y/maxScroll,0,1);
+    document.documentElement.style.setProperty('--p',p.toFixed(4));
+
+    // fondo
+    const bc=sample(bgStops,p);
+    bg.style.background=`rgb(${bc[0]},${bc[1]},${bc[2]})`;
+    const gc=sample(glowStops,p);
+    glow.style.top=(14+p*64)+'%';
+    glow.style.background=`radial-gradient(circle, rgba(${gc[0]},${gc[1]},${gc[2]},.24) 0%, transparent 55%)`;
+
+    // profundidad
+    pct.textContent=('0'+Math.round(p*100)).slice(-2);
+    bar.style.width=(p*100)+'%';
+
+    // hero parallax
+    if(!reduce){ const hp=clamp(y/vh,0,1); heroIn.style.transform=`translateY(${hp*-60}px)`; heroIn.style.opacity=(1-hp*0.9).toFixed(2); }
+
+    // columna vertebral
+    if(vw>980 && spineLen){
+      prog.style.strokeDashoffset=spineLen*(1-p);
+      const pt=prog.getPointAtLength(spineLen*p);
+      traveler.setAttribute('cx',pt.x); traveler.setAttribute('cy',pt.y);
+      let cur=sections[0].label;
+      nodeEls.forEach((n,i)=>{ const on=p>=n.frac-0.001; n.g.classList.toggle('active',on); if(on) cur=sections[i].label; });
+      dlab.textContent=cur;
+    }
+
+    // servicios horizontal (habitaciones)
+    if(horizontal){
+      const r=serv.getBoundingClientRect();
+      const scrollable=serv.offsetHeight-vh;
+      const sp=clamp((-r.top)/scrollable,0,1);
+      const range=track.scrollWidth-vw;
+      track.style.transform=`translate3d(${-sp*range}px,0,0)`;
+      servNum.textContent=('0'+Math.min(4,Math.floor(sp*4)+1)).slice(-2);
+    }else{
+      track.style.transform='';
+    }
+
+    // proceso: rieles que se llenan + pasos que se encienden
+    blocks.forEach((b,bi)=>{
+      const r=b.getBoundingClientRect();
+      const fillEl=fills[bi]; if(!fillEl) return;
+      const span=r.height;
+      const passed=clamp((vh*0.62 - r.top)/span,0,1);
+      fillEl.style.height=(passed*100)+'%';
+      const steps=b.querySelectorAll('.step');
+      steps.forEach((st,si)=>{
+        const sr=st.getBoundingClientRect();
+        st.classList.toggle('lit', sr.top < vh*0.62);
+      });
+    });
+
+    // cursor ring (suave)
+    rx=lerp(rx,mx,0.18); ry=lerp(ry,my,0.18);
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ---- botón magnético ---- */
+  document.querySelectorAll('.mbtn').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2, yy=e.clientY-r.top-r.height/2; btn.style.transform=`translate(${x*0.25}px,${yy*0.35}px)`; });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='');
   });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = 'translate(0, 0)';
-  });
-});
+
+  addEventListener('resize',measure);
+  measure();
+  requestAnimationFrame(tick);
+})();
 </script>
-
 </body>
 </html>
