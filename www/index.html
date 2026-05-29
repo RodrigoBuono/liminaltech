@@ -10,57 +10,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
   :root{
-    --fg:#ece7df;
-    --fg-dim:#9a948a;
-    --sage:#86a37a;
-    --earth:#c9a679;
+    --fg:#ece7df; --fg-dim:#9a948a;
+    --sage:#86a37a; --earth:#c9a679;
     --line:rgba(236,231,223,0.12);
-    --p:0;            /* progreso global de scroll 0..1, lo setea JS */
+    --p:0;
   }
-
-  html{ -webkit-font-smoothing:antialiased; }
-  body{
-    font-family:'Inter',sans-serif;
-    color:var(--fg);
-    background:#0d0f12;
-    line-height:1.65;
-    overflow-x:hidden;
-    cursor:none;
-  }
+  html{ scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+  body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0d0f12; line-height:1.65; overflow-x:hidden; cursor:none; }
   ::selection{ background:var(--sage); color:#0d0f12; }
   a{ color:inherit; text-decoration:none; }
 
-  /* ---------- CAPAS DE FONDO ---------- */
-  #bg{ position:fixed; inset:0; z-index:-3; background:#0d0f12; transition:background .2s linear; }
-  #glow{
-    position:fixed; left:50%; top:20%; z-index:-2;
-    width:120vmax; height:120vmax; transform:translate(-50%,-50%);
-    border-radius:50%; filter:blur(40px); opacity:.5;
-    background:radial-gradient(circle, rgba(125,155,118,.25) 0%, transparent 55%);
-    pointer-events:none;
-  }
-  .grain{
-    position:fixed; inset:-50%; z-index:-1; width:200%; height:200%;
+  /* ---------- FONDO VIVO ---------- */
+  #bg{ position:fixed; inset:0; z-index:-5; background:#0d0f12; }
+  .blob{ position:fixed; z-index:-4; border-radius:50%; filter:blur(70px); opacity:.42; pointer-events:none; will-change:transform; }
+  #b1{ width:55vmax; height:55vmax; background:radial-gradient(circle,rgba(134,163,122,.55),transparent 60%); }
+  #b2{ width:48vmax; height:48vmax; background:radial-gradient(circle,rgba(201,166,121,.45),transparent 60%); }
+  #b3{ width:40vmax; height:40vmax; background:radial-gradient(circle,rgba(120,140,170,.4),transparent 60%); }
+  .grain{ position:fixed; inset:-50%; z-index:-1; width:200%; height:200%;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events:none; opacity:.6;
-  }
+    pointer-events:none; opacity:.55; }
 
   /* ---------- CURSOR ---------- */
-  .cur{ position:fixed; top:0; left:0; width:7px; height:7px; border-radius:50%;
-    background:var(--sage); z-index:10000; pointer-events:none;
-    transform:translate(-50%,-50%); transition:width .3s,height .3s,background .3s; mix-blend-mode:difference; }
-  .cur.big{ width:54px; height:54px; background:var(--fg); }
-  .cur-ring{ position:fixed; top:0; left:0; width:34px; height:34px; border:1px solid rgba(134,163,122,.5);
+  .cur{ position:fixed; top:0; left:0; width:7px; height:7px; border-radius:50%; background:var(--sage);
+    z-index:10000; pointer-events:none; transform:translate(-50%,-50%); transition:width .3s,height .3s,background .3s; mix-blend-mode:difference; }
+  .cur.big{ width:56px; height:56px; background:var(--fg); }
+  .cur-ring{ position:fixed; top:0; left:0; width:36px; height:36px; border:1px solid rgba(134,163,122,.5);
     border-radius:50%; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); }
 
   /* ---------- NAV ---------- */
   nav{ position:fixed; top:0; left:0; right:0; z-index:900; mix-blend-mode:difference; }
-  .nav-in{ display:flex; align-items:center; justify-content:space-between; padding:26px 40px; }
-  .brand{ font-family:'Fraunces',serif; font-size:1.15rem; letter-spacing:.5px; }
-  .nav-links{ display:flex; gap:30px; list-style:none; }
-  .nav-links a{ font-size:.74rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg); opacity:.75; position:relative; }
+  .nav-in{ display:flex; align-items:center; justify-content:space-between; padding:24px 40px; }
+  .brand{ font-family:'Fraunces',serif; font-size:1.12rem; letter-spacing:.5px; }
+  .nav-links{ display:flex; gap:28px; list-style:none; }
+  .nav-links a{ font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg); opacity:.72; position:relative; }
   .nav-links a::after{ content:''; position:absolute; left:0; bottom:-5px; width:0; height:1px; background:var(--fg); transition:width .4s cubic-bezier(.16,1,.3,1); }
   .nav-links a:hover{ opacity:1; } .nav-links a:hover::after{ width:100%; }
   .burger{ display:none; flex-direction:column; gap:6px; background:none; border:0; cursor:none; }
@@ -69,97 +52,82 @@
   .burger.on span:nth-child(2){ opacity:0; }
   .burger.on span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
 
-  /* ---------- COLUMNA VERTEBRAL (spine) ---------- */
-  #spine{ position:fixed; left:0; top:0; height:100vh; width:140px; z-index:800; pointer-events:none; }
-  #spine svg{ width:100%; height:100%; display:block; }
-  #spine .track{ fill:none; stroke:var(--line); stroke-width:1.4; }
-  #spine .prog{ fill:none; stroke:url(#sg); stroke-width:2.2; stroke-linecap:round; }
-  .node{ pointer-events:auto; }
-  .node circle{ fill:#0d0f12; stroke:var(--line); stroke-width:1.4; transition:stroke .5s, r .5s; }
-  .node text{ font-family:'Inter'; font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
-    fill:var(--fg-dim); opacity:0; transform:translateX(-6px); transition:.5s; }
-  .node.active circle{ stroke:var(--sage); }
-  .node.active text{ opacity:1; transform:translateX(0); fill:var(--fg); }
-  #traveler{ fill:var(--sage); filter:drop-shadow(0 0 6px rgba(134,163,122,.9)); }
+  /* ---------- NAVEGADOR DE ESCENAS (derecha) ---------- */
+  #scenenav{ position:fixed; right:34px; top:50%; transform:translateY(-50%); z-index:850; display:flex; flex-direction:column; gap:18px; mix-blend-mode:difference; }
+  #scenenav a{ display:flex; align-items:center; gap:12px; justify-content:flex-end; }
+  #scenenav .dot{ width:7px; height:7px; border-radius:50%; background:var(--fg-dim); transition:.4s; }
+  #scenenav .txt{ font-size:.62rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg-dim); opacity:0; transform:translateX(8px); transition:.4s; }
+  #scenenav a:hover .txt{ opacity:1; transform:none; }
+  #scenenav a.active .dot{ background:var(--sage); transform:scale(1.6); }
+  #scenenav a.active .txt{ opacity:1; transform:none; color:var(--fg); }
 
-  /* indicador de profundidad a la derecha */
-  #depth{ position:fixed; right:34px; bottom:34px; z-index:800; text-align:right; mix-blend-mode:difference; }
-  #depth .pct{ font-family:'Fraunces',serif; font-size:2.4rem; line-height:1; }
-  #depth .lab{ font-size:.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); margin-top:4px; }
+  /* ---------- PROFUNDIDAD / PROGRESO ---------- */
+  #depth{ position:fixed; left:34px; bottom:30px; z-index:850; mix-blend-mode:difference; }
+  #depth .pct{ font-family:'Fraunces',serif; font-size:2.2rem; line-height:1; }
+  #depth .lab{ font-size:.6rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); margin-top:3px; }
+  #bar{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--sage); z-index:950; }
 
-  /* barra de progreso (mobile) */
-  #bar{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--sage); z-index:950; display:none; }
-
-  /* ---------- TIPOGRAFÍA BASE ---------- */
+  /* ---------- BASE ---------- */
+  section{ position:relative; z-index:1; perspective:1500px; }
+  .wrap{ max-width:1140px; margin:0 auto; padding:0 60px; }
   .eyebrow{ font-size:.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--sage); }
   .ser{ font-family:'Fraunces',serif; font-weight:340; }
-  .reveal{ opacity:0; transform:translateY(38px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+  .reveal{ opacity:0; transform:translateY(36px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
   .reveal.in{ opacity:1; transform:none; }
-  .ghost{ position:absolute; font-family:'Fraunces',serif; font-weight:300; color:rgba(236,231,223,.035);
-    line-height:.8; pointer-events:none; user-select:none; z-index:0; }
-
-  section{ position:relative; z-index:1; }
-  .wrap{ max-width:1120px; margin:0 auto; padding:0 40px 0 160px; }
+  .stage{ will-change:transform,opacity; }
+  .ghost{ position:absolute; font-family:'Fraunces',serif; font-weight:300; color:rgba(236,231,223,.04);
+    line-height:.8; pointer-events:none; user-select:none; z-index:0; will-change:transform; }
 
   /* ---------- HERO ---------- */
   #hero{ min-height:100vh; display:flex; align-items:center; }
-  .hero-in{ will-change:transform; }
-  #hero .eyebrow{ margin-bottom:30px; }
-  .htitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.6rem,8.2vw,7.4rem);
-    line-height:1.02; letter-spacing:-.02em; }
+  #hero .eyebrow{ margin-bottom:28px; }
+  .htitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.6rem,8.4vw,7.6rem); line-height:1.0; letter-spacing:-.02em; }
   .htitle .ln{ display:block; overflow:hidden; }
   .htitle .w{ display:inline-block; transform:translateY(110%); }
   .htitle em{ font-style:italic; color:var(--sage); }
-  .hsub{ margin-top:34px; max-width:440px; color:var(--fg-dim); font-weight:300; font-size:1.05rem; }
-  .hint{ position:absolute; bottom:38px; left:160px; display:flex; align-items:center; gap:14px;
-    font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
-  .hint .l{ width:60px; height:1px; background:var(--line); position:relative; overflow:hidden; }
+  .hsub{ margin-top:32px; max-width:440px; color:var(--fg-dim); font-weight:300; font-size:1.05rem; }
+  .hint{ position:absolute; bottom:36px; left:60px; display:flex; align-items:center; gap:14px; font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  .hint .l{ width:54px; height:1px; background:var(--line); position:relative; overflow:hidden; }
   .hint .l::after{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-100%); animation:slide 2.4s infinite; }
   @keyframes slide{ 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
 
   /* ---------- SOBRE MÍ ---------- */
-  #sobre{ padding:30vh 0; }
-  #sobre .ghost{ top:8vh; left:120px; font-size:34vh; }
-  .about-grid{ display:grid; grid-template-columns:1fr 1.3fr; gap:60px; align-items:start; }
-  .about-side .eyebrow{ margin-bottom:18px; }
-  .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,3.4vw,3.1rem); line-height:1.05; }
-  .about-portrait{ margin-top:34px; aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(134,163,122,.10), rgba(201,166,121,.06)); position:relative; overflow:hidden; will-change:transform; }
-  .about-portrait span{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:20px;
-    font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  #sobre{ padding:32vh 0; }
+  #sobre .ghost{ top:6vh; left:30px; font-size:36vh; }
+  .about-grid{ display:grid; grid-template-columns:1fr 1.25fr; gap:64px; align-items:start; }
+  .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,3.5vw,3.2rem); line-height:1.05; margin-top:16px; }
+  .about-portrait{ margin-top:32px; aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px;
+    background:linear-gradient(160deg,rgba(134,163,122,.12),rgba(201,166,121,.06)); position:relative; overflow:hidden; will-change:transform; }
+  .about-portrait span{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:20px; font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
   .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:20px; font-size:1.06rem; }
   .about-body p strong{ color:var(--fg); font-weight:400; }
-  .tags{ display:flex; flex-wrap:wrap; gap:9px; margin-top:30px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:9px; margin-top:28px; }
   .tags span{ padding:7px 16px; border:1px solid var(--line); border-radius:40px; font-size:.76rem; color:var(--fg-dim); transition:.3s; }
   .tags span:hover{ border-color:var(--sage); color:var(--sage); }
 
-  /* ---------- SERVICIOS (scroll horizontal / habitaciones) ---------- */
-  #servicios{ height:480vh; }
-  .serv-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
-  .serv-head{ display:flex; justify-content:space-between; align-items:flex-end; padding:30px 40px 0 160px; }
+  /* ---------- SERVICIOS (coverflow horizontal) ---------- */
+  #servicios{ height:480vh; perspective:none; }
+  .serv-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; perspective:1700px; }
+  .serv-head{ display:flex; justify-content:space-between; align-items:flex-end; padding:30px 60px 0; z-index:2; }
   .serv-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3vw,2.8rem); }
   .serv-counter{ font-family:'Fraunces',serif; font-size:1.4rem; color:var(--fg-dim); }
   .serv-counter b{ color:var(--sage); font-weight:400; }
-  .serv-track{ flex:1; display:flex; align-items:center; will-change:transform; }
-  .serv-panel{ width:100vw; height:100%; flex-shrink:0; display:flex; align-items:center;
-    padding:0 40px 0 160px; position:relative; }
-  .serv-panel .pn{ position:absolute; top:14%; right:6%; font-family:'Fraunces',serif; font-weight:300;
-    font-size:24vh; color:rgba(236,231,223,.04); line-height:1; }
-  .serv-card{ max-width:560px; }
+  .serv-track{ flex:1; display:flex; align-items:center; transform-style:preserve-3d; will-change:transform; }
+  .serv-panel{ width:100vw; height:100%; flex-shrink:0; display:flex; align-items:center; padding:0 60px; position:relative; transform-style:preserve-3d; }
+  .serv-panel .pn{ position:absolute; top:12%; right:5%; font-family:'Fraunces',serif; font-weight:300; font-size:26vh; color:rgba(236,231,223,.04); line-height:1; }
+  .serv-card{ max-width:560px; will-change:transform; }
   .serv-card .k{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
-  .serv-card h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,4.4vw,3.6rem);
-    line-height:1.04; margin:18px 0 22px; }
+  .serv-card h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,4.4vw,3.6rem); line-height:1.04; margin:18px 0 22px; }
   .serv-card p{ color:var(--fg-dim); font-weight:300; max-width:440px; }
   .serv-card ul{ list-style:none; margin-top:26px; border-top:1px solid var(--line); }
-  .serv-card li{ padding:13px 0 13px 24px; border-bottom:1px solid var(--line); position:relative;
-    color:var(--fg); font-weight:300; font-size:.96rem; }
+  .serv-card li{ padding:13px 0 13px 24px; border-bottom:1px solid var(--line); position:relative; color:var(--fg); font-weight:300; font-size:.96rem; }
   .serv-card li::before{ content:''; position:absolute; left:0; top:21px; width:9px; height:1px; background:var(--sage); }
 
   /* ---------- PROCESO ---------- */
   #proceso{ padding:24vh 0; }
-  #proceso .ghost{ top:6vh; right:6%; font-size:30vh; }
+  #proceso .ghost{ top:4vh; right:4%; font-size:32vh; }
   .proc-head{ max-width:680px; margin-bottom:14vh; }
-  .proc-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.2rem,4.6vw,4rem); line-height:1.02; margin-top:18px; }
+  .proc-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.2rem,4.6vw,4rem); line-height:1.02; margin-top:16px; }
   .proc-head p{ color:var(--fg-dim); font-weight:300; margin-top:20px; max-width:520px; }
   .block{ position:relative; margin-bottom:16vh; }
   .block-h{ display:flex; align-items:baseline; gap:18px; margin-bottom:14px; }
@@ -171,25 +139,49 @@
   .steps .rail{ position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line); }
   .steps .rail i{ position:absolute; left:0; top:0; width:1px; background:var(--sage); height:0; }
   .block.earth .steps .rail i{ background:var(--earth); }
-  .step{ position:relative; margin-bottom:42px; }
-  .step .m{ position:absolute; left:-50px; top:-2px; width:40px; height:40px; border-radius:50%;
-    border:1px solid var(--line); background:#0d0f12; display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces',serif; font-size:.82rem; color:var(--fg-dim); transition:.5s; }
-  .step.lit .m{ border-color:var(--sage); color:var(--sage); transform:scale(1.05); }
+  .step{ position:relative; margin-bottom:42px; transition:transform .5s cubic-bezier(.16,1,.3,1), opacity .5s; opacity:.45; }
+  .step.lit{ opacity:1; }
+  .step .m{ position:absolute; left:-50px; top:-2px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:#0d0f12; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:.82rem; color:var(--fg-dim); transition:.5s; }
+  .step.lit .m{ border-color:var(--sage); color:var(--sage); transform:scale(1.08); }
   .block.earth .step.lit .m{ border-color:var(--earth); color:var(--earth); }
   .step h4{ font-size:1.06rem; font-weight:500; margin-bottom:6px; }
   .step p{ color:var(--fg-dim); font-weight:300; font-size:.95rem; max-width:540px; }
 
+  /* ---------- PRECIOS ---------- */
+  #precios{ padding:22vh 0; }
+  #precios .ghost{ top:4vh; left:30px; font-size:30vh; }
+  .pr-head{ text-align:center; max-width:640px; margin:0 auto 9vh; }
+  .pr-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.2rem,4.6vw,4rem); line-height:1.02; margin-top:16px; }
+  .pr-head p{ color:var(--fg-dim); font-weight:300; margin-top:18px; }
+  .pr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; align-items:stretch; }
+  .pcard{ border:1px solid var(--line); border-radius:6px; padding:38px 32px; display:flex; flex-direction:column;
+    background:rgba(236,231,223,.012); position:relative; transition:border-color .4s, background .4s; transform-style:preserve-3d; will-change:transform; }
+  .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.05); }
+  .pcard.feat{ border-color:rgba(134,163,122,.45); }
+  .pcard .badge{ position:absolute; top:-11px; left:32px; background:var(--sage); color:#0d0f12; font-size:.6rem; letter-spacing:1.5px; text-transform:uppercase; padding:5px 12px; border-radius:30px; }
+  .pcard .k{ font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
+  .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.5rem; line-height:1.15; margin:14px 0 10px; }
+  .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.92rem; min-height:64px; }
+  .pcard .price{ font-family:'Fraunces',serif; font-size:2.6rem; margin:18px 0 4px; }
+  .pcard .price small{ font-family:'Inter'; font-size:.8rem; color:var(--fg-dim); letter-spacing:1px; }
+  .pcard ul{ list-style:none; margin:20px 0 26px; }
+  .pcard li{ padding:9px 0 9px 22px; position:relative; font-size:.9rem; font-weight:300; color:var(--fg); border-bottom:1px solid var(--line); }
+  .pcard li::before{ content:''; position:absolute; left:0; top:17px; width:8px; height:1px; background:var(--sage); }
+  .pcard .pay{ margin-top:auto; display:block; text-align:center; padding:15px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:.86rem; letter-spacing:.5px; position:relative; overflow:hidden; }
+  .pcard .pay span{ position:relative; z-index:1; transition:color .4s; }
+  .pcard .pay::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
+  .pcard .pay:hover::before{ transform:translateX(0); }
+  .pcard .pay:hover span{ color:#0d0f12; }
+  .pr-note{ text-align:center; margin-top:34px; font-size:.78rem; color:var(--fg-dim); }
+
   /* ---------- CONTACTO ---------- */
-  #contacto{ min-height:100vh; display:flex; align-items:center; text-align:center;
-    background:linear-gradient(180deg, transparent, rgba(134,163,122,.06)); }
+  #contacto{ min-height:100vh; display:flex; align-items:center; text-align:center; }
   .cta-in{ width:100%; max-width:900px; margin:0 auto; padding:0 40px; }
   .cta-in .eyebrow{ display:block; margin-bottom:26px; }
   .ctitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(3rem,11vw,9rem); line-height:.96; letter-spacing:-.02em; }
   .ctitle em{ font-style:italic; color:var(--sage); }
   .csub{ color:var(--fg-dim); font-weight:300; max-width:460px; margin:30px auto 46px; }
-  .mbtn{ display:inline-block; padding:19px 50px; border:1px solid var(--sage); border-radius:50px;
-    color:var(--sage); font-size:1rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; }
+  .mbtn{ display:inline-block; padding:19px 50px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:1rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; }
   .mbtn span{ position:relative; z-index:1; transition:color .4s; }
   .mbtn::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
   .mbtn:hover::before{ transform:translateX(0); }
@@ -198,49 +190,44 @@
   .social a{ font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg-dim); position:relative; }
   .social a::after{ content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--fg); transition:width .4s; }
   .social a:hover{ color:var(--fg); } .social a:hover::after{ width:100%; }
-
   footer{ padding:30px 40px; border-top:1px solid var(--line); position:relative; z-index:1; }
   .foot-in{ display:flex; justify-content:space-between; font-size:.74rem; color:var(--fg-dim); letter-spacing:.5px; }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:980px){
     body{ cursor:auto; }
-    .cur,.cur-ring,#spine,#depth{ display:none; }
-    #bar{ display:block; }
+    .cur,.cur-ring,#scenenav,#depth{ display:none; }
     .burger{ display:flex; }
-    .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column;
-      align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
-    .nav-links.open{ transform:none; }
-    .nav-links a{ font-size:1.1rem; }
+    .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column; align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
+    .nav-links.open{ transform:none; } .nav-links a{ font-size:1.1rem; }
     .wrap,.serv-head,.serv-panel{ padding-left:24px; padding-right:24px; }
     .hint{ left:24px; }
-    .about-grid{ grid-template-columns:1fr; gap:36px; }
-    .about-portrait{ max-width:280px; }
-    /* servicios -> stack vertical */
-    #servicios{ height:auto; }
-    .serv-sticky{ position:static; height:auto; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; } .about-portrait{ max-width:280px; }
+    .stage{ transform:none!important; }
+    #servicios{ height:auto; } .serv-sticky{ position:static; height:auto; perspective:none; }
     .serv-head{ padding:80px 24px 0; }
     .serv-track{ flex-direction:column; transform:none!important; }
-    .serv-panel{ width:auto; height:auto; padding:60px 24px; }
-    .serv-panel .pn{ font-size:18vh; top:30px; }
+    .serv-panel{ width:auto; height:auto; padding:60px 24px; } .serv-panel .pn{ font-size:18vh; top:30px; }
+    .serv-card{ transform:none!important; }
+    .pr-grid{ grid-template-columns:1fr; }
     .steps{ padding-left:42px; } .step .m{ left:-42px; width:34px; height:34px; }
   }
   @media (prefers-reduced-motion: reduce){
-    .reveal{ opacity:1; transform:none; transition:none; }
-    .htitle .w{ transform:none; }
+    .reveal{ opacity:1; transform:none; } .htitle .w{ transform:none; } .stage{ transform:none!important; }
   }
 </style>
 </head>
 <body>
 
 <div id="bg"></div>
-<div id="glow"></div>
+<div class="blob" id="b1"></div>
+<div class="blob" id="b2"></div>
+<div class="blob" id="b3"></div>
 <div class="grain"></div>
 <div class="cur"></div>
 <div class="cur-ring"></div>
 <div id="bar"></div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-in">
     <a href="#hero" class="brand">Rodrigo Buono</a>
@@ -248,38 +235,28 @@
       <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#precios">Precios</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
     <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
-<!-- COLUMNA VERTEBRAL -->
-<div id="spine">
-  <svg viewBox="0 0 140 1000" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#8fa6c2"/>
-        <stop offset="0.5" stop-color="#c9a679"/>
-        <stop offset="1" stop-color="#86a37a"/>
-      </linearGradient>
-    </defs>
-    <path id="spineTrack" class="track" d="M70 30 C 28 180, 112 320, 70 470 S 28 760, 70 970"/>
-    <path id="spineProg"  class="prog"  d="M70 30 C 28 180, 112 320, 70 470 S 28 760, 70 970"/>
-    <g id="nodes"></g>
-    <circle id="traveler" r="5" cx="70" cy="30"/>
-  </svg>
+<!-- NAVEGADOR DE ESCENAS -->
+<div id="scenenav">
+  <a href="#hero" data-sn="hero"><span class="txt">Inicio</span><span class="dot"></span></a>
+  <a href="#sobre" data-sn="sobre"><span class="txt">Sobre mí</span><span class="dot"></span></a>
+  <a href="#servicios" data-sn="servicios"><span class="txt">Servicios</span><span class="dot"></span></a>
+  <a href="#proceso" data-sn="proceso"><span class="txt">Proceso</span><span class="dot"></span></a>
+  <a href="#precios" data-sn="precios"><span class="txt">Precios</span><span class="dot"></span></a>
+  <a href="#contacto" data-sn="contacto"><span class="txt">Contacto</span><span class="dot"></span></a>
 </div>
 
-<!-- INDICADOR PROFUNDIDAD -->
-<div id="depth">
-  <div class="pct" id="pct">00</div>
-  <div class="lab" id="dlab">El recorrido</div>
-</div>
+<div id="depth"><div class="pct" id="pct">00</div><div class="lab" id="dlab">El recorrido</div></div>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="wrap hero-in">
+  <div class="wrap stage" data-stage data-speed="1.2">
     <p class="eyebrow reveal">Antropología · Comunidades · Inteligencia Artificial</p>
     <h1 class="htitle">
       <span class="ln"><span class="w">Diseño</span> <span class="w">nuevas</span></span>
@@ -294,15 +271,15 @@
 
 <!-- SOBRE MÍ -->
 <section id="sobre">
-  <span class="ghost">01</span>
+  <span class="ghost" data-mouse="0.03">01</span>
   <div class="wrap">
     <div class="about-grid">
-      <div class="about-side">
+      <div class="about-side stage" data-stage data-speed="0.7">
         <p class="eyebrow reveal">Sobre mí</p>
         <h2 class="reveal">Habito aquello<br>que investigo.</h2>
-        <div class="about-portrait reveal"><span>Rodrigo Buono · Antropólogo social</span></div>
+        <div class="about-portrait reveal" id="portrait"><span>Rodrigo Buono · Antropólogo social</span></div>
       </div>
-      <div class="about-body">
+      <div class="about-body stage" data-stage data-speed="1.25">
         <p class="reveal">Soy <strong>antropólogo social</strong> especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en su transición hacia la vida comunitaria.</p>
         <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>, la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la creación y desarrollo de ecoaldeas, comunidades intencionales, co-livings, co-workings y espacios compartidos.</p>
         <p class="reveal">También implemento IA en proyectos y organizaciones, con un enfoque que no es solo técnico sino antropológico: estudio cómo la tecnología modifica la organización social, el trabajo, las comunidades y la vida cotidiana.</p>
@@ -314,7 +291,7 @@
   </div>
 </section>
 
-<!-- SERVICIOS (habitaciones horizontales) -->
+<!-- SERVICIOS -->
 <section id="servicios">
   <div class="serv-sticky">
     <div class="serv-head">
@@ -322,86 +299,41 @@
       <div class="serv-counter"><b id="servNum">01</b> / 04</div>
     </div>
     <div class="serv-track" id="servTrack">
-
-      <div class="serv-panel">
-        <span class="pn">01</span>
-        <div class="serv-card">
-          <span class="k">Comunidades</span>
-          <h3 class="ser">Proyectos comunitarios y ecoaldeas</h3>
-          <p>Acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
-          <ul>
-            <li>Transición a vida en comunidad</li>
-            <li>Creación y desarrollo de ecoaldeas</li>
-            <li>Diseño de comunidades intencionales</li>
-            <li>Organización social y gobernanza</li>
-            <li>Diseño de proyectos territoriales</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="serv-panel">
-        <span class="pn">02</span>
-        <div class="serv-card">
-          <span class="k">Espacios</span>
-          <h3 class="ser">Co-living, co-working y espacios compartidos</h3>
-          <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
-          <ul>
-            <li>Diseño de co-livings</li>
-            <li>Espacios de co-working comunitarios</li>
-            <li>Modelos habitacionales alternativos</li>
-            <li>Estrategia y modelo de negocio</li>
-            <li>Organización y convivencia</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="serv-panel">
-        <span class="pn">03</span>
-        <div class="serv-card">
-          <span class="k">Tecnología</span>
-          <h3 class="ser">Implementación de Inteligencia Artificial</h3>
-          <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
-          <ul>
-            <li>Automatización de procesos</li>
-            <li>IA para comunicación y marketing</li>
-            <li>Organización interna con IA</li>
-            <li>Estrategia y toma de decisiones</li>
-            <li>Vínculo humano–tecnología</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="serv-panel">
-        <span class="pn">04</span>
-        <div class="serv-card">
-          <span class="k">Acompañamiento</span>
-          <h3 class="ser">Procesos de cambio de vida</h3>
-          <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
-          <ul>
-            <li>Cambio de vida y transición</li>
-            <li>Estrategia personal de transición</li>
-            <li>Proyectos con impacto social</li>
-            <li>Desarrollo estratégico de proyectos</li>
-          </ul>
-        </div>
-      </div>
-
+      <div class="serv-panel"><span class="pn">01</span><div class="serv-card">
+        <span class="k">Comunidades</span><h3 class="ser">Proyectos comunitarios y ecoaldeas</h3>
+        <p>Acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas o comunidades intencionales.</p>
+        <ul><li>Transición a vida en comunidad</li><li>Creación y desarrollo de ecoaldeas</li><li>Diseño de comunidades intencionales</li><li>Organización social y gobernanza</li><li>Diseño de proyectos territoriales</li></ul>
+      </div></div>
+      <div class="serv-panel"><span class="pn">02</span><div class="serv-card">
+        <span class="k">Espacios</span><h3 class="ser">Co-living, co-working y espacios compartidos</h3>
+        <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la implementación operativa.</p>
+        <ul><li>Diseño de co-livings</li><li>Espacios de co-working comunitarios</li><li>Modelos habitacionales alternativos</li><li>Estrategia y modelo de negocio</li><li>Organización y convivencia</li></ul>
+      </div></div>
+      <div class="serv-panel"><span class="pn">03</span><div class="serv-card">
+        <span class="k">Tecnología</span><h3 class="ser">Implementación de Inteligencia Artificial</h3>
+        <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
+        <ul><li>Automatización de procesos</li><li>IA para comunicación y marketing</li><li>Organización interna con IA</li><li>Estrategia y toma de decisiones</li><li>Vínculo humano–tecnología</li></ul>
+      </div></div>
+      <div class="serv-panel"><span class="pn">04</span><div class="serv-card">
+        <span class="k">Acompañamiento</span><h3 class="ser">Procesos de cambio de vida</h3>
+        <p>Acompañamiento personal y grupal en procesos de transición de vida urbana o individual hacia modelos más comunitarios, sustentables o colaborativos.</p>
+        <ul><li>Cambio de vida y transición</li><li>Estrategia personal de transición</li><li>Proyectos con impacto social</li><li>Desarrollo estratégico de proyectos</li></ul>
+      </div></div>
     </div>
   </div>
 </section>
 
 <!-- PROCESO -->
 <section id="proceso">
-  <span class="ghost">03</span>
+  <span class="ghost" data-mouse="0.03">03</span>
   <div class="wrap">
-    <div class="proc-head">
+    <div class="proc-head stage" data-stage data-speed="1">
       <p class="eyebrow reveal">El proceso</p>
       <h2 class="reveal">Cómo recorremos<br>el camino juntos.</h2>
       <p class="reveal">Cada acompañamiento es un recorrido por etapas: de la idea inicial a la implementación práctica. Dos caminos posibles, según hacia dónde quieras transicionar.</p>
     </div>
 
-    <!-- BLOQUE A -->
-    <div class="block" data-block>
+    <div class="block stage" data-block data-stage data-speed="0.8">
       <div class="block-h reveal"><span class="dot"></span><h3 class="ser">Asesoría sobre comunidades y espacios de co-living</h3></div>
       <p class="intro reveal">Sesiones de asesoramiento individual para personas interesadas en transicionar hacia una vida en comunidad o ecoaldea. Un espacio de conversación profunda donde analizamos motivaciones, expectativas, posibilidades reales y estrategias de transición. Compartimos herramientas digitales y metodologías para buscar comunidades, evaluar proyectos y planificar una transición progresiva y realista.</p>
       <div class="steps">
@@ -412,25 +344,85 @@
       </div>
     </div>
 
-    <!-- BLOQUE B -->
-    <div class="block earth" data-block>
+    <div class="block earth stage" data-block data-stage data-speed="1.15">
       <div class="block-h reveal"><span class="dot"></span><h3 class="ser">Asesoría sobre implementación de IA en tu vida o empresa</h3></div>
       <p class="intro reveal">Acompañamiento para personas, emprendedores y organizaciones que quieren integrar la inteligencia artificial de forma estratégica. No se trata solo de herramientas: trabajamos el enfoque, la estrategia y la implementación práctica adaptada a tu contexto real.</p>
       <div class="steps">
         <div class="rail"><i data-fill></i></div>
         <div class="step reveal"><div class="m">00</div><h4>Sesión de diagnóstico</h4><p>Conversación exploratoria para entender tu situación actual, necesidades, procesos, herramientas que usás y objetivos. Identificamos dónde la IA puede generar mayor impacto.</p></div>
         <div class="step reveal"><div class="m">01</div><h4>Mapa de oportunidades y selección de herramientas</h4><p>Un mapa personalizado de oportunidades de automatización e integración de IA, con las herramientas más adecuadas para tu caso.</p></div>
-        <div class="step reveal"><div class="m">02</div><h4>Implementación práctica y configuración</h4><p>Puesta en marcha de las herramientas: armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p></div>
+        <div class="step reveal"><div class="m">02</div><h4>Implementación práctica y configuración</h4><p>Puesta en marcha de las herramientas: armamos juntos los flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades.</p></div>
         <div class="step reveal"><div class="m">03</div><h4>Optimización, autonomía y seguimiento</h4><p>Revisión de resultados, ajustes de procesos y transferencia de conocimiento para que sigas evolucionando de forma autónoma con la IA.</p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- PRECIOS -->
+<section id="precios">
+  <span class="ghost" data-mouse="0.03">$</span>
+  <div class="wrap">
+    <div class="pr-head stage" data-stage data-speed="1">
+      <p class="eyebrow reveal">Trabajemos</p>
+      <h2 class="reveal">Elegí tu punto de partida</h2>
+      <p class="reveal">Sesiones y acompañamientos para empezar tu transición. Reservá online; el pago es seguro vía MercadoPago o tarjeta.</p>
+    </div>
+    <div class="pr-grid">
+
+      <div class="pcard stage" data-stage data-speed="0.8" data-tilt>
+        <span class="k">Comunidades</span>
+        <h3 class="ser">Sesión de asesoramiento</h3>
+        <p class="desc">Una conversación profunda para explorar tu transición hacia la vida en comunidad o ecoaldea.</p>
+        <div class="price">USD 90<small> / sesión</small></div>
+        <ul>
+          <li>Sesión individual de 90 min</li>
+          <li>Diagnóstico de tu situación</li>
+          <li>Herramientas y comunidades sugeridas</li>
+          <li>Grabación + resumen</li>
+        </ul>
+        <!-- PEGÁ ACÁ tu link de pago (MercadoPago o Stripe) en href -->
+        <a class="pay" href="#" data-pay="sesion-comunidad"><span>Reservar sesión</span></a>
+      </div>
+
+      <div class="pcard feat stage" data-stage data-speed="1.15" data-tilt>
+        <span class="badge">Más elegido</span>
+        <span class="k">Acompañamiento</span>
+        <h3 class="ser">Ciclo de transición · 3 sesiones</h3>
+        <p class="desc">Un proceso completo, de la idea a la implementación de tu nuevo modo de habitar.</p>
+        <div class="price">USD 240<small> / ciclo</small></div>
+        <ul>
+          <li>3 sesiones de acompañamiento</li>
+          <li>Diagnóstico, plan e implementación</li>
+          <li>Red de contactos y comunidades</li>
+          <li>Cronograma de transición</li>
+          <li>Soporte por mensajería entre sesiones</li>
+        </ul>
+        <a class="pay" href="#" data-pay="ciclo-comunidad"><span>Empezar el ciclo</span></a>
+      </div>
+
+      <div class="pcard stage" data-stage data-speed="0.8" data-tilt>
+        <span class="k">Inteligencia Artificial</span>
+        <h3 class="ser">Implementación de IA</h3>
+        <p class="desc">Diagnóstico + acompañamiento para integrar IA en tu vida o tu empresa.</p>
+        <div class="price">USD 320<small> / programa</small></div>
+        <ul>
+          <li>Sesión de diagnóstico inicial</li>
+          <li>Mapa de oportunidades</li>
+          <li>Implementación y configuración</li>
+          <li>Optimización y seguimiento</li>
+        </ul>
+        <a class="pay" href="#" data-pay="ia"><span>Solicitar programa</span></a>
+      </div>
+
+    </div>
+    <p class="pr-note">¿No sabés cuál elegir? <a href="#contacto" style="color:var(--sage)">Escribime</a> y lo vemos juntos. Los valores son orientativos y pueden ajustarse según el proyecto.</p>
+  </div>
+</section>
+
 <!-- CONTACTO -->
 <section id="contacto">
-  <div class="cta-in">
-    <span class="eyebrow reveal">04 — El destino</span>
+  <div class="cta-in stage" data-stage data-speed="1.1">
+    <span class="eyebrow reveal">El destino</span>
     <h2 class="ctitle reveal">Empecemos<br>tu <em>recorrido</em></h2>
     <p class="csub reveal">Si estás pensando en un cambio de vida, en crear una comunidad, en implementar IA en tu proyecto, o simplemente querés conversar.</p>
     <a href="mailto:hola@rodrigobuono.com" class="mbtn reveal"><span>hola@rodrigobuono.com</span></a>
@@ -448,177 +440,154 @@
 <script>
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const clamp = (v,a,b)=>v<a?a:v>b?b:v;
-  const lerp = (a,b,t)=>a+(b-a)*t;
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t;
+  let vw=innerWidth, vh=innerHeight, maxScroll=1, horizontal=false;
 
-  /* ---- CURSOR ---- */
+  /* CURSOR */
   const cur=document.querySelector('.cur'), ring=document.querySelector('.cur-ring');
-  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-  document.querySelectorAll('a,button,.serv-card,.tags span,.about-portrait').forEach(el=>{
+  let mx=vw/2,my=vh/2,rx=mx,ry=my, nmx=0,nmy=0; // nmx/nmy normalizados -1..1
+  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px';
+    nmx=(mx/vw-0.5)*2; nmy=(my/vh-0.5)*2; });
+  document.querySelectorAll('a,button,.serv-card,.tags span,.about-portrait,.pcard').forEach(el=>{
     el.addEventListener('mouseenter',()=>cur.classList.add('big'));
     el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
   });
 
-  /* ---- NAV mobile ---- */
+  /* NAV mobile */
   const burger=document.getElementById('burger'), menu=document.getElementById('menu');
   burger.addEventListener('click',()=>{ burger.classList.toggle('on'); menu.classList.toggle('open'); });
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ burger.classList.remove('on'); menu.classList.remove('open'); }));
 
-  /* ---- REVEAL ---- */
-  const io=new IntersectionObserver((es)=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+  /* REVEAL */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.16,rootMargin:'0px 0px -7% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-  /* ---- HERO palabras ---- */
-  addEventListener('load',()=>{
-    document.querySelectorAll('.htitle .w').forEach((w,i)=>{
-      w.style.transition=`transform .9s cubic-bezier(.16,1,.3,1) ${i*0.08+0.15}s`;
-      requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; });
-    });
+  /* HERO words */
+  addEventListener('load',()=>document.querySelectorAll('.htitle .w').forEach((w,i)=>{
+    w.style.transition=`transform .9s cubic-bezier(.16,1,.3,1) ${i*0.08+0.15}s`;
+    requestAnimationFrame(()=>w.style.transform='translateY(0)');
+  }));
+
+  /* COLORES ciudad -> naturaleza */
+  const bgStops=[[0,[13,15,18]],[0.3,[20,19,16]],[0.55,[24,20,13]],[0.8,[16,20,14]],[1,[12,19,13]]];
+  function sample(st,t){ for(let i=0;i<st.length-1;i++){ const[a,ca]=st[i],[b,cb]=st[i+1]; if(t>=a&&t<=b){ const k=(t-a)/(b-a||1); return ca.map((v,j)=>Math.round(lerp(v,cb[j],k))); } } return st[st.length-1][1]; }
+  const bg=document.getElementById('bg');
+
+  /* BLOBS */
+  const b1=document.getElementById('b1'),b2=document.getElementById('b2'),b3=document.getElementById('b3');
+  let b1x=0,b1y=0,b2x=0,b2y=0,b3x=0,b3y=0;
+
+  /* SCENE NAV + DEPTH */
+  const sceneIds=['hero','sobre','servicios','proceso','precios','contacto'];
+  const snLinks={}; document.querySelectorAll('#scenenav a').forEach(a=>snLinks[a.dataset.sn]=a);
+  const pct=document.getElementById('pct'), dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
+  const labels={hero:'Inicio',sobre:'Sobre mí',servicios:'Servicios',proceso:'Proceso',precios:'Precios',contacto:'Contacto'};
+
+  /* SERVICIOS */
+  const serv=document.getElementById('servicios'), track=document.getElementById('servTrack'), servNum=document.getElementById('servNum');
+  const panels=[...document.querySelectorAll('.serv-panel')];
+
+  /* STAGE + otros */
+  const stages=[...document.querySelectorAll('[data-stage]')];
+  const mouseEls=[...document.querySelectorAll('[data-mouse]')];
+  const blocks=[...document.querySelectorAll('[data-block]')];
+  const fills=[...document.querySelectorAll('[data-fill]')];
+  const portrait=document.getElementById('portrait');
+
+  function measure(){ vw=innerWidth; vh=innerHeight; maxScroll=Math.max(1,document.documentElement.scrollHeight-vh); horizontal=vw>980&&!reduce; }
+
+  /* TILT en tarjetas de precio */
+  document.querySelectorAll('[data-tilt]').forEach(card=>{
+    card.addEventListener('mousemove',e=>{ if(vw<=980)return; const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
+      card.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(var(--sy,0px))`; });
+    card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
   });
 
-  /* ---- COLORES del recorrido (ciudad -> naturaleza) ---- */
-  const bgStops=[
-    [0.00,[13,15,18]],   // ciudad / noche urbana fría
-    [0.30,[20,19,16]],   // umbral
-    [0.55,[24,20,13]],   // tierra
-    [0.80,[16,20,14]],   // musgo
-    [1.00,[12,19,13]]    // bosque
-  ];
-  const glowStops=[
-    [0.00,[143,166,194]],// acero frío
-    [0.50,[201,166,121]],// tierra
-    [1.00,[134,163,122]] // verde salvia
-  ];
-  function sample(stops,t){
-    for(let i=0;i<stops.length-1;i++){
-      const [a,ca]=stops[i],[b,cb]=stops[i+1];
-      if(t>=a&&t<=b){ const k=(t-a)/(b-a||1); return ca.map((v,j)=>Math.round(lerp(v,cb[j],k))); }
-    }
-    return stops[stops.length-1][1];
-  }
+  /* BOTONES magnéticos */
+  document.querySelectorAll('.mbtn,.pay').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2, yy=e.clientY-r.top-r.height/2; btn.style.transform=`translate(${x*0.2}px,${yy*0.3}px)`; });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='');
+  });
 
-  /* ---- COLUMNA VERTEBRAL ---- */
-  const spine=document.getElementById('spine');
-  const prog=document.getElementById('spineProg');
-  const traveler=document.getElementById('traveler');
-  const nodesG=document.getElementById('nodes');
-  const sections=[
-    {id:'hero',label:'Inicio'},
-    {id:'sobre',label:'Sobre mí'},
-    {id:'servicios',label:'Servicios'},
-    {id:'proceso',label:'Proceso'},
-    {id:'contacto',label:'Contacto'}
-  ];
-  let spineLen=0, nodeEls=[];
-  function buildNodes(maxScroll){
-    nodesG.innerHTML=''; nodeEls=[];
-    sections.forEach(s=>{
-      const el=document.getElementById(s.id); if(!el) return;
-      const frac=clamp(el.offsetTop/maxScroll,0,1);
-      const pt=prog.getPointAtLength(spineLen*frac);
-      const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-      g.setAttribute('class','node');
-      g.innerHTML=`<circle cx="${pt.x}" cy="${pt.y}" r="4"></circle><text x="${pt.x+14}" y="${pt.y+3}">${s.label}</text>`;
-      nodesG.appendChild(g);
-      nodeEls.push({g,frac});
-    });
-  }
+  /* CLICK en pagos (placeholder) */
+  document.querySelectorAll('[data-pay]').forEach(a=>a.addEventListener('click',e=>{
+    if(a.getAttribute('href')==='#'){ e.preventDefault();
+      location.href='mailto:hola@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
+  }));
 
-  /* ---- medidas ---- */
-  let vw=innerWidth, vh=innerHeight, maxScroll=1, horizontal=false;
-  const serv=document.getElementById('servicios');
-  const track=document.getElementById('servTrack');
-  const servNum=document.getElementById('servNum');
-  const heroIn=document.querySelector('.hero-in');
-  const bg=document.getElementById('bg'), glow=document.getElementById('glow');
-  const pct=document.getElementById('pct'), dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
-  const fills=[...document.querySelectorAll('[data-fill]')];
-  const blocks=[...document.querySelectorAll('[data-block]')];
-
-  function measure(){
-    vw=innerWidth; vh=innerHeight;
-    maxScroll=Math.max(1,document.documentElement.scrollHeight-vh);
-    horizontal = vw>980 && !reduce;
-    if(vw>980){
-      spineLen=prog.getTotalLength();
-      prog.style.strokeDasharray=spineLen;
-      buildNodes(maxScroll);
-    }
-  }
-
-  /* ---- loop ---- */
   function tick(){
     const y=scrollY||pageYOffset;
     const p=clamp(y/maxScroll,0,1);
     document.documentElement.style.setProperty('--p',p.toFixed(4));
 
-    // fondo
-    const bc=sample(bgStops,p);
-    bg.style.background=`rgb(${bc[0]},${bc[1]},${bc[2]})`;
-    const gc=sample(glowStops,p);
-    glow.style.top=(14+p*64)+'%';
-    glow.style.background=`radial-gradient(circle, rgba(${gc[0]},${gc[1]},${gc[2]},.24) 0%, transparent 55%)`;
+    // fondo + profundidad
+    const c=sample(bgStops,p); bg.style.background=`rgb(${c[0]},${c[1]},${c[2]})`;
+    pct.textContent=('0'+Math.round(p*100)).slice(-2); bar.style.width=(p*100)+'%';
 
-    // profundidad
-    pct.textContent=('0'+Math.round(p*100)).slice(-2);
-    bar.style.width=(p*100)+'%';
+    // blobs (scroll + mouse, con inercia)
+    b1x=lerp(b1x, nmx*60 - p*40, .06); b1y=lerp(b1y, nmy*60 + p*vh*0.0, .06);
+    b2x=lerp(b2x, -nmx*80 + 10, .05); b2y=lerp(b2y, -nmy*50 + p*120, .05);
+    b3x=lerp(b3x, nmx*40, .04); b3y=lerp(b3y, nmy*40 - p*80, .04);
+    b1.style.transform=`translate(calc(-20vmax + ${b1x}px), calc(${ -10 + p*60 }vh + ${b1y}px))`;
+    b2.style.transform=`translate(calc(60vw + ${b2x}px), calc(${ 10 + p*40 }vh + ${b2y}px))`;
+    b3.style.transform=`translate(calc(20vw + ${b3x}px), calc(${ 70 - p*50 }vh + ${b3y}px))`;
 
-    // hero parallax
-    if(!reduce){ const hp=clamp(y/vh,0,1); heroIn.style.transform=`translateY(${hp*-60}px)`; heroIn.style.opacity=(1-hp*0.9).toFixed(2); }
+    // mouse parallax genérico
+    mouseEls.forEach(el=>{ const f=parseFloat(el.dataset.mouse)||0.02; el.style.transform=`translate(${nmx*f*120}px,${nmy*f*120}px)`; });
 
-    // columna vertebral
-    if(vw>980 && spineLen){
-      prog.style.strokeDashoffset=spineLen*(1-p);
-      const pt=prog.getPointAtLength(spineLen*p);
-      traveler.setAttribute('cx',pt.x); traveler.setAttribute('cy',pt.y);
-      let cur=sections[0].label;
-      nodeEls.forEach((n,i)=>{ const on=p>=n.frac-0.001; n.g.classList.toggle('active',on); if(on) cur=sections[i].label; });
-      dlab.textContent=cur;
+    // STAGE: toda la estructura se mueve / inclina / escala
+    if(!reduce && vw>980){
+      stages.forEach(el=>{
+        const r=el.getBoundingClientRect(); const center=r.top+r.height/2;
+        const t=clamp((center-vh/2)/vh,-1.2,1.2);
+        const sp=parseFloat(el.dataset.speed)||1;
+        const ty=t*70*sp;
+        const rotX=-t*5;
+        const sc=1-Math.abs(t)*0.05;
+        const op=1-clamp(Math.abs(t)-0.55,0,0.6)/0.6*0.8;
+        el.style.transform=`translateY(${ty}px) rotateX(${rotX}deg) scale(${sc})`;
+        el.style.opacity=op.toFixed(2);
+      });
     }
 
-    // servicios horizontal (habitaciones)
+    // PORTRAIT tilt con mouse
+    if(portrait && vw>980){ portrait.style.transform=`perspective(800px) rotateY(${nmx*6}deg) rotateX(${-nmy*6}deg)`; }
+
+    // SERVICIOS coverflow
     if(horizontal){
-      const r=serv.getBoundingClientRect();
-      const scrollable=serv.offsetHeight-vh;
+      const r=serv.getBoundingClientRect(); const scrollable=serv.offsetHeight-vh;
       const sp=clamp((-r.top)/scrollable,0,1);
       const range=track.scrollWidth-vw;
       track.style.transform=`translate3d(${-sp*range}px,0,0)`;
       servNum.textContent=('0'+Math.min(4,Math.floor(sp*4)+1)).slice(-2);
-    }else{
-      track.style.transform='';
-    }
-
-    // proceso: rieles que se llenan + pasos que se encienden
-    blocks.forEach((b,bi)=>{
-      const r=b.getBoundingClientRect();
-      const fillEl=fills[bi]; if(!fillEl) return;
-      const span=r.height;
-      const passed=clamp((vh*0.62 - r.top)/span,0,1);
-      fillEl.style.height=(passed*100)+'%';
-      const steps=b.querySelectorAll('.step');
-      steps.forEach((st,si)=>{
-        const sr=st.getBoundingClientRect();
-        st.classList.toggle('lit', sr.top < vh*0.62);
+      panels.forEach(pn=>{ const pr=pn.getBoundingClientRect(); const d=clamp((pr.left+pr.width/2-vw/2)/vw,-1,1);
+        const card=pn.querySelector('.serv-card');
+        card.style.transform=`rotateY(${-d*16}deg) scale(${1-Math.abs(d)*0.12}) translateZ(${-Math.abs(d)*120}px)`;
+        card.style.opacity=(1-Math.abs(d)*0.55).toFixed(2);
       });
+    }else{ track.style.transform=''; panels.forEach(pn=>{ pn.querySelector('.serv-card').style.transform=''; pn.querySelector('.serv-card').style.opacity=1; }); }
+
+    // PROCESO rieles + pasos
+    blocks.forEach((b,bi)=>{ const r=b.getBoundingClientRect(); const fillEl=fills[bi]; if(!fillEl)return;
+      const passed=clamp((vh*0.6 - r.top)/r.height,0,1); fillEl.style.height=(passed*100)+'%';
+      b.querySelectorAll('.step').forEach(st=>{ st.classList.toggle('lit', st.getBoundingClientRect().top < vh*0.62); });
     });
 
-    // cursor ring (suave)
-    rx=lerp(rx,mx,0.18); ry=lerp(ry,my,0.18);
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    // SCENE NAV activo
+    let act='hero';
+    for(const id of sceneIds){ const el=document.getElementById(id); if(el && el.getBoundingClientRect().top<=vh*0.4) act=id; }
+    for(const id in snLinks) snLinks[id].classList.toggle('active', id===act);
+    dlab.textContent=labels[act]||'';
+
+    // cursor ring
+    rx=lerp(rx,mx,.18); ry=lerp(ry,my,.18); ring.style.left=rx+'px'; ring.style.top=ry+'px';
 
     requestAnimationFrame(tick);
   }
 
-  /* ---- botón magnético ---- */
-  document.querySelectorAll('.mbtn').forEach(btn=>{
-    btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2, yy=e.clientY-r.top-r.height/2; btn.style.transform=`translate(${x*0.25}px,${yy*0.35}px)`; });
-    btn.addEventListener('mouseleave',()=>btn.style.transform='');
-  });
-
   addEventListener('resize',measure);
-  measure();
-  requestAnimationFrame(tick);
+  measure(); requestAnimationFrame(tick);
 })();
 </script>
 </body>
