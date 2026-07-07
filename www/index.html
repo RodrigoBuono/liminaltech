@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rodrigo Buono — De la ciudad a la comunidad</title>
+<title>Rodrigo Buono — Tecnología para conectarnos</title>
 <meta name="description" content="Diseño nuevas formas de vivir, trabajar y organizarnos como sociedad, combinando comunidades, tecnología e inteligencia artificial.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +117,7 @@
     filter:blur(22px); z-index:0; }
   .about-portrait img{ position:relative; z-index:1; width:100%; display:block;
     filter:drop-shadow(0 22px 44px rgba(0,0,0,.6)) drop-shadow(0 4px 14px rgba(0,0,0,.4)); }
-  .about-portrait span{ position:relative; z-index:1; display:block; margin-top:14px; font-size:.64rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  .about-portrait span{ position:relative; z-index:1; display:block; margin-top:14px; font-size:.64rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); text-align:center; }
   .about-portrait.noimg{ aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px; overflow:hidden;
     background:linear-gradient(160deg,rgba(134,163,122,.14),rgba(201,166,121,.07)); }
   .about-portrait.noimg::before{ display:none; }
@@ -153,8 +153,9 @@
   .pr-head{ text-align:center; max-width:620px; margin:0 auto 42px; }
   .pr-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.9rem,3.6vw,3rem); line-height:1.04; margin-top:12px; }
   .pr-head p{ color:var(--fg-dim); font-weight:300; margin-top:12px; font-size:.94rem; }
-  .pr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
-  .pcard{ border:1px solid var(--line); border-radius:6px; padding:28px 26px; display:flex; flex-direction:column;
+  #precios .scene-inner{ max-width:1300px; }
+  .pr-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  .pcard{ border:1px solid var(--line); border-radius:6px; padding:26px 22px; display:flex; flex-direction:column;
     background:rgba(10,12,16,.62); backdrop-filter:blur(8px); position:relative; transition:border-color .4s, background .4s; will-change:transform; }
   .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.08); }
   .pcard.feat{ border-color:rgba(134,163,122,.4); }
@@ -162,8 +163,9 @@
   .pcard .k{ font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
   .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.28rem; line-height:1.15; margin:10px 0 6px; }
   .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.84rem; min-height:44px; }
-  .pcard .price{ font-family:'Fraunces',serif; font-size:2.1rem; margin:12px 0 2px; }
-  .pcard .price small{ font-family:'Inter'; font-size:.74rem; color:var(--fg-dim); letter-spacing:1px; }
+  .pcard .price{ font-family:'Fraunces',serif; font-size:2rem; margin:12px 0 2px; }
+  .pcard .price small{ font-family:'Inter'; font-size:.72rem; color:var(--fg-dim); letter-spacing:1px; }
+  .pcard .price .from{ display:block; font-family:'Inter'; font-size:.68rem; color:var(--fg-dim); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
   .pcard ul{ list-style:none; margin:14px 0 20px; }
   .pcard li{ padding:6px 0 6px 18px; position:relative; font-size:.82rem; font-weight:300; color:var(--fg); border-bottom:1px solid var(--line); }
   .pcard li::before{ content:''; position:absolute; left:0; top:14px; width:7px; height:1px; background:var(--sage); }
@@ -228,6 +230,13 @@
     .foot{ position:static; display:flex; justify-content:center; flex-wrap:wrap; gap:8px 22px;
       padding:26px 20px 34px; text-align:center; width:100%; }
   }
+  @media (min-width:981px) and (max-width:1320px){
+    .pcard{ padding:20px 16px; }
+    .pcard h3{ font-size:1.12rem; }
+    .pcard .price{ font-size:1.65rem; }
+    .pcard .desc{ font-size:.8rem; }
+    .pcard li{ font-size:.78rem; }
+  }
   @media (max-height:780px) and (min-width:981px){
     .scene-inner{ padding:76px 90px 56px; }
     .pcard{ padding:22px 20px; } .pcard .desc{ min-height:38px; font-size:.8rem; }
@@ -290,7 +299,7 @@
       </h1>
       <p class="hsub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
     </div>
-    <div class="hint"><span>De la ciudad a la comunidad</span><span class="l"></span><span>Bajá</span></div>
+    <div class="hint"><span>Tecnología para conectarnos</span><span class="l"></span><span>Bajá</span></div>
   </section>
 
   <!-- 1 · SOBRE MÍ -->
@@ -449,7 +458,7 @@
         <div class="pcard feat reveal" data-tilt>
           <span class="badge">Más elegido</span>
           <span class="k">Acompañamiento</span>
-          <h3 class="ser">Ciclo de transición · 3 sesiones</h3>
+          <h3 class="ser">Ciclo de transición<br>3 sesiones</h3>
           <p class="desc">Un proceso completo, de la idea a la implementación de tu nuevo modo de habitar.</p>
           <div class="price">USD 240<small> / ciclo</small></div>
           <ul><li>3 sesiones de acompañamiento</li><li>Diagnóstico, plan e implementación</li><li>Red de contactos y comunidades</li><li>Cronograma de transición</li><li>Soporte por mensajería entre sesiones</li></ul>
@@ -459,9 +468,17 @@
           <span class="k">Inteligencia Artificial</span>
           <h3 class="ser">Implementación de IA</h3>
           <p class="desc">Diagnóstico + acompañamiento para integrar IA en tu vida o empresa.</p>
-          <div class="price">USD 320<small> / programa</small></div>
+          <div class="price"><span class="from">A partir de</span>USD 320<small> / programa</small></div>
           <ul><li>Sesión de diagnóstico inicial</li><li>Mapa de oportunidades</li><li>Implementación y configuración</li><li>Optimización y seguimiento</li></ul>
           <a class="pay" href="#" data-pay="ia"><span>Solicitar programa</span></a>
+        </div>
+        <div class="pcard reveal" data-tilt>
+          <span class="k">Producto digital</span>
+          <h3 class="ser">Arquitectura de productos digitales</h3>
+          <p class="desc">De la idea a un producto digital funcionando: estrategia, prototipo y desarrollo con IA.</p>
+          <div class="price">A cotizar<small> / según proyecto</small></div>
+          <ul><li>Descubrimiento y estrategia</li><li>Prototipo navegable</li><li>Desarrollo con IA</li><li>Lanzamiento y evolución</li></ul>
+          <a class="pay" href="#" data-pay="producto-digital"><span>Solicitar propuesta</span></a>
         </div>
       </div>
       <p class="pr-note reveal">¿No sabés cuál elegir? <a href="#contacto" data-go="8" style="color:var(--sage)">Escribime</a> y lo vemos juntos. Los valores son orientativos y pueden ajustarse.</p>
@@ -482,7 +499,7 @@
         <a href="https://www.linkedin.com/in/rodrigo-pedernera/" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
-    <div class="foot"><span>© 2026 Rodrigo Buono</span><span>De la ciudad a la comunidad</span></div>
+    <div class="foot"><span>© 2026 Rodrigo Buono</span><span>Tecnología para conectarnos</span></div>
   </section>
 
 </div>
