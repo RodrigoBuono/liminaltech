@@ -251,7 +251,7 @@
 <div class="cur"></div>
 <div class="cur-ring"></div>
 <div id="bar"></div>
-<div id="phase">Organismo · <b id="phaseName">Red neuronal</b></div>
+<div id="phase">Organismo · <b id="phaseName">Ecléctico</b></div>
 
 <nav>
   <div class="nav-in">
@@ -576,8 +576,6 @@
     const A=shapes[k], B=shapes[Math.min(k+1,2)];
     const ca=PHASES[k].color, cb=PHASES[Math.min(k+1,2)].color;
     for(let j=0;j<3;j++) colNow[j]=Math.round(lerp(ca[j],cb[j],f));
-    const phi=f<0.5?k:Math.min(k+1,2);
-    if(phi!==lastPhase){ lastPhase=phi; phaseName.textContent=PHASES[phi].name; }
 
     ctx.clearRect(0,0,W,H);
     const cx=W/2, cy=H/2;
@@ -687,9 +685,11 @@
     ws.forEach((w,i)=>{ w.style.transition=`transform .9s ${EASE} ${i*0.07+0.25}s`; w.style.transform='translateY(0)'; });
     rs.forEach((el,i)=>{ el.style.transitionDelay=(i*70+250)+'ms'; el.classList.add('in'); });
   }
+  const WORDS=['Ecléctico','Ecléctico','Liminal','Liminal','Transhumanismo','Transhumanismo','Exponencialidad','Exponencialidad'];
   function updateHud(){
     pct.textContent=('0'+(idx+1)).slice(-2);
     dlab.textContent=names[idx];
+    phaseName.textContent=WORDS[idx];
     bar.style.width=(idx/(TOT-1)*100)+'%';
     snLinks.forEach(a=>{ const[lo,hi]=a.dataset.range.split('-').map(Number);
       a.classList.toggle('active', idx>=lo&&idx<=hi); });
