@@ -10,25 +10,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{ --fg:#ece7df; --fg-dim:#9a948a; --sage:#86a37a; --earth:#c9a679; --cyan:#8fb4c9; --line:rgba(236,231,223,0.12); }
-  html{ scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+  :root{ --fg:#ece7df; --fg-dim:#a39d92; --sage:#86a37a; --earth:#c9a679; --cyan:#8fb4c9; --line:rgba(236,231,223,0.14); }
+  html{ -webkit-font-smoothing:antialiased; }
   body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0a0c10; line-height:1.65; overflow-x:hidden; cursor:none; }
   ::selection{ background:var(--sage); color:#0d0f12; }
   a{ color:inherit; text-decoration:none; }
 
-  /* ORGANISMO (canvas de partículas) */
+  /* ====== ORGANISMO: ahora es TODO el fondo ====== */
   #bg{ position:fixed; inset:0; z-index:-6; background:#0a0c10; }
-  #org{ position:fixed; inset:0; z-index:-4; width:100%; height:100%; }
+  #org{ position:fixed; inset:-3%; z-index:-4; width:106%; height:106%; will-change:transform; }
   #veil{ position:fixed; inset:0; z-index:-3; pointer-events:none;
-    background:radial-gradient(ellipse 60% 55% at 32% 46%, rgba(10,12,16,.82) 0%, rgba(10,12,16,.45) 55%, transparent 100%); }
+    background:radial-gradient(ellipse 85% 80% at 50% 50%, transparent 0%, transparent 52%, rgba(8,10,13,.5) 100%); }
   .grain{ position:fixed; inset:-50%; z-index:-1; width:200%; height:200%;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events:none; opacity:.5; }
 
-  /* ESTADO DEL ORGANISMO */
-  #phase{ position:fixed; left:50px; top:50%; transform:translateY(-50%) rotate(180deg); z-index:850;
+  /* barrido de luz en cada transición */
+  #sweep{ position:fixed; inset:0; z-index:600; pointer-events:none; opacity:0; }
+  #sweep.go{ animation:sweep 1s cubic-bezier(.6,.1,.2,1); }
+  @keyframes sweep{
+    0%{ opacity:0; background:linear-gradient(105deg, transparent 0%, transparent 0%, rgba(236,231,223,.07) 8%, transparent 16%); transform:translateX(-70%); }
+    35%{ opacity:1; }
+    100%{ opacity:0; background:linear-gradient(105deg, transparent 40%, rgba(236,231,223,.07) 50%, transparent 60%); transform:translateX(70%); }
+  }
+
+  /* estado del organismo */
+  #phase{ position:fixed; left:48px; top:50%; transform:translateY(-50%) rotate(180deg); z-index:850;
     writing-mode:vertical-rl; font-size:.6rem; letter-spacing:4px; text-transform:uppercase; color:var(--fg-dim);
-    mix-blend-mode:difference; transition:opacity .5s; }
+    mix-blend-mode:difference; }
   #phase b{ color:var(--fg); font-weight:500; }
 
   /* CURSOR */
@@ -61,142 +70,143 @@
   #scenenav a.active .dot{ background:var(--sage); transform:scale(1.6); }
   #scenenav a.active .txt{ opacity:1; transform:none; color:var(--fg); }
 
-  /* DEPTH */
-  #depth{ position:fixed; left:50px; bottom:40px; z-index:850; mix-blend-mode:difference; }
-  #depth .pct{ font-family:'Fraunces',serif; font-size:2rem; line-height:1; }
+  /* CONTADOR DE ESCENA */
+  #depth{ position:fixed; left:48px; bottom:40px; z-index:850; mix-blend-mode:difference; }
+  #depth .pct{ font-family:'Fraunces',serif; font-size:2.2rem; line-height:1; }
+  #depth .pct small{ font-size:1rem; color:var(--fg-dim); }
   #depth .lab{ font-size:.58rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); margin-top:3px; }
-  #bar{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--sage); z-index:950; }
+  #bar{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--sage); z-index:950; transition:width .9s cubic-bezier(.16,1,.3,1); }
 
-  /* BASE */
-  section{ position:relative; z-index:1; }
-  .wrap{ max-width:960px; margin:0 auto; padding:0 80px; }
+  /* ====== MOTOR DE ESCENAS (desktop) ====== */
+  .deck{ overflow:hidden; height:100vh; }
+  #stagewrap{ position:relative; z-index:1; }
+  .deck #stagewrap{ height:100vh; perspective:1500px; perspective-origin:50% 45%; }
+  .scene{ position:relative; }
+  .deck .scene{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    visibility:hidden; will-change:transform,opacity,filter; transform-style:preserve-3d; }
+  .deck .scene.on{ visibility:visible; }
+  .scene-inner{ width:100%; max-width:1160px; margin:0 auto; padding:90px 90px 70px; }
+
   .eyebrow{ font-size:.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--sage); }
   .ser{ font-family:'Fraunces',serif; font-weight:340; }
-  .reveal{ opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
   .reveal.in{ opacity:1; transform:none; }
-  .stage{ will-change:transform,opacity; }
+  .scene p, .scene li, .scene h1,.scene h2,.scene h3{ text-shadow:0 1px 18px rgba(8,10,13,.85); }
 
   /* HERO */
-  #hero{ min-height:100vh; display:flex; align-items:center; padding:120px 0 80px; }
-  #hero .eyebrow{ margin-bottom:28px; }
-  .htitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.4rem,7.6vw,6.8rem); line-height:1.02; letter-spacing:-.02em; }
+  .htitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.4rem,7.2vw,6.4rem); line-height:1.02; letter-spacing:-.02em; }
   .htitle .ln{ display:block; overflow:hidden; }
-  .htitle .w{ display:inline-block; transform:translateY(110%); }
+  .htitle .w{ display:inline-block; transform:translateY(115%); }
   .htitle em{ font-style:italic; color:var(--sage); }
-  .hsub{ margin-top:32px; max-width:420px; color:var(--fg-dim); font-weight:300; font-size:1.02rem; }
-  .hint{ position:absolute; bottom:40px; left:80px; display:flex; align-items:center; gap:14px; font-size:.64rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  #hero .eyebrow{ margin-bottom:26px; }
+  .hsub{ margin-top:30px; max-width:430px; color:var(--fg-dim); font-weight:300; font-size:1.02rem; }
+  .hint{ position:absolute; bottom:40px; left:90px; display:flex; align-items:center; gap:14px; font-size:.64rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
   .hint .l{ width:50px; height:1px; background:var(--line); position:relative; overflow:hidden; }
   .hint .l::after{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-100%); animation:slide 2.4s infinite; }
   @keyframes slide{ 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
 
   /* SOBRE MÍ */
-  #sobre{ padding:26vh 0; }
-  .about-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:80px; align-items:start; }
-  .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3.2vw,2.8rem); line-height:1.08; margin-top:16px; }
-  .about-portrait{ margin-top:30px; aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg,rgba(134,163,122,.12),rgba(201,166,121,.06)); position:relative; overflow:hidden; will-change:transform; }
-  .about-portrait span{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:20px; font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
-  .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:18px; font-size:1.02rem; }
+  .about-grid{ display:grid; grid-template-columns:1fr 1.25fr; gap:70px; align-items:center; }
+  .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3vw,2.6rem); line-height:1.08; margin-top:14px; }
+  .about-portrait{ margin-top:26px; aspect-ratio:3/4; max-width:300px; border:1px solid var(--line); border-radius:3px;
+    background:linear-gradient(160deg,rgba(134,163,122,.14),rgba(201,166,121,.07)); position:relative; overflow:hidden; will-change:transform; backdrop-filter:blur(2px); }
+  .about-portrait span{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:18px; font-size:.64rem; letter-spacing:2px; text-transform:uppercase; color:var(--fg-dim); }
+  .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:16px; font-size:1.0rem; }
   .about-body p strong{ color:var(--fg); font-weight:400; }
-  .tags{ display:flex; flex-wrap:wrap; gap:9px; margin-top:26px; }
-  .tags span{ padding:7px 16px; border:1px solid var(--line); border-radius:40px; font-size:.74rem; color:var(--fg-dim); transition:.3s; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .tags span{ padding:6px 15px; border:1px solid var(--line); border-radius:40px; font-size:.72rem; color:var(--fg-dim); transition:.3s; background:rgba(10,12,16,.35); }
   .tags span:hover{ border-color:var(--sage); color:var(--sage); }
 
-  /* SERVICIOS + PROCESO */
-  #servicios{ height:520vh; }
-  .serv-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
-  .serv-head{ display:flex; justify-content:space-between; align-items:flex-end; padding:30px 80px 0; z-index:2; }
-  .serv-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.6rem,2.6vw,2.4rem); }
-  .serv-counter{ font-family:'Fraunces',serif; font-size:1.3rem; color:var(--fg-dim); }
-  .serv-counter b{ color:var(--sage); font-weight:400; }
-  .serv-track{ flex:1; display:flex; align-items:center; will-change:transform; }
-  .serv-panel{ width:100vw; height:100%; flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:40px 100px; position:relative; }
-  .serv-panel .pn{ position:absolute; top:10%; right:8%; font-family:'Fraunces',serif; font-weight:300; font-size:22vh; color:rgba(236,231,223,.03); line-height:1; }
-  .room{ display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1100px; width:100%; align-items:start; }
-  .room-left,.room-right{ will-change:transform,opacity; }
+  /* HABITACIONES DE SERVICIO */
+  .room-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:34px; }
+  .room-head .rh-t{ font-family:'Fraunces',serif; font-weight:330; font-size:1.4rem; }
+  .room-head .rh-c{ font-family:'Fraunces',serif; font-size:1.2rem; color:var(--fg-dim); }
+  .room-head .rh-c b{ color:var(--sage); font-weight:400; }
+  .room{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+  .room .pn{ position:absolute; top:8%; right:6%; font-family:'Fraunces',serif; font-weight:300; font-size:24vh; color:rgba(236,231,223,.045); line-height:1; pointer-events:none; }
   .room-left .k{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
-  .room-left h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3.6vw,3rem); line-height:1.06; margin:14px 0 18px; }
-  .room-left>p{ color:var(--fg-dim); font-weight:300; max-width:420px; font-size:.98rem; }
-  .room-left ul{ list-style:none; margin-top:22px; }
-  .room-left li{ padding:10px 0 10px 22px; border-bottom:1px solid var(--line); position:relative; color:var(--fg); font-weight:300; font-size:.92rem; }
-  .room-left li::before{ content:''; position:absolute; left:0; top:18px; width:8px; height:1px; background:var(--sage); }
-  .room-right{ padding-top:10px; }
-  .room-right h4.rt{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--earth); margin-bottom:22px; }
-  .rstep{ display:flex; gap:18px; margin-bottom:26px; }
-  .rstep .num{ flex-shrink:0; width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:.78rem; color:var(--fg-dim); }
-  .rstep h5{ font-size:.96rem; font-weight:500; margin-bottom:4px; }
-  .rstep p{ color:var(--fg-dim); font-weight:300; font-size:.88rem; }
+  .room-left h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.7rem,3.2vw,2.7rem); line-height:1.06; margin:12px 0 16px; }
+  .room-left>p{ color:var(--fg-dim); font-weight:300; max-width:420px; font-size:.96rem; }
+  .room-left ul{ list-style:none; margin-top:18px; }
+  .room-left li{ padding:9px 0 9px 22px; border-bottom:1px solid var(--line); position:relative; color:var(--fg); font-weight:300; font-size:.9rem; }
+  .room-left li::before{ content:''; position:absolute; left:0; top:17px; width:8px; height:1px; background:var(--sage); }
+  .room-right{ padding-top:8px; }
+  .room-right h4.rt{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--earth); margin-bottom:18px; }
+  .rstep{ display:flex; gap:16px; margin-bottom:20px; }
+  .rstep .num{ flex-shrink:0; width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:.76rem; color:var(--fg-dim); background:rgba(10,12,16,.4); }
+  .rstep h5{ font-size:.94rem; font-weight:500; margin-bottom:3px; }
+  .rstep p{ color:var(--fg-dim); font-weight:300; font-size:.86rem; }
 
   /* PRECIOS */
-  #precios{ padding:20vh 0; }
-  .pr-head{ text-align:center; max-width:600px; margin:0 auto 8vh; }
-  .pr-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2rem,4.2vw,3.6rem); line-height:1.04; margin-top:16px; }
-  .pr-head p{ color:var(--fg-dim); font-weight:300; margin-top:16px; }
-  .pr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-  .pcard{ border:1px solid var(--line); border-radius:6px; padding:36px 30px; display:flex; flex-direction:column;
-    background:rgba(10,12,16,.55); backdrop-filter:blur(6px); position:relative; transition:border-color .4s, background .4s; will-change:transform; }
-  .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.07); }
+  .pr-head{ text-align:center; max-width:620px; margin:0 auto 42px; }
+  .pr-head h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.9rem,3.6vw,3rem); line-height:1.04; margin-top:12px; }
+  .pr-head p{ color:var(--fg-dim); font-weight:300; margin-top:12px; font-size:.94rem; }
+  .pr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .pcard{ border:1px solid var(--line); border-radius:6px; padding:28px 26px; display:flex; flex-direction:column;
+    background:rgba(10,12,16,.62); backdrop-filter:blur(8px); position:relative; transition:border-color .4s, background .4s; will-change:transform; }
+  .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.08); }
   .pcard.feat{ border-color:rgba(134,163,122,.4); }
-  .pcard .badge{ position:absolute; top:-11px; left:30px; background:var(--sage); color:#0d0f12; font-size:.58rem; letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px; border-radius:30px; }
-  .pcard .k{ font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
-  .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.4rem; line-height:1.15; margin:12px 0 8px; }
-  .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.88rem; min-height:52px; }
-  .pcard .price{ font-family:'Fraunces',serif; font-size:2.4rem; margin:16px 0 4px; }
-  .pcard .price small{ font-family:'Inter'; font-size:.78rem; color:var(--fg-dim); letter-spacing:1px; }
-  .pcard ul{ list-style:none; margin:18px 0 24px; }
-  .pcard li{ padding:8px 0 8px 20px; position:relative; font-size:.86rem; font-weight:300; color:var(--fg); border-bottom:1px solid var(--line); }
-  .pcard li::before{ content:''; position:absolute; left:0; top:16px; width:7px; height:1px; background:var(--sage); }
-  .pcard .pay{ margin-top:auto; display:block; text-align:center; padding:14px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:.84rem; letter-spacing:.5px; position:relative; overflow:hidden; }
+  .pcard .badge{ position:absolute; top:-11px; left:26px; background:var(--sage); color:#0d0f12; font-size:.56rem; letter-spacing:1.5px; text-transform:uppercase; padding:4px 11px; border-radius:30px; }
+  .pcard .k{ font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
+  .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.28rem; line-height:1.15; margin:10px 0 6px; }
+  .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.84rem; min-height:44px; }
+  .pcard .price{ font-family:'Fraunces',serif; font-size:2.1rem; margin:12px 0 2px; }
+  .pcard .price small{ font-family:'Inter'; font-size:.74rem; color:var(--fg-dim); letter-spacing:1px; }
+  .pcard ul{ list-style:none; margin:14px 0 20px; }
+  .pcard li{ padding:6px 0 6px 18px; position:relative; font-size:.82rem; font-weight:300; color:var(--fg); border-bottom:1px solid var(--line); }
+  .pcard li::before{ content:''; position:absolute; left:0; top:14px; width:7px; height:1px; background:var(--sage); }
+  .pcard .pay{ margin-top:auto; display:block; text-align:center; padding:12px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:.82rem; letter-spacing:.5px; position:relative; overflow:hidden; }
   .pcard .pay span{ position:relative; z-index:1; transition:color .4s; }
   .pcard .pay::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
   .pcard .pay:hover::before{ transform:translateX(0); }
   .pcard .pay:hover span{ color:#0d0f12; }
-  .pr-note{ text-align:center; margin-top:30px; font-size:.76rem; color:var(--fg-dim); }
+  .pr-note{ text-align:center; margin-top:24px; font-size:.74rem; color:var(--fg-dim); }
 
   /* CONTACTO */
-  #contacto{ min-height:100vh; display:flex; align-items:center; text-align:center; }
-  .cta-in{ width:100%; max-width:800px; margin:0 auto; padding:0 60px; }
-  .cta-in .eyebrow{ display:block; margin-bottom:24px; }
-  .ctitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.8rem,10vw,8rem); line-height:.96; letter-spacing:-.02em; }
+  #contacto .scene-inner{ text-align:center; }
+  .ctitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.6rem,8.6vw,7rem); line-height:.98; letter-spacing:-.02em; }
   .ctitle em{ font-style:italic; color:var(--sage); }
-  .csub{ color:var(--fg-dim); font-weight:300; max-width:480px; margin:28px auto 0; font-size:1.05rem; line-height:1.7; }
+  .csub{ color:var(--fg-dim); font-weight:300; max-width:480px; margin:26px auto 0; font-size:1.02rem; line-height:1.7; }
   .csub strong{ color:var(--fg); font-weight:500; }
-  .cta-links{ margin-top:44px; }
-  .mbtn{ display:inline-block; padding:18px 48px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:1rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; }
+  .cta-links{ margin-top:38px; }
+  .mbtn{ display:inline-block; padding:17px 46px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:.98rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; background:rgba(10,12,16,.4); }
   .mbtn span{ position:relative; z-index:1; transition:color .4s; }
   .mbtn::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
   .mbtn:hover::before{ transform:translateX(0); } .mbtn:hover span{ color:#0d0f12; }
-  .social{ margin-top:36px; display:flex; gap:28px; justify-content:center; }
-  .social a{ font-size:.76rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg-dim); position:relative; }
+  .social{ margin-top:32px; display:flex; gap:26px; justify-content:center; }
+  .social a{ font-size:.74rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg-dim); position:relative; }
   .social a::after{ content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--fg); transition:width .4s; }
   .social a:hover{ color:var(--fg); } .social a:hover::after{ width:100%; }
-  footer{ padding:30px 60px; border-top:1px solid var(--line); position:relative; z-index:1; }
-  .foot-in{ display:flex; justify-content:space-between; font-size:.72rem; color:var(--fg-dim); letter-spacing:.5px; }
+  .foot{ position:absolute; bottom:26px; left:0; right:0; display:flex; justify-content:space-between; padding:0 60px;
+    font-size:.7rem; color:var(--fg-dim); letter-spacing:.5px; }
 
-  /* RESPONSIVE */
+  /* ====== MOBILE: flujo normal ====== */
   @media (max-width:980px){
     body{ cursor:auto; }
-    .cur,.cur-ring,#scenenav,#depth,#phase{ display:none; }
+    .cur,.cur-ring,#scenenav,#depth,#phase,#sweep{ display:none; }
     .burger{ display:flex; }
     .nav-in{ padding:20px 28px; }
     .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column; align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
     .nav-links.open{ transform:none; } .nav-links a{ font-size:1.1rem; }
-    .wrap{ padding:0 28px; } .hint{ left:28px; }
-    .about-grid{ grid-template-columns:1fr; gap:32px; } .about-portrait{ max-width:260px; }
-    .stage{ transform:none!important; opacity:1!important; }
-    #servicios{ height:auto; } .serv-sticky{ position:static; height:auto; }
-    .serv-head{ padding:80px 28px 0; }
-    .serv-track{ flex-direction:column; transform:none!important; }
-    .serv-panel{ width:auto; height:auto; padding:50px 28px; } .serv-panel .pn{ font-size:16vh; top:20px; right:20px; }
-    .room{ grid-template-columns:1fr; gap:28px; } .room-left,.room-right{ transform:none!important; opacity:1!important; }
+    .scene{ min-height:100vh; display:flex; align-items:center; }
+    .scene-inner{ padding:80px 28px 60px; }
+    .hint{ left:28px; }
+    .about-grid{ grid-template-columns:1fr; gap:30px; } .about-portrait{ max-width:240px; }
+    .room{ grid-template-columns:1fr; gap:26px; } .room .pn{ font-size:15vh; top:16px; right:16px; }
     .pr-grid{ grid-template-columns:1fr; }
-    .cta-in{ padding:0 28px; }
-    footer{ padding:24px 28px; }
+    .foot{ position:static; padding:24px 28px; }
+  }
+  @media (max-height:780px) and (min-width:981px){
+    .scene-inner{ padding:76px 90px 56px; }
+    .pcard{ padding:22px 20px; } .pcard .desc{ min-height:38px; font-size:.8rem; }
+    .pcard li{ padding:4px 0 4px 18px; font-size:.78rem; }
+    .pr-head{ margin-bottom:26px; }
+    .rstep{ margin-bottom:14px; } .rstep p{ font-size:.82rem; }
   }
   @media (prefers-reduced-motion:reduce){
-    .reveal{ opacity:1; transform:none; } .htitle .w{ transform:none; } .stage{ transform:none!important; opacity:1!important; }
-    #org{ display:none; }
+    .reveal{ opacity:1; transform:none; } .htitle .w{ transform:none; }
+    #org,#sweep{ display:none; }
   }
 </style>
 </head>
@@ -206,6 +216,7 @@
 <canvas id="org"></canvas>
 <div id="veil"></div>
 <div class="grain"></div>
+<div id="sweep"></div>
 <div class="cur"></div>
 <div class="cur-ring"></div>
 <div id="bar"></div>
@@ -213,364 +224,355 @@
 
 <nav>
   <div class="nav-in">
-    <a href="#hero" class="brand">Rodrigo Buono</a>
+    <a href="#hero" class="brand" data-go="0">Rodrigo Buono</a>
     <ul class="nav-links" id="menu">
-      <li><a href="#sobre">Sobre mí</a></li>
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#precios">Precios</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#sobre" data-go="1">Sobre mí</a></li>
+      <li><a href="#serv-1" data-go="2">Servicios</a></li>
+      <li><a href="#precios" data-go="6">Precios</a></li>
+      <li><a href="#contacto" data-go="7">Contacto</a></li>
     </ul>
     <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <div id="scenenav">
-  <a href="#hero" data-sn="hero"><span class="txt">Inicio</span><span class="dot"></span></a>
-  <a href="#sobre" data-sn="sobre"><span class="txt">Sobre mí</span><span class="dot"></span></a>
-  <a href="#servicios" data-sn="servicios"><span class="txt">Servicios</span><span class="dot"></span></a>
-  <a href="#precios" data-sn="precios"><span class="txt">Precios</span><span class="dot"></span></a>
-  <a href="#contacto" data-sn="contacto"><span class="txt">Contacto</span><span class="dot"></span></a>
+  <a href="#hero" data-go="0" data-range="0-0"><span class="txt">Inicio</span><span class="dot"></span></a>
+  <a href="#sobre" data-go="1" data-range="1-1"><span class="txt">Sobre mí</span><span class="dot"></span></a>
+  <a href="#serv-1" data-go="2" data-range="2-5"><span class="txt">Servicios</span><span class="dot"></span></a>
+  <a href="#precios" data-go="6" data-range="6-6"><span class="txt">Precios</span><span class="dot"></span></a>
+  <a href="#contacto" data-go="7" data-range="7-7"><span class="txt">Contacto</span><span class="dot"></span></a>
 </div>
 
-<div id="depth"><div class="pct" id="pct">00</div><div class="lab" id="dlab">Inicio</div></div>
+<div id="depth"><div class="pct"><span id="pct">01</span><small id="ptot">/08</small></div><div class="lab" id="dlab">Inicio</div></div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="wrap stage" data-stage data-speed="1">
-    <p class="eyebrow reveal">Antropología · Comunidades · Inteligencia Artificial</p>
-    <h1 class="htitle">
-      <span class="ln"><span class="w">Diseño</span> <span class="w">nuevas</span></span>
-      <span class="ln"><span class="w">formas</span> <span class="w">de</span> <span class="w"><em>vivir,</em></span></span>
-      <span class="ln"><span class="w"><em>trabajar</em></span> <span class="w">y</span></span>
-      <span class="ln"><span class="w"><em>organizarnos</em></span></span>
-    </h1>
-    <p class="hsub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
-  </div>
-  <div class="hint"><span>De la ciudad a la comunidad</span><span class="l"></span><span>Bajá</span></div>
-</section>
+<div id="stagewrap">
 
-<!-- SOBRE MÍ -->
-<section id="sobre">
-  <div class="wrap">
-    <div class="about-grid">
-      <div class="about-side stage" data-stage data-speed="0.7">
-        <p class="eyebrow reveal">Sobre mí</p>
-        <h2 class="reveal">Habito aquello<br>que investigo.</h2>
-        <div class="about-portrait reveal" id="portrait"><span>Rodrigo Buono · Antropólogo social</span></div>
-      </div>
-      <div class="about-body stage" data-stage data-speed="1.1">
-        <p class="reveal">Soy <strong>antropólogo social</strong> especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en su transición hacia la vida comunitaria.</p>
-        <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>, la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la creación de ecoaldeas, co-livings, co-workings y espacios compartidos. También implemento IA con un enfoque antropológico: estudio cómo la tecnología modifica las comunidades y la vida cotidiana.</p>
-        <div class="tags reveal">
-          <span>Antropología</span><span>Ecoaldeas</span><span>Comunidades</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
+  <!-- 0 · HERO -->
+  <section class="scene" id="hero" data-org="0">
+    <div class="scene-inner">
+      <p class="eyebrow reveal">Antropología · Comunidades · Inteligencia Artificial</p>
+      <h1 class="htitle">
+        <span class="ln"><span class="w">Diseño</span> <span class="w">nuevas</span></span>
+        <span class="ln"><span class="w">formas</span> <span class="w">de</span> <span class="w"><em>vivir,</em></span></span>
+        <span class="ln"><span class="w"><em>trabajar</em></span> <span class="w">y</span></span>
+        <span class="ln"><span class="w"><em>organizarnos</em></span></span>
+      </h1>
+      <p class="hsub reveal">Combino antropología, comunidades sustentables y tecnología para acompañar a personas, grupos y organizaciones en la transición hacia nuevos modelos de vida.</p>
+    </div>
+    <div class="hint"><span>De la ciudad a la comunidad</span><span class="l"></span><span>Bajá</span></div>
+  </section>
+
+  <!-- 1 · SOBRE MÍ -->
+  <section class="scene" id="sobre" data-org="1">
+    <div class="scene-inner">
+      <div class="about-grid">
+        <div class="about-side">
+          <p class="eyebrow reveal">Sobre mí</p>
+          <h2 class="reveal">Habito aquello<br>que investigo.</h2>
+          <div class="about-portrait reveal" id="portrait"><span>Rodrigo Buono · Antropólogo social</span></div>
+        </div>
+        <div class="about-body">
+          <p class="reveal">Soy <strong>antropólogo social</strong> especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar. Vivo en una ecoaldea, donde no solo investigo estos modelos sino que los habito, gestiono proyectos y acompaño a personas en su transición hacia la vida comunitaria.</p>
+          <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>, la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la creación de ecoaldeas, co-livings, co-workings y espacios compartidos. También implemento IA con un enfoque antropológico: estudio cómo la tecnología modifica las comunidades y la vida cotidiana.</p>
+          <div class="tags reveal">
+            <span>Antropología</span><span>Ecoaldeas</span><span>Comunidades</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SERVICIOS + PROCESO -->
-<section id="servicios">
-  <div class="serv-sticky">
-    <div class="serv-head">
-      <h2 class="ser">Servicios y proceso</h2>
-      <div class="serv-counter"><b id="servNum">01</b> / 04</div>
-    </div>
-    <div class="serv-track" id="servTrack">
-
-      <div class="serv-panel"><span class="pn">01</span>
-        <div class="room">
-          <div class="room-left">
-            <span class="k">Comunidades</span>
-            <h3 class="ser">Proyectos comunitarios y ecoaldeas</h3>
-            <p>Acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas.</p>
-            <ul><li>Transición a vida en comunidad</li><li>Creación y desarrollo de ecoaldeas</li><li>Diseño de comunidades intencionales</li><li>Organización social y gobernanza</li><li>Diseño de proyectos territoriales</li></ul>
-          </div>
-          <div class="room-right">
-            <h4 class="rt">El proceso — 3 sesiones</h4>
-            <div class="rstep"><div class="num">01</div><div><h5>Diagnóstico personal</h5><p>Motivaciones, expectativas, tipo de comunidad buscada y grado de transición posible.</p></div></div>
-            <div class="rstep"><div class="num">02</div><div><h5>Plan de transición</h5><p>Pasos concretos: economía, trabajo, vivienda, tiempos y estrategia de integración.</p></div></div>
-            <div class="rstep"><div class="num">03</div><div><h5>Implementación</h5><p>Plan de acción, contactos, comunidades específicas y cronograma de transición.</p></div></div>
-          </div>
+  <!-- 2 · SERVICIO 1 -->
+  <section class="scene" id="serv-1" data-org="1.15">
+    <div class="scene-inner">
+      <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>01</b> / 04</span></div>
+      <span class="pn">01</span>
+      <div class="room">
+        <div class="room-left">
+          <span class="k reveal">Comunidades</span>
+          <h3 class="ser reveal">Proyectos comunitarios y ecoaldeas</h3>
+          <p class="reveal">Acompañamiento para personas que quieren transicionar a una vida en comunidad y para grupos que quieren crear ecoaldeas.</p>
+          <ul class="reveal"><li>Transición a vida en comunidad</li><li>Creación y desarrollo de ecoaldeas</li><li>Diseño de comunidades intencionales</li><li>Organización social y gobernanza</li><li>Diseño de proyectos territoriales</li></ul>
+        </div>
+        <div class="room-right">
+          <h4 class="rt reveal">El proceso — 3 sesiones</h4>
+          <div class="rstep reveal"><div class="num">01</div><div><h5>Diagnóstico personal</h5><p>Motivaciones, expectativas, tipo de comunidad buscada y grado de transición posible.</p></div></div>
+          <div class="rstep reveal"><div class="num">02</div><div><h5>Plan de transición</h5><p>Pasos concretos: economía, trabajo, vivienda, tiempos y estrategia de integración.</p></div></div>
+          <div class="rstep reveal"><div class="num">03</div><div><h5>Implementación</h5><p>Plan de acción, contactos, comunidades específicas y cronograma de transición.</p></div></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="serv-panel"><span class="pn">02</span>
-        <div class="room">
-          <div class="room-left">
-            <span class="k">Espacios</span>
-            <h3 class="ser">Co-living, co-working y espacios compartidos</h3>
-            <p>Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la operación.</p>
-            <ul><li>Diseño de co-livings</li><li>Espacios de co-working comunitarios</li><li>Modelos habitacionales alternativos</li><li>Estrategia y modelo de negocio</li><li>Organización y convivencia</li></ul>
-          </div>
-          <div class="room-right">
-            <h4 class="rt">El proceso — a medida</h4>
-            <div class="rstep"><div class="num">01</div><div><h5>Diagnóstico del proyecto</h5><p>Análisis de contexto, territorio, grupo fundador, modelo económico y viabilidad.</p></div></div>
-            <div class="rstep"><div class="num">02</div><div><h5>Diseño organizativo</h5><p>Gobernanza, acuerdos de convivencia, estructura legal y económica del espacio.</p></div></div>
-            <div class="rstep"><div class="num">03</div><div><h5>Acompañamiento en la implementación</h5><p>Seguimiento del lanzamiento, ajustes operativos y consolidación de la comunidad.</p></div></div>
-          </div>
+  <!-- 3 · SERVICIO 2 -->
+  <section class="scene" id="serv-2" data-org="1.4">
+    <div class="scene-inner">
+      <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>02</b> / 04</span></div>
+      <span class="pn">02</span>
+      <div class="room">
+        <div class="room-left">
+          <span class="k reveal">Espacios</span>
+          <h3 class="ser reveal">Co-living, co-working y espacios compartidos</h3>
+          <p class="reveal">Diseño y desarrollo de espacios de vida y trabajo compartidos, desde la conceptualización hasta la operación.</p>
+          <ul class="reveal"><li>Diseño de co-livings</li><li>Espacios de co-working comunitarios</li><li>Modelos habitacionales alternativos</li><li>Estrategia y modelo de negocio</li><li>Organización y convivencia</li></ul>
+        </div>
+        <div class="room-right">
+          <h4 class="rt reveal">El proceso — a medida</h4>
+          <div class="rstep reveal"><div class="num">01</div><div><h5>Diagnóstico del proyecto</h5><p>Análisis de contexto, territorio, grupo fundador, modelo económico y viabilidad.</p></div></div>
+          <div class="rstep reveal"><div class="num">02</div><div><h5>Diseño organizativo</h5><p>Gobernanza, acuerdos de convivencia, estructura legal y económica del espacio.</p></div></div>
+          <div class="rstep reveal"><div class="num">03</div><div><h5>Acompañamiento en la implementación</h5><p>Seguimiento del lanzamiento, ajustes operativos y consolidación de la comunidad.</p></div></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="serv-panel"><span class="pn">03</span>
-        <div class="room">
-          <div class="room-left">
-            <span class="k">Tecnología</span>
-            <h3 class="ser">Implementación de Inteligencia Artificial</h3>
-            <p>Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
-            <ul><li>Automatización de procesos</li><li>IA para comunicación y marketing</li><li>Organización interna con IA</li><li>Estrategia y toma de decisiones</li><li>Vínculo humano–tecnología</li></ul>
-          </div>
-          <div class="room-right">
-            <h4 class="rt">El proceso — diagnóstico + 3 sesiones</h4>
-            <div class="rstep"><div class="num">00</div><div><h5>Sesión de diagnóstico</h5><p>Situación actual, necesidades, herramientas que usás y dónde la IA puede generar mayor impacto.</p></div></div>
-            <div class="rstep"><div class="num">01</div><div><h5>Mapa de oportunidades</h5><p>Oportunidades de automatización y selección de las herramientas más adecuadas para tu caso.</p></div></div>
-            <div class="rstep"><div class="num">02</div><div><h5>Implementación práctica</h5><p>Flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p></div></div>
-            <div class="rstep"><div class="num">03</div><div><h5>Optimización y autonomía</h5><p>Ajustes, resolución de dudas y transferencia de conocimiento para seguir solo.</p></div></div>
-          </div>
+  <!-- 4 · SERVICIO 3 -->
+  <section class="scene" id="serv-3" data-org="1.65">
+    <div class="scene-inner">
+      <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>03</b> / 04</span></div>
+      <span class="pn">03</span>
+      <div class="room">
+        <div class="room-left">
+          <span class="k reveal">Tecnología</span>
+          <h3 class="ser reveal">Implementación de Inteligencia Artificial</h3>
+          <p class="reveal">Integración de IA en organizaciones, proyectos y emprendimientos con un enfoque humano y estratégico.</p>
+          <ul class="reveal"><li>Automatización de procesos</li><li>IA para comunicación y marketing</li><li>Organización interna con IA</li><li>Estrategia y toma de decisiones</li><li>Vínculo humano–tecnología</li></ul>
+        </div>
+        <div class="room-right">
+          <h4 class="rt reveal">El proceso — diagnóstico + 3 sesiones</h4>
+          <div class="rstep reveal"><div class="num">00</div><div><h5>Sesión de diagnóstico</h5><p>Situación actual, necesidades, herramientas que usás y dónde la IA puede generar mayor impacto.</p></div></div>
+          <div class="rstep reveal"><div class="num">01</div><div><h5>Mapa de oportunidades</h5><p>Oportunidades de automatización y selección de las herramientas más adecuadas para tu caso.</p></div></div>
+          <div class="rstep reveal"><div class="num">02</div><div><h5>Implementación práctica</h5><p>Flujos de trabajo, automatizaciones y prompts adaptados a tus necesidades concretas.</p></div></div>
+          <div class="rstep reveal"><div class="num">03</div><div><h5>Optimización y autonomía</h5><p>Ajustes, resolución de dudas y transferencia de conocimiento para seguir solo.</p></div></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="serv-panel"><span class="pn">04</span>
-        <div class="room">
-          <div class="room-left">
-            <span class="k">Acompañamiento</span>
-            <h3 class="ser">Procesos de cambio de vida</h3>
-            <p>Acompañamiento personal y grupal para quienes quieren transicionar hacia modelos más comunitarios, sustentables o colaborativos.</p>
-            <ul><li>Cambio de vida y transición</li><li>Estrategia personal de transición</li><li>Proyectos con impacto social</li><li>Desarrollo estratégico de proyectos</li></ul>
-          </div>
-          <div class="room-right">
-            <h4 class="rt">El proceso — personalizado</h4>
-            <div class="rstep"><div class="num">01</div><div><h5>Conversación exploratoria</h5><p>Entender tu momento vital, motivaciones, miedos, expectativas y posibilidades reales.</p></div></div>
-            <div class="rstep"><div class="num">02</div><div><h5>Diseño de estrategia</h5><p>Plan personalizado con pasos concretos, tiempos realistas y opciones adaptadas a tu contexto.</p></div></div>
-            <div class="rstep"><div class="num">03</div><div><h5>Seguimiento y ajustes</h5><p>Acompañamiento continuo mientras avanzás en tu proceso de transición.</p></div></div>
-          </div>
+  <!-- 5 · SERVICIO 4 -->
+  <section class="scene" id="serv-4" data-org="1.85">
+    <div class="scene-inner">
+      <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>04</b> / 04</span></div>
+      <span class="pn">04</span>
+      <div class="room">
+        <div class="room-left">
+          <span class="k reveal">Acompañamiento</span>
+          <h3 class="ser reveal">Procesos de cambio de vida</h3>
+          <p class="reveal">Acompañamiento personal y grupal para quienes quieren transicionar hacia modelos más comunitarios, sustentables o colaborativos.</p>
+          <ul class="reveal"><li>Cambio de vida y transición</li><li>Estrategia personal de transición</li><li>Proyectos con impacto social</li><li>Desarrollo estratégico de proyectos</li></ul>
+        </div>
+        <div class="room-right">
+          <h4 class="rt reveal">El proceso — personalizado</h4>
+          <div class="rstep reveal"><div class="num">01</div><div><h5>Conversación exploratoria</h5><p>Entender tu momento vital, motivaciones, miedos, expectativas y posibilidades reales.</p></div></div>
+          <div class="rstep reveal"><div class="num">02</div><div><h5>Diseño de estrategia</h5><p>Plan personalizado con pasos concretos, tiempos realistas y opciones adaptadas a tu contexto.</p></div></div>
+          <div class="rstep reveal"><div class="num">03</div><div><h5>Seguimiento y ajustes</h5><p>Acompañamiento continuo mientras avanzás en tu proceso de transición.</p></div></div>
         </div>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PRECIOS -->
-<section id="precios">
-  <div class="wrap">
-    <div class="pr-head stage" data-stage data-speed="1">
-      <p class="eyebrow reveal">Trabajemos</p>
-      <h2 class="reveal">Elegí tu punto de partida</h2>
-      <p class="reveal">Reservá online. El pago es seguro vía MercadoPago o tarjeta.</p>
-    </div>
-    <div class="pr-grid">
-      <div class="pcard stage" data-stage data-speed="0.85" data-tilt>
-        <span class="k">Comunidades</span>
-        <h3 class="ser">Sesión de asesoramiento</h3>
-        <p class="desc">Una conversación profunda para explorar tu transición hacia la vida en comunidad.</p>
-        <div class="price">USD 90<small> / sesión</small></div>
-        <ul><li>Sesión individual de 90 min</li><li>Diagnóstico de tu situación</li><li>Herramientas y comunidades sugeridas</li><li>Grabación + resumen</li></ul>
-        <a class="pay" href="#" data-pay="sesion-comunidad"><span>Reservar sesión</span></a>
+  <!-- 6 · PRECIOS -->
+  <section class="scene" id="precios" data-org="2">
+    <div class="scene-inner">
+      <div class="pr-head">
+        <p class="eyebrow reveal">Trabajemos</p>
+        <h2 class="reveal">Elegí tu punto de partida</h2>
+        <p class="reveal">Reservá online. El pago es seguro vía MercadoPago o tarjeta.</p>
       </div>
-      <div class="pcard feat stage" data-stage data-speed="1.1" data-tilt>
-        <span class="badge">Más elegido</span>
-        <span class="k">Acompañamiento</span>
-        <h3 class="ser">Ciclo de transición · 3 sesiones</h3>
-        <p class="desc">Un proceso completo, de la idea a la implementación de tu nuevo modo de habitar.</p>
-        <div class="price">USD 240<small> / ciclo</small></div>
-        <ul><li>3 sesiones de acompañamiento</li><li>Diagnóstico, plan e implementación</li><li>Red de contactos y comunidades</li><li>Cronograma de transición</li><li>Soporte por mensajería entre sesiones</li></ul>
-        <a class="pay" href="#" data-pay="ciclo-comunidad"><span>Empezar el ciclo</span></a>
+      <div class="pr-grid">
+        <div class="pcard reveal" data-tilt>
+          <span class="k">Comunidades</span>
+          <h3 class="ser">Sesión de asesoramiento</h3>
+          <p class="desc">Una conversación profunda para explorar tu transición hacia la vida en comunidad.</p>
+          <div class="price">USD 90<small> / sesión</small></div>
+          <ul><li>Sesión individual de 90 min</li><li>Diagnóstico de tu situación</li><li>Herramientas y comunidades sugeridas</li><li>Grabación + resumen</li></ul>
+          <a class="pay" href="#" data-pay="sesion-comunidad"><span>Reservar sesión</span></a>
+        </div>
+        <div class="pcard feat reveal" data-tilt>
+          <span class="badge">Más elegido</span>
+          <span class="k">Acompañamiento</span>
+          <h3 class="ser">Ciclo de transición · 3 sesiones</h3>
+          <p class="desc">Un proceso completo, de la idea a la implementación de tu nuevo modo de habitar.</p>
+          <div class="price">USD 240<small> / ciclo</small></div>
+          <ul><li>3 sesiones de acompañamiento</li><li>Diagnóstico, plan e implementación</li><li>Red de contactos y comunidades</li><li>Cronograma de transición</li><li>Soporte por mensajería entre sesiones</li></ul>
+          <a class="pay" href="#" data-pay="ciclo-comunidad"><span>Empezar el ciclo</span></a>
+        </div>
+        <div class="pcard reveal" data-tilt>
+          <span class="k">Inteligencia Artificial</span>
+          <h3 class="ser">Implementación de IA</h3>
+          <p class="desc">Diagnóstico + acompañamiento para integrar IA en tu vida o empresa.</p>
+          <div class="price">USD 320<small> / programa</small></div>
+          <ul><li>Sesión de diagnóstico inicial</li><li>Mapa de oportunidades</li><li>Implementación y configuración</li><li>Optimización y seguimiento</li></ul>
+          <a class="pay" href="#" data-pay="ia"><span>Solicitar programa</span></a>
+        </div>
       </div>
-      <div class="pcard stage" data-stage data-speed="0.85" data-tilt>
-        <span class="k">Inteligencia Artificial</span>
-        <h3 class="ser">Implementación de IA</h3>
-        <p class="desc">Diagnóstico + acompañamiento para integrar IA en tu vida o empresa.</p>
-        <div class="price">USD 320<small> / programa</small></div>
-        <ul><li>Sesión de diagnóstico inicial</li><li>Mapa de oportunidades</li><li>Implementación y configuración</li><li>Optimización y seguimiento</li></ul>
-        <a class="pay" href="#" data-pay="ia"><span>Solicitar programa</span></a>
+      <p class="pr-note reveal">¿No sabés cuál elegir? <a href="#contacto" data-go="7" style="color:var(--sage)">Escribime</a> y lo vemos juntos. Los valores son orientativos y pueden ajustarse.</p>
+    </div>
+  </section>
+
+  <!-- 7 · CONTACTO -->
+  <section class="scene" id="contacto" data-org="2">
+    <div class="scene-inner">
+      <span class="eyebrow reveal">Contacto</span>
+      <h2 class="ctitle reveal" style="margin-top:20px">Empecemos<br>tu <em>recorrido</em></h2>
+      <p class="csub reveal">Si estás pensando en <strong>un cambio de vida</strong>,<br>en <strong>crear una comunidad</strong>,<br>en <strong>implementar IA en tu proyecto</strong>,<br>o simplemente querés conversar.</p>
+      <div class="cta-links reveal">
+        <a href="mailto:hola@rodrigobuono.com" class="mbtn"><span>hola@rodrigobuono.com</span></a>
+      </div>
+      <div class="social reveal">
+        <a href="https://www.instagram.com/rodrigobuono" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/in/rodrigobuono" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
-    <p class="pr-note reveal">¿No sabés cuál elegir? <a href="#contacto" style="color:var(--sage)">Escribime</a> y lo vemos juntos. Los valores son orientativos y pueden ajustarse.</p>
-  </div>
-</section>
+    <div class="foot"><span>© 2026 Rodrigo Buono</span><span>De la ciudad a la comunidad</span></div>
+  </section>
 
-<!-- CONTACTO -->
-<section id="contacto">
-  <div class="cta-in stage" data-stage data-speed="1">
-    <span class="eyebrow reveal">Contacto</span>
-    <h2 class="ctitle reveal">Empecemos<br>tu <em>recorrido</em></h2>
-    <p class="csub reveal">Si estás pensando en <strong>un cambio de vida</strong>,<br>en <strong>crear una comunidad</strong>,<br>en <strong>implementar IA en tu proyecto</strong>,<br>o simplemente querés conversar.</p>
-    <div class="cta-links reveal">
-      <a href="mailto:hola@rodrigobuono.com" class="mbtn"><span>hola@rodrigobuono.com</span></a>
-    </div>
-    <div class="social reveal">
-      <a href="https://www.instagram.com/rodrigobuono" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.linkedin.com/in/rodrigobuono" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="foot-in"><span>© 2026 Rodrigo Buono</span><span>De la ciudad a la comunidad</span></div>
-</footer>
+</div>
 
 <script>
 (function(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t;
-  const smooth=t=>t*t*(3-2*t);
-  let vw=innerWidth, vh=innerHeight, maxScroll=1, horizontal=false;
+  let vw=innerWidth, vh=innerHeight;
+  let deck=false;            // modo escenas (desktop)
+  let idx=0, busy=false;     // escena actual
+  const scenes=[...document.querySelectorAll('.scene')];
+  const TOT=scenes.length;
+  const names=['Inicio','Sobre mí','Servicios 1/4','Servicios 2/4','Servicios 3/4','Servicios 4/4','Precios','Contacto'];
 
   /* ============================================================
-     EL ORGANISMO — partículas que mutan:
-     red neuronal -> columna vertebral -> ecoaldea
+     EL ORGANISMO — pantalla completa
      ============================================================ */
   const cvs=document.getElementById('org'), ctx=cvs.getContext('2d');
   let DPR=Math.min(devicePixelRatio||1,2);
-  let W=0,H=0, N=0, parts=[], shapes=[], linkDist=90;
+  let W=0,H=0,N=0, parts=[], shapes=[], dust=[], waves=[], linkDist=90;
   const PHASES=[
-    {name:'Red neuronal', color:[143,180,201]},   // cian frío — lo cibernético
-    {name:'Columna vertebral', color:[201,166,121]}, // tierra — el cuerpo, el puente
-    {name:'Ecoaldea', color:[134,163,122]}        // verde — lo sustentable
+    {name:'Red neuronal', color:[143,180,201]},
+    {name:'Columna vertebral', color:[201,166,121]},
+    {name:'Ecoaldea', color:[134,163,122]}
   ];
-  // breakpoints del morph sobre el scroll global
-  const STOPS=[0.0, 0.30, 0.72];
-
   function rnd(a,b){ return a+Math.random()*(b-a); }
   function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
 
-  /* --- Forma 1: RED NEURONAL — nube de clusters conectados --- */
   function shapeNeurons(n,w,h){
-    const pts=[]; const cx=w*0.62, cy=h*0.46, R=Math.min(w,h)*0.36;
-    const hubs=[]; const NH=7;
-    for(let i=0;i<NH;i++){ const a=i/NH*Math.PI*2+rnd(-.3,.3); const r=R*rnd(.35,.95);
-      hubs.push([cx+Math.cos(a)*r, cy+Math.sin(a)*r*.78]); }
+    const pts=[]; const cx=w*0.5, cy=h*0.5, R=Math.min(w,h)*0.46;
+    const hubs=[]; const NH=9;
+    for(let i=0;i<NH;i++){ const a=i/NH*Math.PI*2+rnd(-.3,.3); const r=R*rnd(.3,.95);
+      hubs.push([cx+Math.cos(a)*r*1.25, cy+Math.sin(a)*r*.8]); }
     hubs.push([cx,cy]);
-    for(let i=0;i<n;i++){
-      const hb=hubs[i%hubs.length];
-      pts.push([hb[0]+gauss()*R*.30, hb[1]+gauss()*R*.26]);
-    }
+    for(let i=0;i<n;i++){ const hb=hubs[i%hubs.length];
+      pts.push([hb[0]+gauss()*R*.3, hb[1]+gauss()*R*.26]); }
     return pts;
   }
-
-  /* --- Forma 2: COLUMNA VERTEBRAL — curva S con vértebras --- */
   function shapeSpine(n,w,h){
-    const pts=[]; const cx=w*0.60;
-    const top=h*0.08, bot=h*0.92;
+    const pts=[]; const cx=w*0.5;
+    const top=h*0.04, bot=h*0.96;
     for(let i=0;i<n;i++){
       const r=Math.random();
-      if(r<0.45){ // médula: densa sobre la curva
-        const t=Math.random();
-        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
-        const y=top+(bot-top)*t;
-        pts.push([x+gauss()*8, y+gauss()*8]);
-      }else if(r<0.9){ // vértebras: alas simétricas a intervalos
-        const seg=Math.floor(Math.random()*17); const t=seg/16;
-        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
+      if(r<0.45){ const t=Math.random();
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.09;
+        pts.push([x+gauss()*9, top+(bot-top)*t+gauss()*9]);
+      }else if(r<0.9){ const seg=Math.floor(Math.random()*19); const t=seg/18;
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.09;
         const y=top+(bot-top)*t;
         const side=Math.random()<0.5?-1:1;
-        const len=(Math.min(w,h)*0.05)*(1+Math.sin(t*Math.PI)*0.9);
-        const k=Math.random();
-        pts.push([x+side*len*(0.3+k*0.7), y+gauss()*6]);
-      }else{ // aura
-        const t=Math.random();
-        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
-        pts.push([x+gauss()*w*0.09, top+(bot-top)*t+gauss()*20]);
+        const len=(Math.min(w,h)*0.085)*(1+Math.sin(t*Math.PI)*0.9);
+        pts.push([x+side*len*(0.3+Math.random()*0.7), y+gauss()*7]);
+      }else{ const t=Math.random();
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.09;
+        pts.push([x+gauss()*w*0.16, top+(bot-top)*t+gauss()*22]);
       }
     }
     return pts;
   }
-
-  /* --- Forma 3: ECOALDEA — plaza central, casas en anillo, senderos --- */
   function shapeVillage(n,w,h){
-    const pts=[]; const cx=w*0.60, cy=h*0.50, R=Math.min(w,h)*0.34;
+    const pts=[]; const cx=w*0.5, cy=h*0.5, R=Math.min(w,h)*0.42;
     const NH=8; const houses=[];
     for(let i=0;i<NH;i++){ const a=i/NH*Math.PI*2-Math.PI/2;
-      houses.push([cx+Math.cos(a)*R, cy+Math.sin(a)*R*0.82, a]); }
+      houses.push([cx+Math.cos(a)*R*1.15, cy+Math.sin(a)*R*0.85]); }
     for(let i=0;i<n;i++){
       const r=Math.random();
-      if(r<0.16){ // plaza central
-        const a=rnd(0,Math.PI*2), rr=Math.sqrt(Math.random())*R*0.16;
+      if(r<0.16){ const a=rnd(0,Math.PI*2), rr=Math.sqrt(Math.random())*R*0.17;
         pts.push([cx+Math.cos(a)*rr, cy+Math.sin(a)*rr*0.85]);
-      }else if(r<0.60){ // casas (mini círculos = techos circulares)
-        const hI=Math.floor(Math.random()*NH); const hs=houses[hI];
-        const a=rnd(0,Math.PI*2), rr=R*0.13*Math.sqrt(Math.random());
+      }else if(r<0.60){ const hs=houses[Math.floor(Math.random()*NH)];
+        const a=rnd(0,Math.PI*2), rr=R*0.15*Math.sqrt(Math.random());
         pts.push([hs[0]+Math.cos(a)*rr, hs[1]+Math.sin(a)*rr*0.9]);
-      }else if(r<0.86){ // senderos radiales plaza->casas
-        const hI=Math.floor(Math.random()*NH); const hs=houses[hI];
-        const t=Math.random();
-        pts.push([lerp(cx,hs[0],t)+gauss()*6, lerp(cy,hs[1],t)+gauss()*6]);
-      }else{ // anillo perimetral (el borde del territorio)
-        const a=rnd(0,Math.PI*2);
-        const rr=R*1.22;
-        pts.push([cx+Math.cos(a)*rr+gauss()*5, cy+Math.sin(a)*rr*0.82+gauss()*5]);
-      }
+      }else if(r<0.86){ const hs=houses[Math.floor(Math.random()*NH)]; const t=Math.random();
+        pts.push([lerp(cx,hs[0],t)+gauss()*7, lerp(cy,hs[1],t)+gauss()*7]);
+      }else{ const a=rnd(0,Math.PI*2); const rr=R*1.38;
+        pts.push([cx+Math.cos(a)*rr+gauss()*6, cy+Math.sin(a)*rr*0.8+gauss()*6]); }
     }
     return pts;
   }
 
   function buildShapes(){
-    W=cvs.width=Math.floor(innerWidth*DPR); H=cvs.height=Math.floor(innerHeight*DPR);
-    cvs.style.width=innerWidth+'px'; cvs.style.height=innerHeight+'px';
+    W=cvs.width=Math.floor(innerWidth*1.06*DPR); H=cvs.height=Math.floor(innerHeight*1.06*DPR);
     const area=innerWidth*innerHeight;
-    N=Math.round(clamp(area/2600, 220, 620));
-    if(innerWidth<=980) N=Math.round(N*0.55);
-    linkDist=Math.min(innerWidth,innerHeight)*0.085*DPR;
+    N=Math.round(clamp(area/2100, 260, 760));
+    if(innerWidth<=980) N=Math.round(N*0.5);
+    linkDist=Math.min(innerWidth,innerHeight)*0.09*DPR;
     shapes=[ shapeNeurons(N,W,H), shapeSpine(N,W,H), shapeVillage(N,W,H) ];
-    // barajar la 2da y 3ra para que el morph cruce trayectorias (más orgánico)
     if(parts.length!==N){
       parts=[];
-      for(let i=0;i<N;i++){
-        parts.push({ x:shapes[0][i][0], y:shapes[0][i][1], vx:0, vy:0,
-          ph:rnd(0,Math.PI*2), sp:rnd(0.4,1.1), sz:rnd(0.8,2.2) });
-      }
+      for(let i=0;i<N;i++) parts.push({ x:shapes[0][i][0], y:shapes[0][i][1], vx:0, vy:0,
+        ph:rnd(0,Math.PI*2), sp:rnd(0.4,1.1), sz:rnd(0.9,2.4) });
+      dust=[];
+      for(let i=0;i<130;i++) dust.push({ x:rnd(0,W), y:rnd(0,H), s:rnd(.5,1.4), v:rnd(.08,.3), a:rnd(.05,.16) });
     }
   }
 
-  /* estado del morph */
-  let morphT=0; // 0..2 continuo entre las 3 formas
+  /* cámara del organismo: rota y respira por escena */
+  const cam={ rot:0, rotT:0, scale:1, scaleT:1 };
+  const ROTS=[0,-.05,.06,-.06,.06,-.05,.04,0];
+
+  let morphT=0, morphTarget=0;
   let colNow=[...PHASES[0].color];
   const phaseName=document.getElementById('phaseName');
   let lastPhase=0;
 
-  function organism(time,p,mouseX,mouseY,mouseOn){
-    // qué par de formas y cuánto
-    let t;
-    if(p<=STOPS[1]) t=smooth(clamp((p-STOPS[0])/(STOPS[1]-STOPS[0]),0,1));
-    else t=1+smooth(clamp((p-STOPS[1])/(STOPS[2]-STOPS[1]),0,1));
-    morphT=lerp(morphT,clamp(t,0,2),0.07);
+  function organism(time,mouseX,mouseY,mouseOn){
+    morphT=lerp(morphT,morphTarget,0.055);
+    cam.rot=lerp(cam.rot,cam.rotT,0.04);
+    cam.scale=lerp(cam.scale,cam.scaleT,0.05);
+    cam.scaleT=lerp(cam.scaleT,1,0.02);
 
-    const k=morphT<1?0:1;               // forma base
-    const f=morphT-k;                    // fracción hacia la siguiente
+    const k=morphT<1?0:1;
+    const f=clamp(morphT-k,0,1);
     const A=shapes[k], B=shapes[Math.min(k+1,2)];
-
-    // color de fase
     const ca=PHASES[k].color, cb=PHASES[Math.min(k+1,2)].color;
     for(let j=0;j<3;j++) colNow[j]=Math.round(lerp(ca[j],cb[j],f));
     const phi=f<0.5?k:Math.min(k+1,2);
     if(phi!==lastPhase){ lastPhase=phi; phaseName.textContent=PHASES[phi].name; }
 
     ctx.clearRect(0,0,W,H);
-    const mR=140*DPR;
+    const cx=W/2, cy=H/2;
+    ctx.save();
+    ctx.translate(cx,cy); ctx.rotate(cam.rot); ctx.scale(cam.scale,cam.scale); ctx.translate(-cx,-cy);
 
-    // mover partículas hacia el target interpolado
+    // mouse en coords del organismo (inversa de la cámara)
+    const cosr=Math.cos(-cam.rot), sinr=Math.sin(-cam.rot);
+    let mxo=(mouseX-cx)/cam.scale, myo=(mouseY-cy)/cam.scale;
+    const mrx=mxo*cosr-myo*sinr+cx, mry=mxo*sinr+myo*cosr+cy;
+    const mR=150*DPR;
+
     for(let i=0;i<N;i++){
       const P=parts[i];
       const tx=lerp(A[i][0],B[i][0],f), ty=lerp(A[i][1],B[i][1],f);
-      // respiración orgánica
-      const wob=Math.sin(time*0.0008*P.sp+P.ph)*6*DPR;
-      let dx=tx+wob-P.x, dy=ty+Math.cos(time*0.0007*P.sp+P.ph)*5*DPR-P.y;
-      P.vx=P.vx*0.86+dx*0.012; P.vy=P.vy*0.86+dy*0.012;
-      // repulsión del mouse
+      const wob=Math.sin(time*0.0008*P.sp+P.ph)*7*DPR;
+      const dx=tx+wob-P.x, dy=ty+Math.cos(time*0.0007*P.sp+P.ph)*6*DPR-P.y;
+      P.vx=P.vx*0.87+dx*0.012; P.vy=P.vy*0.87+dy*0.012;
       if(mouseOn){
-        const mdx=P.x-mouseX, mdy=P.y-mouseY, md=Math.hypot(mdx,mdy);
-        if(md<mR && md>0.01){ const fr=(1-md/mR)*2.4*DPR; P.vx+=mdx/md*fr; P.vy+=mdy/md*fr; }
+        const mdx=P.x-mrx, mdy=P.y-mry, md=Math.hypot(mdx,mdy);
+        if(md<mR && md>0.01){ const fr=(1-md/mR)*2.6*DPR; P.vx+=mdx/md*fr; P.vy+=mdy/md*fr; }
       }
       P.x+=P.vx; P.y+=P.vy;
     }
 
-    // conexiones (grid espacial para O(n))
-    const cell=linkDist, cols=Math.ceil(W/cell)+1, grid=new Map();
+    const cell=linkDist, cols=Math.ceil(W/cell)+2, grid=new Map();
     for(let i=0;i<N;i++){ const gx=(parts[i].x/cell)|0, gy=(parts[i].y/cell)|0, key=gx+gy*cols;
       (grid.get(key)||grid.set(key,[]).get(key)).push(i); }
     const [r,g,b]=colNow;
-    ctx.lineWidth=1*DPR;
+    ctx.lineWidth=1.1*DPR;
     for(let i=0;i<N;i++){
       const P=parts[i]; const gx=(P.x/cell)|0, gy=(P.y/cell)|0;
       let links=0;
@@ -580,7 +582,7 @@
         for(const j of bkt){ if(j<=i&&ox===0&&oy===0)continue;
           const Q=parts[j]; const dx=P.x-Q.x, dy=P.y-Q.y; const d2=dx*dx+dy*dy;
           if(d2<linkDist*linkDist){
-            const d=Math.sqrt(d2); const a=(1-d/linkDist)*0.34;
+            const d=Math.sqrt(d2); const a=(1-d/linkDist)*0.42;
             ctx.strokeStyle=`rgba(${r},${g},${b},${a.toFixed(3)})`;
             ctx.beginPath(); ctx.moveTo(P.x,P.y); ctx.lineTo(Q.x,Q.y); ctx.stroke();
             if(++links>4) break;
@@ -589,28 +591,146 @@
         if(links>4) break;
       }
     }
-    // nodos
     for(let i=0;i<N;i++){
       const P=parts[i];
       const tw=0.55+0.45*Math.sin(time*0.002*P.sp+P.ph);
-      ctx.fillStyle=`rgba(${r},${g},${b},${(0.5*tw+0.25).toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(P.x,P.y,P.sz*DPR*(0.8+tw*0.4),0,6.283); ctx.fill();
+      ctx.fillStyle=`rgba(${r},${g},${b},${(0.55*tw+0.3).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(P.x,P.y,P.sz*DPR*(0.8+tw*0.45),0,6.283); ctx.fill();
     }
-    // pulsos: chispas que viajan (sinapsis / energía)
-    const NP=14;
-    for(let s=0;s<NP;s++){
+    // pulsos sinápticos
+    for(let s=0;s<16;s++){
       const i=(s*97)%N, j=(s*211+37)%N;
-      const tt=(time*0.00025+s/NP)%1;
-      const x=lerp(parts[i].x,parts[j].x,tt), y=lerp(parts[i].y,parts[j].y,tt);
+      const tt=(time*0.00025+s/16)%1;
       const dd=Math.hypot(parts[i].x-parts[j].x,parts[i].y-parts[j].y);
-      if(dd<linkDist*3.2){
-        ctx.fillStyle=`rgba(${r},${g},${b},${(0.85*(1-Math.abs(tt-0.5)*2)).toFixed(3)})`;
-        ctx.beginPath(); ctx.arc(x,y,2.2*DPR,0,6.283); ctx.fill();
+      if(dd<linkDist*3.4){
+        const x=lerp(parts[i].x,parts[j].x,tt), y=lerp(parts[i].y,parts[j].y,tt);
+        ctx.fillStyle=`rgba(${r},${g},${b},${(0.9*(1-Math.abs(tt-0.5)*2)).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(x,y,2.4*DPR,0,6.283); ctx.fill();
       }
+    }
+    ctx.restore();
+
+    // polvo ambiental (fuera de cámara, capa de profundidad)
+    for(const D of dust){
+      D.y-=D.v*DPR; if(D.y<-4) { D.y=H+4; D.x=rnd(0,W); }
+      ctx.fillStyle=`rgba(${r},${g},${b},${D.a})`;
+      ctx.beginPath(); ctx.arc(D.x,D.y,D.s*DPR,0,6.283); ctx.fill();
+    }
+    // ondas expansivas de transición
+    for(let i=waves.length-1;i>=0;i--){
+      const w0=waves[i];
+      w0.r+=22*DPR; w0.a*=0.94;
+      if(w0.a<0.01){ waves.splice(i,1); continue; }
+      ctx.strokeStyle=`rgba(${r},${g},${b},${w0.a.toFixed(3)})`;
+      ctx.lineWidth=1.6*DPR;
+      ctx.beginPath(); ctx.arc(w0.x,w0.y,w0.r,0,6.283); ctx.stroke();
     }
   }
 
-  /* ============================================================ */
+  /* ============================================================
+     MOTOR DE ESCENAS
+     ============================================================ */
+  const stage=document.getElementById('stagewrap');
+  const sweep=document.getElementById('sweep');
+  const pct=document.getElementById('pct'), ptot=document.getElementById('ptot'),
+        dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
+  const snLinks=[...document.querySelectorAll('#scenenav a')];
+  ptot.textContent='/'+('0'+TOT).slice(-2);
+
+  const EASE='cubic-bezier(.16,1,.3,1)', DUR=1050;
+
+  function setScene(el,tf,op,blur,instant){
+    el.style.transition=instant?'none':`transform ${DUR}ms ${EASE}, opacity ${DUR*0.82}ms ${EASE}, filter ${DUR*0.82}ms ${EASE}`;
+    el.style.transform=tf; el.style.opacity=op; el.style.filter=`blur(${blur}px)`;
+  }
+  function playReveals(scene){
+    const ws=scene.querySelectorAll('.htitle .w');
+    ws.forEach(w=>{ w.style.transition='none'; w.style.transform='translateY(115%)'; });
+    const rs=scene.querySelectorAll('.reveal');
+    rs.forEach(el=>{ el.classList.remove('in'); });
+    void scene.offsetWidth;
+    ws.forEach((w,i)=>{ w.style.transition=`transform .9s ${EASE} ${i*0.07+0.25}s`; w.style.transform='translateY(0)'; });
+    rs.forEach((el,i)=>{ el.style.transitionDelay=(i*70+250)+'ms'; el.classList.add('in'); });
+  }
+  function updateHud(){
+    pct.textContent=('0'+(idx+1)).slice(-2);
+    dlab.textContent=names[idx];
+    bar.style.width=(idx/(TOT-1)*100)+'%';
+    snLinks.forEach(a=>{ const[lo,hi]=a.dataset.range.split('-').map(Number);
+      a.classList.toggle('active', idx>=lo&&idx<=hi); });
+    morphTarget=parseFloat(scenes[idx].dataset.org)||0;
+    cam.rotT=ROTS[idx]||0;
+  }
+  function go(n,instant){
+    n=clamp(n,0,TOT-1);
+    if(deck===false){ // modo scroll: saltar al ancla
+      scenes[n].scrollIntoView({behavior:instant?'auto':'smooth'}); return;
+    }
+    if(busy||n===idx) return;
+    busy=true;
+    const dir=n>idx?1:-1;
+    const cur=scenes[idx], nxt=scenes[n];
+
+    // organismo reacciona: ráfaga + onda + zoom de cámara
+    for(const P of parts){ P.vx+=gauss()*5*DPR; P.vy+=gauss()*5*DPR; }
+    waves.push({x:W/2, y:H/2, r:40*DPR, a:0.4});
+    cam.scaleT=1.07;
+    sweep.classList.remove('go'); void sweep.offsetWidth; sweep.classList.add('go');
+
+    nxt.classList.add('on');
+    setScene(nxt, `translateY(${dir*62}vh) translateZ(-620px) rotateX(${-dir*17}deg) scale(.92)`, 0, 14, true);
+    void nxt.offsetWidth;
+    setScene(nxt, 'translateY(0) translateZ(0) rotateX(0) scale(1)', 1, 0, false);
+    setScene(cur, `translateY(${-dir*46}vh) translateZ(-480px) rotateX(${dir*14}deg) scale(.94)`, 0, 12, false);
+    playReveals(nxt);
+    idx=n; updateHud();
+    setTimeout(()=>{ cur.classList.remove('on'); busy=false; }, DUR+80);
+  }
+
+  /* input: rueda / teclado / touch — siempre una escena completa */
+  let acc=0, lastWheel=0;
+  addEventListener('wheel',e=>{
+    if(!deck) return;
+    e.preventDefault();
+    const now=performance.now();
+    if(busy){ acc=0; return; }
+    if(now-lastWheel>200) acc=0;
+    lastWheel=now; acc+=e.deltaY;
+    if(Math.abs(acc)>60){ go(idx+(acc>0?1:-1)); acc=0; }
+  },{passive:false});
+  addEventListener('keydown',e=>{
+    if(!deck) return;
+    if(['ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); go(idx+1); }
+    if(['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); go(idx-1); }
+    if(e.key==='Home'){ e.preventDefault(); go(0); }
+    if(e.key==='End'){ e.preventDefault(); go(TOT-1); }
+  });
+  let ty0=null;
+  addEventListener('touchstart',e=>{ ty0=e.touches[0].clientY; },{passive:true});
+  addEventListener('touchend',e=>{
+    if(!deck||ty0===null) return;
+    const dy=ty0-e.changedTouches[0].clientY; ty0=null;
+    if(Math.abs(dy)>50) go(idx+(dy>0?1:-1));
+  },{passive:true});
+
+  document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{
+    if(deck){ e.preventDefault(); go(parseInt(a.dataset.go,10)); }
+    burger.classList.remove('on'); menu.classList.remove('open');
+  }));
+
+  /* modo según viewport */
+  function setMode(){
+    const want=innerWidth>980&&!reduce;
+    if(want===deck) return;
+    deck=want;
+    document.body.classList.toggle('deck',deck);
+    scenes.forEach((s,i)=>{
+      s.classList.toggle('on', !deck||i===idx);
+      if(deck){ setScene(s, i===idx?'none':'translateY(62vh)', i===idx?1:0, 0, true); }
+      else{ s.style.transform=''; s.style.opacity=''; s.style.filter=''; s.style.transition=''; }
+    });
+    if(deck){ updateHud(); playReveals(scenes[idx]); }
+  }
 
   /* CURSOR */
   const cur=document.querySelector('.cur'), ring=document.querySelector('.cur-ring');
@@ -624,112 +744,63 @@
     el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
   });
 
-  /* NAV */
+  /* NAV mobile */
   const burger=document.getElementById('burger'), menu=document.getElementById('menu');
   burger.addEventListener('click',()=>{ burger.classList.toggle('on'); menu.classList.toggle('open'); });
-  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ burger.classList.remove('on'); menu.classList.remove('open'); }));
 
-  /* REVEAL */
-  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+  /* REVEAL para modo scroll (mobile) */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } }),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  addEventListener('load',()=>{ if(!deck) document.querySelectorAll('.htitle .w').forEach((w,i)=>{
+    w.style.transition=`transform .9s ${EASE} ${i*0.08+0.15}s`; w.style.transform='translateY(0)'; }); });
 
-  /* HERO words */
-  addEventListener('load',()=>document.querySelectorAll('.htitle .w').forEach((w,i)=>{
-    w.style.transition=`transform .9s cubic-bezier(.16,1,.3,1) ${i*0.08+0.15}s`;
-    requestAnimationFrame(()=>w.style.transform='translateY(0)');
-  }));
-
-  /* FONDO ciudad->bosque */
+  /* FONDO */
   const bgStops=[[0,[10,12,16]],[0.3,[16,15,13]],[0.55,[19,16,11]],[0.8,[12,16,11]],[1,[10,15,10]]];
   function sample(st,t){ for(let i=0;i<st.length-1;i++){ const[a,ca]=st[i],[b,cb]=st[i+1]; if(t>=a&&t<=b){ const k=(t-a)/(b-a||1); return ca.map((v,j)=>Math.round(lerp(v,cb[j],k))); } } return st[st.length-1][1]; }
   const bg=document.getElementById('bg');
 
-  /* SCENE NAV / DEPTH */
-  const sceneIds=['hero','sobre','servicios','precios','contacto'];
-  const snLinks={}; document.querySelectorAll('#scenenav a').forEach(a=>snLinks[a.dataset.sn]=a);
-  const pct=document.getElementById('pct'), dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
-  const labels={hero:'Inicio',sobre:'Sobre mí',servicios:'Servicios',precios:'Precios',contacto:'Contacto'};
-
-  /* SERVICIOS */
-  const serv=document.getElementById('servicios'), track=document.getElementById('servTrack'), servNum=document.getElementById('servNum');
-  const panels=[...document.querySelectorAll('.serv-panel')];
-  const stages=[...document.querySelectorAll('[data-stage]')];
-  const portrait=document.getElementById('portrait');
-
-  function measure(){ vw=innerWidth; vh=innerHeight; maxScroll=Math.max(1,document.documentElement.scrollHeight-vh);
-    horizontal=vw>980&&!reduce; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); }
-
-  /* TILT */
+  /* TILT + MAGNETIC + PAY */
   document.querySelectorAll('[data-tilt]').forEach(card=>{
     card.addEventListener('mousemove',e=>{ if(vw<=980)return; const r=card.getBoundingClientRect();
       const x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
       card.style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`; });
     card.addEventListener('mouseleave',()=>card.style.transform='');
   });
-
-  /* MAGNETIC */
   document.querySelectorAll('.mbtn,.pay').forEach(btn=>{
     btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*0.18}px,${(e.clientY-r.top-r.height/2)*0.25}px)`; });
     btn.addEventListener('mouseleave',()=>btn.style.transform='');
   });
-
-  /* PAY fallback */
   document.querySelectorAll('[data-pay]').forEach(a=>a.addEventListener('click',e=>{
     if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:hola@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
   }));
 
+  function measure(){ vw=innerWidth; vh=innerHeight; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); setMode(); }
+
+  const portrait=document.getElementById('portrait');
   function tick(time){
-    const y=scrollY||pageYOffset;
-    const p=clamp(y/maxScroll,0,1);
-
+    // fondo según progreso de escena (deck) o scroll (mobile)
+    let p;
+    if(deck) p=idx/(TOT-1);
+    else{ const ms=Math.max(1,document.documentElement.scrollHeight-vh); p=clamp((scrollY||0)/ms,0,1);
+      // morph continuo en mobile
+      morphTarget=p<0.35? p/0.35 : 1+(p-0.35)/0.65; }
     const c=sample(bgStops,p); bg.style.background=`rgb(${c[0]},${c[1]},${c[2]})`;
-    pct.textContent=('0'+Math.round(p*100)).slice(-2); bar.style.width=(p*100)+'%';
+    if(!deck) bar.style.width=(p*100)+'%';
 
-    // EL ORGANISMO
-    if(!reduce) organism(time,p, mx*DPR, my*DPR, mouseOn);
+    if(!reduce) organism(time, (mx+innerWidth*0.03)*DPR, (my+innerHeight*0.03)*DPR, mouseOn);
 
-    // stage suave
-    if(!reduce && vw>980){
-      stages.forEach(el=>{
-        const r=el.getBoundingClientRect(); const center=r.top+r.height/2;
-        const t=clamp((center-vh/2)/vh,-1,1);
-        const sp=parseFloat(el.dataset.speed)||1;
-        el.style.transform=`translateY(${t*40*sp}px) rotateX(${-t*2.5}deg) scale(${1-Math.abs(t)*0.03})`;
-        el.style.opacity=clamp(1-Math.max(0,Math.abs(t)-0.6)*1.5,0.15,1).toFixed(2);
-      });
-    }
+    // parallax sutil del lienzo con el mouse
+    cvs.style.transform=`translate(${nmx*-14}px,${nmy*-11}px)`;
 
     if(portrait && vw>980) portrait.style.transform=`perspective(800px) rotateY(${nmx*5}deg) rotateX(${-nmy*5}deg)`;
 
-    // servicios horizontal
-    if(horizontal){
-      const r=serv.getBoundingClientRect(); const scrollable=serv.offsetHeight-vh;
-      const sp=clamp((-r.top)/scrollable,0,1);
-      const range=track.scrollWidth-vw;
-      track.style.transform=`translate3d(${-sp*range}px,0,0)`;
-      servNum.textContent=('0'+Math.min(4,Math.floor(sp*4)+1)).slice(-2);
-      panels.forEach(pn=>{
-        const pr=pn.getBoundingClientRect();
-        const d=clamp((pr.left+pr.width/2-vw/2)/vw,-1,1);
-        const left=pn.querySelector('.room-left'), right=pn.querySelector('.room-right');
-        if(left){ left.style.transform=`translateX(${d*-30}px)`; left.style.opacity=(1-Math.abs(d)*.4).toFixed(2); }
-        if(right){ right.style.transform=`translateX(${d*30}px)`; right.style.opacity=(1-Math.abs(d)*.5).toFixed(2); }
-      });
-    }else{ track.style.transform=''; }
-
-    // scene nav
-    let act='hero';
-    for(const id of sceneIds){ const el=document.getElementById(id); if(el && el.getBoundingClientRect().top<=vh*0.4) act=id; }
-    for(const id in snLinks) snLinks[id].classList.toggle('active',id===act);
-    dlab.textContent=labels[act]||'';
-
     rx=lerp(rx,mx,.16); ry=lerp(ry,my,.16); ring.style.left=rx+'px'; ring.style.top=ry+'px';
-
     requestAnimationFrame(tick);
   }
 
   addEventListener('resize',measure);
-  measure(); requestAnimationFrame(tick);
+  measure();
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>
