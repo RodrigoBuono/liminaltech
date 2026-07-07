@@ -163,7 +163,8 @@
   .pcard .k{ font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
   .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.28rem; line-height:1.15; margin:10px 0 6px; min-height:2.4em; }
   .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.84rem; min-height:5em; }
-  .pcard .price{ font-family:'Fraunces',serif; font-size:2rem; margin:12px 0 2px; }
+  .pcard .price{ font-family:'Fraunces',serif; font-size:2rem; margin:12px 0 2px; white-space:nowrap; }
+  .pcard .price.quote{ font-size:1.62rem; }
   .pcard .price small{ font-family:'Inter'; font-size:.72rem; color:var(--fg-dim); letter-spacing:1px; white-space:nowrap; }
   .pcard .price .from{ display:block; font-family:'Inter'; font-size:.68rem; color:var(--fg-dim); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
   .pcard ul{ list-style:none; margin:14px 0 20px; }
@@ -235,6 +236,7 @@
     .pcard{ padding:20px 16px; }
     .pcard h3{ font-size:1.12rem; }
     .pcard .price{ font-size:1.65rem; }
+    .pcard .price.quote{ font-size:1.3rem; }
     .pcard .desc{ font-size:.8rem; }
     .pcard li{ font-size:.78rem; }
   }
@@ -477,7 +479,7 @@
           <span class="k">Producto digital</span>
           <h3 class="ser">Arquitectura de productos digitales</h3>
           <p class="desc">De la idea a un producto digital funcionando: estrategia, prototipo y desarrollo con IA.</p>
-          <div class="price"><span class="from">&nbsp;</span>A cotizar<small> / según proyecto</small></div>
+          <div class="price quote"><span class="from">&nbsp;</span>A cotizar<small> / según proyecto</small></div>
           <ul><li>Descubrimiento y estrategia</li><li>Prototipo navegable</li><li>Desarrollo con IA</li><li>Lanzamiento y evolución</li></ul>
           <a class="pay" href="#" data-pay="producto-digital"><span>Solicitar propuesta</span></a>
         </div>
