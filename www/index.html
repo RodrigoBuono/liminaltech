@@ -161,10 +161,10 @@
   .pcard.feat{ border-color:rgba(134,163,122,.4); }
   .pcard .badge{ position:absolute; top:-11px; left:26px; background:var(--sage); color:#0d0f12; font-size:.56rem; letter-spacing:1.5px; text-transform:uppercase; padding:4px 11px; border-radius:30px; }
   .pcard .k{ font-size:.66rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
-  .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.28rem; line-height:1.15; margin:10px 0 6px; }
-  .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.84rem; min-height:44px; }
+  .pcard h3{ font-family:'Fraunces',serif; font-weight:340; font-size:1.28rem; line-height:1.15; margin:10px 0 6px; min-height:2.4em; }
+  .pcard .desc{ color:var(--fg-dim); font-weight:300; font-size:.84rem; min-height:5em; }
   .pcard .price{ font-family:'Fraunces',serif; font-size:2rem; margin:12px 0 2px; }
-  .pcard .price small{ font-family:'Inter'; font-size:.72rem; color:var(--fg-dim); letter-spacing:1px; }
+  .pcard .price small{ font-family:'Inter'; font-size:.72rem; color:var(--fg-dim); letter-spacing:1px; white-space:nowrap; }
   .pcard .price .from{ display:block; font-family:'Inter'; font-size:.68rem; color:var(--fg-dim); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
   .pcard ul{ list-style:none; margin:14px 0 20px; }
   .pcard li{ padding:6px 0 6px 18px; position:relative; font-size:.82rem; font-weight:300; color:var(--fg); border-bottom:1px solid var(--line); }
@@ -225,6 +225,7 @@
     .pr-grid{ grid-template-columns:1fr; gap:18px; }
     .pr-head{ margin-bottom:26px; }
     .pcard .desc{ min-height:0; }
+    .pcard h3{ min-height:0; }
     .ctitle{ font-size:clamp(2.4rem,13vw,4.5rem); }
     .csub{ font-size:.96rem; }
     .foot{ position:static; display:flex; justify-content:center; flex-wrap:wrap; gap:8px 22px;
@@ -239,7 +240,7 @@
   }
   @media (max-height:780px) and (min-width:981px){
     .scene-inner{ padding:76px 90px 56px; }
-    .pcard{ padding:22px 20px; } .pcard .desc{ min-height:38px; font-size:.8rem; }
+    .pcard{ padding:22px 20px; } .pcard .desc{ min-height:5em; font-size:.8rem; }
     .pcard li{ padding:4px 0 4px 18px; font-size:.78rem; }
     .pr-head{ margin-bottom:26px; }
     .rstep{ margin-bottom:14px; } .rstep p{ font-size:.82rem; }
@@ -451,7 +452,7 @@
           <span class="k">Comunidades</span>
           <h3 class="ser">Sesión de asesoramiento</h3>
           <p class="desc">Una conversación profunda para explorar tu transición hacia la vida en comunidad.</p>
-          <div class="price">USD 90<small> / sesión</small></div>
+          <div class="price"><span class="from">&nbsp;</span>USD 90<small> / sesión</small></div>
           <ul><li>Sesión individual de 90 min</li><li>Diagnóstico de tu situación</li><li>Herramientas y comunidades sugeridas</li><li>Grabación + resumen</li></ul>
           <a class="pay" href="#" data-pay="sesion-comunidad"><span>Reservar sesión</span></a>
         </div>
@@ -460,7 +461,7 @@
           <span class="k">Acompañamiento</span>
           <h3 class="ser">Ciclo de transición<br>3 sesiones</h3>
           <p class="desc">Un proceso completo, de la idea a la implementación de tu nuevo modo de habitar.</p>
-          <div class="price">USD 240<small> / ciclo</small></div>
+          <div class="price"><span class="from">&nbsp;</span>USD 240<small> / ciclo</small></div>
           <ul><li>3 sesiones de acompañamiento</li><li>Diagnóstico, plan e implementación</li><li>Red de contactos y comunidades</li><li>Cronograma de transición</li><li>Soporte por mensajería entre sesiones</li></ul>
           <a class="pay" href="#" data-pay="ciclo-comunidad"><span>Empezar el ciclo</span></a>
         </div>
@@ -476,7 +477,7 @@
           <span class="k">Producto digital</span>
           <h3 class="ser">Arquitectura de productos digitales</h3>
           <p class="desc">De la idea a un producto digital funcionando: estrategia, prototipo y desarrollo con IA.</p>
-          <div class="price">A cotizar<small> / según proyecto</small></div>
+          <div class="price"><span class="from">&nbsp;</span>A cotizar<small> / según proyecto</small></div>
           <ul><li>Descubrimiento y estrategia</li><li>Prototipo navegable</li><li>Desarrollo con IA</li><li>Lanzamiento y evolución</li></ul>
           <a class="pay" href="#" data-pay="producto-digital"><span>Solicitar propuesta</span></a>
         </div>
