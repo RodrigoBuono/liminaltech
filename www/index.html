@@ -281,7 +281,8 @@
           <p class="eyebrow reveal">Sobre mí</p>
           <h2 class="reveal">Habito aquello<br>que investigo.</h2>
           <div class="about-portrait reveal" id="portrait">
-            <img src="rodrigo.png" alt="Rodrigo Buono" onerror="this.parentElement.classList.add('noimg');this.remove()">
+            <img src="rodrigo.png" alt="Rodrigo Buono"
+              onerror="if(!this.dataset.alt){this.dataset.alt=1;this.src='https://raw.githubusercontent.com/RodrigoBuono/liminaltech/claude/build-personal-website-3V32Y/www/rodrigo.png';}else{this.parentElement.classList.add('noimg');this.remove();}">
             <span>Rodrigo Buono · Antropólogo social</span>
           </div>
         </div>
