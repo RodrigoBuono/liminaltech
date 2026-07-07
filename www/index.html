@@ -10,21 +10,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{ --fg:#ece7df; --fg-dim:#9a948a; --sage:#86a37a; --earth:#c9a679; --line:rgba(236,231,223,0.12); }
+  :root{ --fg:#ece7df; --fg-dim:#9a948a; --sage:#86a37a; --earth:#c9a679; --cyan:#8fb4c9; --line:rgba(236,231,223,0.12); }
   html{ scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
-  body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0d0f12; line-height:1.65; overflow-x:hidden; cursor:none; }
+  body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0a0c10; line-height:1.65; overflow-x:hidden; cursor:none; }
   ::selection{ background:var(--sage); color:#0d0f12; }
   a{ color:inherit; text-decoration:none; }
 
-  /* FONDO */
-  #bg{ position:fixed; inset:0; z-index:-5; background:#0d0f12; }
-  .blob{ position:fixed; z-index:-4; border-radius:50%; filter:blur(80px); opacity:.35; pointer-events:none; will-change:transform; }
-  #b1{ width:50vmax; height:50vmax; background:radial-gradient(circle,rgba(134,163,122,.5),transparent 60%); }
-  #b2{ width:44vmax; height:44vmax; background:radial-gradient(circle,rgba(201,166,121,.4),transparent 60%); }
-  #b3{ width:36vmax; height:36vmax; background:radial-gradient(circle,rgba(120,140,170,.35),transparent 60%); }
+  /* ORGANISMO (canvas de partículas) */
+  #bg{ position:fixed; inset:0; z-index:-6; background:#0a0c10; }
+  #org{ position:fixed; inset:0; z-index:-4; width:100%; height:100%; }
+  #veil{ position:fixed; inset:0; z-index:-3; pointer-events:none;
+    background:radial-gradient(ellipse 60% 55% at 32% 46%, rgba(10,12,16,.82) 0%, rgba(10,12,16,.45) 55%, transparent 100%); }
   .grain{ position:fixed; inset:-50%; z-index:-1; width:200%; height:200%;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events:none; opacity:.5; }
+
+  /* ESTADO DEL ORGANISMO */
+  #phase{ position:fixed; left:50px; top:50%; transform:translateY(-50%) rotate(180deg); z-index:850;
+    writing-mode:vertical-rl; font-size:.6rem; letter-spacing:4px; text-transform:uppercase; color:var(--fg-dim);
+    mix-blend-mode:difference; transition:opacity .5s; }
+  #phase b{ color:var(--fg); font-weight:500; }
 
   /* CURSOR */
   .cur{ position:fixed; top:0; left:0; width:7px; height:7px; border-radius:50%; background:var(--sage);
@@ -70,7 +75,6 @@
   .reveal{ opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
   .reveal.in{ opacity:1; transform:none; }
   .stage{ will-change:transform,opacity; }
-  .ghost{ position:absolute; font-family:'Fraunces',serif; font-weight:300; color:rgba(236,231,223,.03); line-height:.8; pointer-events:none; user-select:none; z-index:0; will-change:transform; }
 
   /* HERO */
   #hero{ min-height:100vh; display:flex; align-items:center; padding:120px 0 80px; }
@@ -87,7 +91,6 @@
 
   /* SOBRE MÍ */
   #sobre{ padding:26vh 0; }
-  #sobre .ghost{ top:8vh; left:50px; font-size:28vh; }
   .about-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:80px; align-items:start; }
   .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3.2vw,2.8rem); line-height:1.08; margin-top:16px; }
   .about-portrait{ margin-top:30px; aspect-ratio:3/4; border:1px solid var(--line); border-radius:3px;
@@ -99,7 +102,7 @@
   .tags span{ padding:7px 16px; border:1px solid var(--line); border-radius:40px; font-size:.74rem; color:var(--fg-dim); transition:.3s; }
   .tags span:hover{ border-color:var(--sage); color:var(--sage); }
 
-  /* SERVICIOS + PROCESO (fusionados, scroll horizontal) */
+  /* SERVICIOS + PROCESO */
   #servicios{ height:520vh; }
   .serv-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
   .serv-head{ display:flex; justify-content:space-between; align-items:flex-end; padding:30px 80px 0; z-index:2; }
@@ -109,7 +112,8 @@
   .serv-track{ flex:1; display:flex; align-items:center; will-change:transform; }
   .serv-panel{ width:100vw; height:100%; flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:40px 100px; position:relative; }
   .serv-panel .pn{ position:absolute; top:10%; right:8%; font-family:'Fraunces',serif; font-weight:300; font-size:22vh; color:rgba(236,231,223,.03); line-height:1; }
-  .room{ display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1100px; width:100%; align-items:start; will-change:transform; }
+  .room{ display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1100px; width:100%; align-items:start; }
+  .room-left,.room-right{ will-change:transform,opacity; }
   .room-left .k{ font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
   .room-left h3{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3.6vw,3rem); line-height:1.06; margin:14px 0 18px; }
   .room-left>p{ color:var(--fg-dim); font-weight:300; max-width:420px; font-size:.98rem; }
@@ -131,8 +135,8 @@
   .pr-head p{ color:var(--fg-dim); font-weight:300; margin-top:16px; }
   .pr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
   .pcard{ border:1px solid var(--line); border-radius:6px; padding:36px 30px; display:flex; flex-direction:column;
-    background:rgba(236,231,223,.012); position:relative; transition:border-color .4s, background .4s; will-change:transform; }
-  .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.05); }
+    background:rgba(10,12,16,.55); backdrop-filter:blur(6px); position:relative; transition:border-color .4s, background .4s; will-change:transform; }
+  .pcard:hover{ border-color:rgba(134,163,122,.5); background:rgba(134,163,122,.07); }
   .pcard.feat{ border-color:rgba(134,163,122,.4); }
   .pcard .badge{ position:absolute; top:-11px; left:30px; background:var(--sage); color:#0d0f12; font-size:.58rem; letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px; border-radius:30px; }
   .pcard .k{ font-size:.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--sage); }
@@ -156,7 +160,7 @@
   .cta-in .eyebrow{ display:block; margin-bottom:24px; }
   .ctitle{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(2.8rem,10vw,8rem); line-height:.96; letter-spacing:-.02em; }
   .ctitle em{ font-style:italic; color:var(--sage); }
-  .csub{ color:var(--fg-dim); font-weight:300; max-width:480px; margin:28px auto 0; font-size:1.05rem; line-height:1.7; text-align:center; }
+  .csub{ color:var(--fg-dim); font-weight:300; max-width:480px; margin:28px auto 0; font-size:1.05rem; line-height:1.7; }
   .csub strong{ color:var(--fg); font-weight:500; }
   .cta-links{ margin-top:44px; }
   .mbtn{ display:inline-block; padding:18px 48px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:1rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; }
@@ -173,7 +177,7 @@
   /* RESPONSIVE */
   @media (max-width:980px){
     body{ cursor:auto; }
-    .cur,.cur-ring,#scenenav,#depth{ display:none; }
+    .cur,.cur-ring,#scenenav,#depth,#phase{ display:none; }
     .burger{ display:flex; }
     .nav-in{ padding:20px 28px; }
     .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column; align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
@@ -192,19 +196,20 @@
   }
   @media (prefers-reduced-motion:reduce){
     .reveal{ opacity:1; transform:none; } .htitle .w{ transform:none; } .stage{ transform:none!important; opacity:1!important; }
+    #org{ display:none; }
   }
 </style>
 </head>
 <body>
 
 <div id="bg"></div>
-<div class="blob" id="b1"></div>
-<div class="blob" id="b2"></div>
-<div class="blob" id="b3"></div>
+<canvas id="org"></canvas>
+<div id="veil"></div>
 <div class="grain"></div>
 <div class="cur"></div>
 <div class="cur-ring"></div>
 <div id="bar"></div>
+<div id="phase">Organismo · <b id="phaseName">Red neuronal</b></div>
 
 <nav>
   <div class="nav-in">
@@ -246,7 +251,6 @@
 
 <!-- SOBRE MÍ -->
 <section id="sobre">
-  <span class="ghost" data-mouse="0.025">01</span>
   <div class="wrap">
     <div class="about-grid">
       <div class="about-side stage" data-stage data-speed="0.7">
@@ -265,7 +269,7 @@
   </div>
 </section>
 
-<!-- SERVICIOS + PROCESO (fusionados: cada habitación = servicio + su proceso) -->
+<!-- SERVICIOS + PROCESO -->
 <section id="servicios">
   <div class="serv-sticky">
     <div class="serv-head">
@@ -274,7 +278,6 @@
     </div>
     <div class="serv-track" id="servTrack">
 
-      <!-- HABITACIÓN 1: Comunidades -->
       <div class="serv-panel"><span class="pn">01</span>
         <div class="room">
           <div class="room-left">
@@ -292,7 +295,6 @@
         </div>
       </div>
 
-      <!-- HABITACIÓN 2: Co-living -->
       <div class="serv-panel"><span class="pn">02</span>
         <div class="room">
           <div class="room-left">
@@ -310,7 +312,6 @@
         </div>
       </div>
 
-      <!-- HABITACIÓN 3: IA -->
       <div class="serv-panel"><span class="pn">03</span>
         <div class="room">
           <div class="room-left">
@@ -329,7 +330,6 @@
         </div>
       </div>
 
-      <!-- HABITACIÓN 4: Acompañamiento -->
       <div class="serv-panel"><span class="pn">04</span>
         <div class="room">
           <div class="room-left">
@@ -414,13 +414,211 @@
 (function(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t;
+  const smooth=t=>t*t*(3-2*t);
   let vw=innerWidth, vh=innerHeight, maxScroll=1, horizontal=false;
+
+  /* ============================================================
+     EL ORGANISMO — partículas que mutan:
+     red neuronal -> columna vertebral -> ecoaldea
+     ============================================================ */
+  const cvs=document.getElementById('org'), ctx=cvs.getContext('2d');
+  let DPR=Math.min(devicePixelRatio||1,2);
+  let W=0,H=0, N=0, parts=[], shapes=[], linkDist=90;
+  const PHASES=[
+    {name:'Red neuronal', color:[143,180,201]},   // cian frío — lo cibernético
+    {name:'Columna vertebral', color:[201,166,121]}, // tierra — el cuerpo, el puente
+    {name:'Ecoaldea', color:[134,163,122]}        // verde — lo sustentable
+  ];
+  // breakpoints del morph sobre el scroll global
+  const STOPS=[0.0, 0.30, 0.72];
+
+  function rnd(a,b){ return a+Math.random()*(b-a); }
+  function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
+
+  /* --- Forma 1: RED NEURONAL — nube de clusters conectados --- */
+  function shapeNeurons(n,w,h){
+    const pts=[]; const cx=w*0.62, cy=h*0.46, R=Math.min(w,h)*0.36;
+    const hubs=[]; const NH=7;
+    for(let i=0;i<NH;i++){ const a=i/NH*Math.PI*2+rnd(-.3,.3); const r=R*rnd(.35,.95);
+      hubs.push([cx+Math.cos(a)*r, cy+Math.sin(a)*r*.78]); }
+    hubs.push([cx,cy]);
+    for(let i=0;i<n;i++){
+      const hb=hubs[i%hubs.length];
+      pts.push([hb[0]+gauss()*R*.30, hb[1]+gauss()*R*.26]);
+    }
+    return pts;
+  }
+
+  /* --- Forma 2: COLUMNA VERTEBRAL — curva S con vértebras --- */
+  function shapeSpine(n,w,h){
+    const pts=[]; const cx=w*0.60;
+    const top=h*0.08, bot=h*0.92;
+    for(let i=0;i<n;i++){
+      const r=Math.random();
+      if(r<0.45){ // médula: densa sobre la curva
+        const t=Math.random();
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
+        const y=top+(bot-top)*t;
+        pts.push([x+gauss()*8, y+gauss()*8]);
+      }else if(r<0.9){ // vértebras: alas simétricas a intervalos
+        const seg=Math.floor(Math.random()*17); const t=seg/16;
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
+        const y=top+(bot-top)*t;
+        const side=Math.random()<0.5?-1:1;
+        const len=(Math.min(w,h)*0.05)*(1+Math.sin(t*Math.PI)*0.9);
+        const k=Math.random();
+        pts.push([x+side*len*(0.3+k*0.7), y+gauss()*6]);
+      }else{ // aura
+        const t=Math.random();
+        const x=cx+Math.sin(t*Math.PI*2.2)*w*0.055;
+        pts.push([x+gauss()*w*0.09, top+(bot-top)*t+gauss()*20]);
+      }
+    }
+    return pts;
+  }
+
+  /* --- Forma 3: ECOALDEA — plaza central, casas en anillo, senderos --- */
+  function shapeVillage(n,w,h){
+    const pts=[]; const cx=w*0.60, cy=h*0.50, R=Math.min(w,h)*0.34;
+    const NH=8; const houses=[];
+    for(let i=0;i<NH;i++){ const a=i/NH*Math.PI*2-Math.PI/2;
+      houses.push([cx+Math.cos(a)*R, cy+Math.sin(a)*R*0.82, a]); }
+    for(let i=0;i<n;i++){
+      const r=Math.random();
+      if(r<0.16){ // plaza central
+        const a=rnd(0,Math.PI*2), rr=Math.sqrt(Math.random())*R*0.16;
+        pts.push([cx+Math.cos(a)*rr, cy+Math.sin(a)*rr*0.85]);
+      }else if(r<0.60){ // casas (mini círculos = techos circulares)
+        const hI=Math.floor(Math.random()*NH); const hs=houses[hI];
+        const a=rnd(0,Math.PI*2), rr=R*0.13*Math.sqrt(Math.random());
+        pts.push([hs[0]+Math.cos(a)*rr, hs[1]+Math.sin(a)*rr*0.9]);
+      }else if(r<0.86){ // senderos radiales plaza->casas
+        const hI=Math.floor(Math.random()*NH); const hs=houses[hI];
+        const t=Math.random();
+        pts.push([lerp(cx,hs[0],t)+gauss()*6, lerp(cy,hs[1],t)+gauss()*6]);
+      }else{ // anillo perimetral (el borde del territorio)
+        const a=rnd(0,Math.PI*2);
+        const rr=R*1.22;
+        pts.push([cx+Math.cos(a)*rr+gauss()*5, cy+Math.sin(a)*rr*0.82+gauss()*5]);
+      }
+    }
+    return pts;
+  }
+
+  function buildShapes(){
+    W=cvs.width=Math.floor(innerWidth*DPR); H=cvs.height=Math.floor(innerHeight*DPR);
+    cvs.style.width=innerWidth+'px'; cvs.style.height=innerHeight+'px';
+    const area=innerWidth*innerHeight;
+    N=Math.round(clamp(area/2600, 220, 620));
+    if(innerWidth<=980) N=Math.round(N*0.55);
+    linkDist=Math.min(innerWidth,innerHeight)*0.085*DPR;
+    shapes=[ shapeNeurons(N,W,H), shapeSpine(N,W,H), shapeVillage(N,W,H) ];
+    // barajar la 2da y 3ra para que el morph cruce trayectorias (más orgánico)
+    if(parts.length!==N){
+      parts=[];
+      for(let i=0;i<N;i++){
+        parts.push({ x:shapes[0][i][0], y:shapes[0][i][1], vx:0, vy:0,
+          ph:rnd(0,Math.PI*2), sp:rnd(0.4,1.1), sz:rnd(0.8,2.2) });
+      }
+    }
+  }
+
+  /* estado del morph */
+  let morphT=0; // 0..2 continuo entre las 3 formas
+  let colNow=[...PHASES[0].color];
+  const phaseName=document.getElementById('phaseName');
+  let lastPhase=0;
+
+  function organism(time,p,mouseX,mouseY,mouseOn){
+    // qué par de formas y cuánto
+    let t;
+    if(p<=STOPS[1]) t=smooth(clamp((p-STOPS[0])/(STOPS[1]-STOPS[0]),0,1));
+    else t=1+smooth(clamp((p-STOPS[1])/(STOPS[2]-STOPS[1]),0,1));
+    morphT=lerp(morphT,clamp(t,0,2),0.07);
+
+    const k=morphT<1?0:1;               // forma base
+    const f=morphT-k;                    // fracción hacia la siguiente
+    const A=shapes[k], B=shapes[Math.min(k+1,2)];
+
+    // color de fase
+    const ca=PHASES[k].color, cb=PHASES[Math.min(k+1,2)].color;
+    for(let j=0;j<3;j++) colNow[j]=Math.round(lerp(ca[j],cb[j],f));
+    const phi=f<0.5?k:Math.min(k+1,2);
+    if(phi!==lastPhase){ lastPhase=phi; phaseName.textContent=PHASES[phi].name; }
+
+    ctx.clearRect(0,0,W,H);
+    const mR=140*DPR;
+
+    // mover partículas hacia el target interpolado
+    for(let i=0;i<N;i++){
+      const P=parts[i];
+      const tx=lerp(A[i][0],B[i][0],f), ty=lerp(A[i][1],B[i][1],f);
+      // respiración orgánica
+      const wob=Math.sin(time*0.0008*P.sp+P.ph)*6*DPR;
+      let dx=tx+wob-P.x, dy=ty+Math.cos(time*0.0007*P.sp+P.ph)*5*DPR-P.y;
+      P.vx=P.vx*0.86+dx*0.012; P.vy=P.vy*0.86+dy*0.012;
+      // repulsión del mouse
+      if(mouseOn){
+        const mdx=P.x-mouseX, mdy=P.y-mouseY, md=Math.hypot(mdx,mdy);
+        if(md<mR && md>0.01){ const fr=(1-md/mR)*2.4*DPR; P.vx+=mdx/md*fr; P.vy+=mdy/md*fr; }
+      }
+      P.x+=P.vx; P.y+=P.vy;
+    }
+
+    // conexiones (grid espacial para O(n))
+    const cell=linkDist, cols=Math.ceil(W/cell)+1, grid=new Map();
+    for(let i=0;i<N;i++){ const gx=(parts[i].x/cell)|0, gy=(parts[i].y/cell)|0, key=gx+gy*cols;
+      (grid.get(key)||grid.set(key,[]).get(key)).push(i); }
+    const [r,g,b]=colNow;
+    ctx.lineWidth=1*DPR;
+    for(let i=0;i<N;i++){
+      const P=parts[i]; const gx=(P.x/cell)|0, gy=(P.y/cell)|0;
+      let links=0;
+      for(let ox=0;ox<=1;ox++)for(let oy=-1;oy<=1;oy++){
+        if(ox===0&&oy<0)continue;
+        const bkt=grid.get((gx+ox)+(gy+oy)*cols); if(!bkt)continue;
+        for(const j of bkt){ if(j<=i&&ox===0&&oy===0)continue;
+          const Q=parts[j]; const dx=P.x-Q.x, dy=P.y-Q.y; const d2=dx*dx+dy*dy;
+          if(d2<linkDist*linkDist){
+            const d=Math.sqrt(d2); const a=(1-d/linkDist)*0.34;
+            ctx.strokeStyle=`rgba(${r},${g},${b},${a.toFixed(3)})`;
+            ctx.beginPath(); ctx.moveTo(P.x,P.y); ctx.lineTo(Q.x,Q.y); ctx.stroke();
+            if(++links>4) break;
+          }
+        }
+        if(links>4) break;
+      }
+    }
+    // nodos
+    for(let i=0;i<N;i++){
+      const P=parts[i];
+      const tw=0.55+0.45*Math.sin(time*0.002*P.sp+P.ph);
+      ctx.fillStyle=`rgba(${r},${g},${b},${(0.5*tw+0.25).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(P.x,P.y,P.sz*DPR*(0.8+tw*0.4),0,6.283); ctx.fill();
+    }
+    // pulsos: chispas que viajan (sinapsis / energía)
+    const NP=14;
+    for(let s=0;s<NP;s++){
+      const i=(s*97)%N, j=(s*211+37)%N;
+      const tt=(time*0.00025+s/NP)%1;
+      const x=lerp(parts[i].x,parts[j].x,tt), y=lerp(parts[i].y,parts[j].y,tt);
+      const dd=Math.hypot(parts[i].x-parts[j].x,parts[i].y-parts[j].y);
+      if(dd<linkDist*3.2){
+        ctx.fillStyle=`rgba(${r},${g},${b},${(0.85*(1-Math.abs(tt-0.5)*2)).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(x,y,2.2*DPR,0,6.283); ctx.fill();
+      }
+    }
+  }
+
+  /* ============================================================ */
 
   /* CURSOR */
   const cur=document.querySelector('.cur'), ring=document.querySelector('.cur-ring');
-  let mx=vw/2,my=vh/2,rx=mx,ry=my, nmx=0,nmy=0;
-  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px';
+  let mx=vw/2,my=vh/2,rx=mx,ry=my, nmx=0,nmy=0, mouseOn=false;
+  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; mouseOn=true;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
     nmx=(mx/vw-0.5)*2; nmy=(my/vh-0.5)*2; });
+  addEventListener('mouseleave',()=>mouseOn=false);
   document.querySelectorAll('a,button,.tags span,.about-portrait,.pcard').forEach(el=>{
     el.addEventListener('mouseenter',()=>cur.classList.add('big'));
     el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
@@ -441,14 +639,12 @@
     requestAnimationFrame(()=>w.style.transform='translateY(0)');
   }));
 
-  /* COLORES */
-  const bgStops=[[0,[13,15,18]],[0.3,[20,19,16]],[0.55,[24,20,13]],[0.8,[16,20,14]],[1,[12,19,13]]];
+  /* FONDO ciudad->bosque */
+  const bgStops=[[0,[10,12,16]],[0.3,[16,15,13]],[0.55,[19,16,11]],[0.8,[12,16,11]],[1,[10,15,10]]];
   function sample(st,t){ for(let i=0;i<st.length-1;i++){ const[a,ca]=st[i],[b,cb]=st[i+1]; if(t>=a&&t<=b){ const k=(t-a)/(b-a||1); return ca.map((v,j)=>Math.round(lerp(v,cb[j],k))); } } return st[st.length-1][1]; }
   const bg=document.getElementById('bg');
-  const b1=document.getElementById('b1'),b2=document.getElementById('b2'),b3=document.getElementById('b3');
-  let b1x=0,b1y=0,b2x=0,b2y=0,b3x=0,b3y=0;
 
-  /* SCENE NAV */
+  /* SCENE NAV / DEPTH */
   const sceneIds=['hero','sobre','servicios','precios','contacto'];
   const snLinks={}; document.querySelectorAll('#scenenav a').forEach(a=>snLinks[a.dataset.sn]=a);
   const pct=document.getElementById('pct'), dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
@@ -458,10 +654,10 @@
   const serv=document.getElementById('servicios'), track=document.getElementById('servTrack'), servNum=document.getElementById('servNum');
   const panels=[...document.querySelectorAll('.serv-panel')];
   const stages=[...document.querySelectorAll('[data-stage]')];
-  const mouseEls=[...document.querySelectorAll('[data-mouse]')];
   const portrait=document.getElementById('portrait');
 
-  function measure(){ vw=innerWidth; vh=innerHeight; maxScroll=Math.max(1,document.documentElement.scrollHeight-vh); horizontal=vw>980&&!reduce; }
+  function measure(){ vw=innerWidth; vh=innerHeight; maxScroll=Math.max(1,document.documentElement.scrollHeight-vh);
+    horizontal=vw>980&&!reduce; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); }
 
   /* TILT */
   document.querySelectorAll('[data-tilt]').forEach(card=>{
@@ -471,7 +667,7 @@
     card.addEventListener('mouseleave',()=>card.style.transform='');
   });
 
-  /* MAGNETIC BTNS */
+  /* MAGNETIC */
   document.querySelectorAll('.mbtn,.pay').forEach(btn=>{
     btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*0.18}px,${(e.clientY-r.top-r.height/2)*0.25}px)`; });
     btn.addEventListener('mouseleave',()=>btn.style.transform='');
@@ -482,43 +678,30 @@
     if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:hola@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
   }));
 
-  function tick(){
+  function tick(time){
     const y=scrollY||pageYOffset;
     const p=clamp(y/maxScroll,0,1);
 
     const c=sample(bgStops,p); bg.style.background=`rgb(${c[0]},${c[1]},${c[2]})`;
     pct.textContent=('0'+Math.round(p*100)).slice(-2); bar.style.width=(p*100)+'%';
 
-    // blobs
-    b1x=lerp(b1x,nmx*50,0.05); b1y=lerp(b1y,nmy*50,0.05);
-    b2x=lerp(b2x,-nmx*70,0.04); b2y=lerp(b2y,-nmy*40,0.04);
-    b3x=lerp(b3x,nmx*35,0.035); b3y=lerp(b3y,nmy*35,0.035);
-    b1.style.transform=`translate(calc(-22vmax + ${b1x}px), calc(${-10+p*55}vh + ${b1y}px))`;
-    b2.style.transform=`translate(calc(58vw + ${b2x}px), calc(${8+p*35}vh + ${b2y}px))`;
-    b3.style.transform=`translate(calc(18vw + ${b3x}px), calc(${65-p*45}vh + ${b3y}px))`;
+    // EL ORGANISMO
+    if(!reduce) organism(time,p, mx*DPR, my*DPR, mouseOn);
 
-    // mouse parallax
-    mouseEls.forEach(el=>{ const f=parseFloat(el.dataset.mouse)||0.02; el.style.transform=`translate(${nmx*f*100}px,${nmy*f*100}px)`; });
-
-    // STAGE: gentle 3D (less aggressive than before)
+    // stage suave
     if(!reduce && vw>980){
       stages.forEach(el=>{
         const r=el.getBoundingClientRect(); const center=r.top+r.height/2;
         const t=clamp((center-vh/2)/vh,-1,1);
         const sp=parseFloat(el.dataset.speed)||1;
-        const ty=t*40*sp;
-        const rotX=-t*2.5;
-        const sc=1-Math.abs(t)*0.03;
-        const op=clamp(1-Math.max(0,Math.abs(t)-0.6)*1.5,0.15,1);
-        el.style.transform=`translateY(${ty}px) rotateX(${rotX}deg) scale(${sc})`;
-        el.style.opacity=op.toFixed(2);
+        el.style.transform=`translateY(${t*40*sp}px) rotateX(${-t*2.5}deg) scale(${1-Math.abs(t)*0.03})`;
+        el.style.opacity=clamp(1-Math.max(0,Math.abs(t)-0.6)*1.5,0.15,1).toFixed(2);
       });
     }
 
-    // portrait tilt
     if(portrait && vw>980) portrait.style.transform=`perspective(800px) rotateY(${nmx*5}deg) rotateX(${-nmy*5}deg)`;
 
-    // servicios horizontal + room parallax
+    // servicios horizontal
     if(horizontal){
       const r=serv.getBoundingClientRect(); const scrollable=serv.offsetHeight-vh;
       const sp=clamp((-r.top)/scrollable,0,1);
@@ -529,7 +712,7 @@
         const pr=pn.getBoundingClientRect();
         const d=clamp((pr.left+pr.width/2-vw/2)/vw,-1,1);
         const left=pn.querySelector('.room-left'), right=pn.querySelector('.room-right');
-        if(left) left.style.transform=`translateX(${d*-30}px)`; left.style.opacity=(1-Math.abs(d)*.4).toFixed(2);
+        if(left){ left.style.transform=`translateX(${d*-30}px)`; left.style.opacity=(1-Math.abs(d)*.4).toFixed(2); }
         if(right){ right.style.transform=`translateX(${d*30}px)`; right.style.opacity=(1-Math.abs(d)*.5).toFixed(2); }
       });
     }else{ track.style.transform=''; }
@@ -540,7 +723,6 @@
     for(const id in snLinks) snLinks[id].classList.toggle('active',id===act);
     dlab.textContent=labels[act]||'';
 
-    // cursor ring
     rx=lerp(rx,mx,.16); ry=lerp(ry,my,.16); ring.style.left=rx+'px'; ring.style.top=ry+'px';
 
     requestAnimationFrame(tick);
