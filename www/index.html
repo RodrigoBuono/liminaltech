@@ -18,6 +18,7 @@
 
   /* ====== ORGANISMO: ahora es TODO el fondo ====== */
   #bg{ position:fixed; inset:0; z-index:-6; background:#0a0c10; }
+  #sky{ position:fixed; inset:-3%; z-index:-5; width:106%; height:106%; }
   #org{ position:fixed; inset:-3%; z-index:-4; width:106%; height:106%; will-change:transform; }
   #veil{ position:fixed; inset:0; z-index:-3; pointer-events:none;
     background:
@@ -258,6 +259,7 @@
 <body>
 
 <div id="bg"></div>
+<canvas id="sky"></canvas>
 <canvas id="org"></canvas>
 <div id="veil"></div>
 <div class="grain"></div>
@@ -532,6 +534,172 @@
   ];
   function rnd(a,b){ return a+Math.random()*(b-a); }
   function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
+
+  /* ============================================================
+     EL CIELO — estrellas, Vía Láctea, nebulosas y galaxias
+     ============================================================ */
+  const sky=document.getElementById('sky'), sctx=sky.getContext('2d');
+  let SW=0,SH=0, lFar=null,lMid=null,lNear=null,lNeb=null,lMilky=null;
+  let galx=[], twinks=[], meteors=[], nextMeteor=0;
+
+  function starColor(t){
+    if(t<.15) return [160,185,255];
+    if(t<.45) return [205,218,255];
+    if(t<.78) return [255,246,236];
+    if(t<.93) return [255,224,182];
+    return [255,192,150];
+  }
+  function paintStar(x2,px,py,r,cr,cg,cb,a,halo){
+    if(halo){
+      const g=x2.createRadialGradient(px,py,0,px,py,r*7);
+      g.addColorStop(0,`rgba(${cr},${cg},${cb},${(a*.9).toFixed(3)})`);
+      g.addColorStop(.25,`rgba(${cr},${cg},${cb},${(a*.22).toFixed(3)})`);
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      x2.fillStyle=g; x2.beginPath(); x2.arc(px,py,r*7,0,6.283); x2.fill();
+      x2.strokeStyle=`rgba(${cr},${cg},${cb},${(a*.45).toFixed(3)})`;
+      x2.lineWidth=Math.max(1,r*.26);
+      x2.beginPath(); x2.moveTo(px-r*8.5,py); x2.lineTo(px+r*8.5,py);
+      x2.moveTo(px,py-r*8.5); x2.lineTo(px,py+r*8.5); x2.stroke();
+    }
+    x2.fillStyle=`rgba(${cr},${cg},${cb},${a.toFixed(3)})`;
+    x2.beginPath(); x2.arc(px,py,r,0,6.283); x2.fill();
+  }
+  function makeStars(n,maxR,haloFrac){
+    const c=document.createElement('canvas'); c.width=SW; c.height=SH;
+    const x2=c.getContext('2d');
+    for(let i=0;i<n;i++){
+      const px=Math.random()*SW, py=Math.random()*SH;
+      const r=(Math.pow(Math.random(),3)*maxR+0.35)*DPR;
+      const col=starColor(Math.random());
+      const a=.22+Math.random()*.72;
+      paintStar(x2,px,py,r,col[0],col[1],col[2],a, r>maxR*DPR*.6 && Math.random()<haloFrac);
+    }
+    return c;
+  }
+  function makeNebula(){
+    const c=document.createElement('canvas'); c.width=SW; c.height=SH;
+    const x2=c.getContext('2d');
+    const hues=[[45,75,150],[95,65,150],[45,125,125],[135,115,85],[70,90,160]];
+    for(let i=0;i<26;i++){
+      const h=hues[i%hues.length];
+      const px=Math.random()*SW, py=Math.random()*SH;
+      const rad=SW*.08+Math.random()*SW*.16;
+      const g=x2.createRadialGradient(px,py,0,px,py,rad);
+      const a=.03+Math.random()*.055;
+      g.addColorStop(0,`rgba(${h[0]},${h[1]},${h[2]},${a.toFixed(3)})`);
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      x2.fillStyle=g; x2.beginPath(); x2.arc(px,py,rad,0,6.283); x2.fill();
+    }
+    return c;
+  }
+  function makeMilky(){
+    const c=document.createElement('canvas'); c.width=SW; c.height=SH;
+    const x2=c.getContext('2d');
+    const ang=-.42, mcx=SW*.5, mcy=SH*.42, len=Math.hypot(SW,SH)*1.15;
+    const dx=Math.cos(ang), dy=Math.sin(ang);
+    for(let i=0;i<70;i++){
+      const t=(Math.random()-.5)*len, off=gauss()*SH*.06;
+      const px=mcx+dx*t-dy*off, py=mcy+dy*t+dx*off;
+      const rad=(30+Math.random()*90)*DPR;
+      const g=x2.createRadialGradient(px,py,0,px,py,rad);
+      const a=.018+Math.random()*.032;
+      g.addColorStop(0,`rgba(190,205,235,${a.toFixed(3)})`);
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      x2.fillStyle=g; x2.beginPath(); x2.arc(px,py,rad,0,6.283); x2.fill();
+    }
+    const n=Math.round(SW*SH/(2600*DPR*DPR));
+    for(let i=0;i<n;i++){
+      const t=(Math.random()-.5)*len, off=gauss()*SH*.075;
+      const px=mcx+dx*t-dy*off, py=mcy+dy*t+dx*off;
+      if(px<0||px>SW||py<0||py>SH) continue;
+      const r=(Math.pow(Math.random(),2.6)*1.1+.3)*DPR;
+      const col=starColor(Math.random());
+      x2.fillStyle=`rgba(${col[0]},${col[1]},${col[2]},${(.1+Math.random()*.38).toFixed(3)})`;
+      x2.beginPath(); x2.arc(px,py,r,0,6.283); x2.fill();
+    }
+    return c;
+  }
+  function makeGalaxy(size,tint){
+    const c=document.createElement('canvas'); c.width=c.height=size*2;
+    const x2=c.getContext('2d'); const gx=size, gy=size;
+    let g=x2.createRadialGradient(gx,gy,0,gx,gy,size*.22);
+    g.addColorStop(0,'rgba(255,250,235,.95)');
+    g.addColorStop(.4,`rgba(${tint[0]},${tint[1]},${tint[2]},.35)`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    x2.fillStyle=g; x2.beginPath(); x2.arc(gx,gy,size*.22,0,6.283); x2.fill();
+    for(let arm=0;arm<2;arm++){
+      const a0=arm*Math.PI;
+      for(let i=0;i<420;i++){
+        const t=i/420*3.1*Math.PI;
+        const r=size*.07*Math.exp(.155*t*2);
+        if(r>size*.96) break;
+        const jit=gauss()*size*.028*(r/size+.35);
+        const px=gx+Math.cos(t+a0)*(r+jit);
+        const py=gy+Math.sin(t+a0)*(r+jit)*.55;
+        const fade=(1-r/size);
+        const white=Math.random()<.4;
+        const cr=white?255:tint[0], cg=white?250:tint[1], cb=white?240:tint[2];
+        x2.fillStyle=`rgba(${cr},${cg},${cb},${(fade*.22*(0.5+Math.random()*.8)).toFixed(3)})`;
+        const rr=(Math.random()*1.3+.5)*DPR*(size/(90*DPR));
+        x2.beginPath(); x2.arc(px,py,rr,0,6.283); x2.fill();
+      }
+    }
+    return c;
+  }
+  function buildSky(){
+    SW=sky.width=Math.floor(innerWidth*1.06*DPR); SH=sky.height=Math.floor(innerHeight*1.06*DPR);
+    const area=innerWidth*innerHeight;
+    const k=innerWidth<=980?.55:1;
+    lNeb=makeNebula(); lMilky=makeMilky();
+    lFar=makeStars(Math.round(clamp(area/1500,500,1500)*k),1.0,.02);
+    lMid=makeStars(Math.round(clamp(area/3200,250,700)*k),1.6,.05);
+    lNear=makeStars(Math.round(clamp(area/9000,90,260)*k),2.3,.12);
+    galx=[ {sp:makeGalaxy(Math.round(95*DPR),[150,170,220]), x:.14,y:.22, rot:.4, spd:.000010},
+           {sp:makeGalaxy(Math.round(62*DPR),[215,175,145]), x:.80,y:.66, rot:-.6, spd:-.000013},
+           {sp:makeGalaxy(Math.round(46*DPR),[175,150,215]), x:.70,y:.12, rot:.9, spd:.000016} ];
+    twinks=[]; const nT=Math.round(110*k);
+    for(let i=0;i<nT;i++) twinks.push({x:Math.random()*SW,y:Math.random()*SH,r:(Math.random()*1.4+.6)*DPR,ph:rnd(0,6.28),sp:rnd(.6,2.2),c:starColor(Math.random())});
+    meteors=[]; nextMeteor=0;
+  }
+  function renderSky(time,p,nx,ny){
+    sctx.clearRect(0,0,SW,SH);
+    const drift=Math.sin(time*.00003)*14*DPR;
+    const py=p*30*DPR;
+    sctx.drawImage(lNeb,  nx*-4*DPR+drift*.2,  ny*-3*DPR - py*.15);
+    sctx.drawImage(lMilky,nx*-6*DPR+drift*.3,  ny*-5*DPR - py*.25);
+    sctx.drawImage(lFar,  nx*-8*DPR+drift*.45, ny*-6*DPR - py*.4);
+    sctx.drawImage(lMid,  nx*-14*DPR+drift*.7, ny*-10*DPR - py*.65);
+    sctx.drawImage(lNear, nx*-22*DPR+drift,    ny*-16*DPR - py);
+    for(const G of galx){
+      sctx.save();
+      sctx.translate(G.x*SW + nx*-10*DPR, G.y*SH + ny*-8*DPR - py*.5);
+      sctx.rotate(G.rot + time*G.spd);
+      sctx.globalAlpha=.85;
+      sctx.drawImage(G.sp, -G.sp.width/2, -G.sp.height/2);
+      sctx.restore();
+    }
+    sctx.globalAlpha=1;
+    for(const T of twinks){
+      const a=.2+.8*Math.pow(Math.sin(time*.001*T.sp+T.ph)*.5+.5,2);
+      sctx.fillStyle=`rgba(${T.c[0]},${T.c[1]},${T.c[2]},${a.toFixed(3)})`;
+      sctx.beginPath(); sctx.arc(T.x + nx*-14*DPR, T.y + ny*-10*DPR - py*.6, T.r,0,6.283); sctx.fill();
+    }
+    if(time>nextMeteor){
+      meteors.push({x:Math.random()*SW*.8+SW*.1, y:Math.random()*SH*.3,
+        vx:(4+Math.random()*7)*DPR*(Math.random()<.5?-1:1), vy:(2.5+Math.random()*4)*DPR, life:1});
+      nextMeteor=time+7000+Math.random()*11000;
+    }
+    for(let i=meteors.length-1;i>=0;i--){
+      const M=meteors[i]; M.x+=M.vx; M.y+=M.vy; M.life-=.016;
+      if(M.life<=0){ meteors.splice(i,1); continue; }
+      const tx=M.x-M.vx*9, tyy=M.y-M.vy*9;
+      const g=sctx.createLinearGradient(M.x,M.y,tx,tyy);
+      g.addColorStop(0,`rgba(255,255,255,${(.85*M.life).toFixed(3)})`);
+      g.addColorStop(1,'rgba(255,255,255,0)');
+      sctx.strokeStyle=g; sctx.lineWidth=1.6*DPR;
+      sctx.beginPath(); sctx.moveTo(M.x,M.y); sctx.lineTo(tx,tyy); sctx.stroke();
+    }
+  }
 
   function shapeNeurons(n,w,h){
     const pts=[]; const cx=w*0.5, cy=h*0.5, R=Math.min(w,h)*0.46;
@@ -862,7 +1030,7 @@
     if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:hola@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
   }));
 
-  function measure(){ vw=innerWidth; vh=innerHeight; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); setMode(); }
+  function measure(){ vw=innerWidth; vh=innerHeight; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); buildSky(); if(reduce) renderSky(0,0,0,0); setMode(); }
 
   const portrait=document.getElementById('portrait');
   function tick(time){
@@ -875,6 +1043,7 @@
     const c=sample(bgStops,p); bg.style.background=`rgb(${c[0]},${c[1]},${c[2]})`;
     if(!deck) bar.style.width=(p*100)+'%';
 
+    if(!reduce) renderSky(time,p,nmx,nmy);
     if(!reduce) organism(time, (mx+innerWidth*0.03)*DPR, (my+innerHeight*0.03)*DPR, mouseOn);
 
     // parallax sutil del lienzo con el mouse
