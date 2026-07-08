@@ -540,7 +540,7 @@
      ============================================================ */
   const sky=document.getElementById('sky'), sctx=sky.getContext('2d');
   let SW=0,SH=0, lFar=null,lMid=null,lNear=null,lNeb=null,lMilky=null;
-  let galx=[], twinks=[], meteors=[], nextMeteor=0;
+  let galx=[], twinks=[], meteors=[], nextMeteor=0, sats=[], nextSat=0;
 
   function starColor(t){
     if(t<.15) return [160,185,255];
@@ -659,7 +659,7 @@
            {sp:makeGalaxy(Math.round(46*DPR),[175,150,215]), x:.70,y:.12, rot:.9, spd:.000016} ];
     twinks=[]; const nT=Math.round(110*k);
     for(let i=0;i<nT;i++) twinks.push({x:Math.random()*SW,y:Math.random()*SH,r:(Math.random()*1.4+.6)*DPR,ph:rnd(0,6.28),sp:rnd(.6,2.2),c:starColor(Math.random())});
-    meteors=[]; nextMeteor=0;
+    meteors=[]; nextMeteor=0; sats=[]; nextSat=0;
   }
   function renderSky(time,p,nx,ny){
     sctx.clearRect(0,0,SW,SH);
@@ -687,7 +687,7 @@
     if(time>nextMeteor){
       meteors.push({x:Math.random()*SW*.8+SW*.1, y:Math.random()*SH*.3,
         vx:(4+Math.random()*7)*DPR*(Math.random()<.5?-1:1), vy:(2.5+Math.random()*4)*DPR, life:1});
-      nextMeteor=time+7000+Math.random()*11000;
+      nextMeteor=time+2200+Math.random()*4200;
     }
     for(let i=meteors.length-1;i>=0;i--){
       const M=meteors[i]; M.x+=M.vx; M.y+=M.vy; M.life-=.016;
@@ -698,6 +698,42 @@
       g.addColorStop(1,'rgba(255,255,255,0)');
       sctx.strokeStyle=g; sctx.lineWidth=1.6*DPR;
       sctx.beginPath(); sctx.moveTo(M.x,M.y); sctx.lineTo(tx,tyy); sctx.stroke();
+    }
+    // satélites Starlink: trenes de puntos cruzando lento y en línea recta
+    if(time>nextSat){
+      const fromLeft=Math.random()<.5;
+      const speed=(0.9+Math.random()*0.9)*DPR;
+      const ang=(Math.random()*.5-.25) + (fromLeft?0:Math.PI);
+      const y0=SH*(0.08+Math.random()*0.7);
+      sats.push({
+        x: fromLeft? -30*DPR : SW+30*DPR, y: y0,
+        vx: Math.cos(ang)*speed, vy: Math.sin(ang)*speed*.6,
+        n: Math.random()<.35 ? 1 : 4+Math.floor(Math.random()*4),
+        gap:(15+Math.random()*8)*DPR, ph:Math.random()*6.28, dist:0,
+        total: SW+120*DPR
+      });
+      nextSat=time+8000+Math.random()*12000;
+    }
+    for(let i=sats.length-1;i>=0;i--){
+      const S=sats[i];
+      S.x+=S.vx; S.y+=S.vy; S.dist+=Math.abs(S.vx);
+      const trainLen=S.gap*S.n;
+      if(S.dist>S.total+trainLen){ sats.splice(i,1); continue; }
+      const t=clamp(S.dist/S.total,0,1);
+      const fade=Math.min(1,Math.sin(Math.PI*t)*1.6);
+      const ux=-S.vx/Math.hypot(S.vx,S.vy||.001), uy=-(S.vy||0)/Math.hypot(S.vx,S.vy||.001);
+      for(let k2=0;k2<S.n;k2++){
+        const px=S.x+ux*S.gap*k2, py=S.y+uy*S.gap*k2;
+        if(px<-20||px>SW+20||py<-20||py>SH+20) continue;
+        const blink=.75+.25*Math.sin(time*.004+S.ph+k2*1.3);
+        const a=(fade*blink*.8);
+        const g2=sctx.createRadialGradient(px,py,0,px,py,4*DPR);
+        g2.addColorStop(0,`rgba(230,240,255,${a.toFixed(3)})`);
+        g2.addColorStop(1,'rgba(230,240,255,0)');
+        sctx.fillStyle=g2; sctx.beginPath(); sctx.arc(px,py,4*DPR,0,6.283); sctx.fill();
+        sctx.fillStyle=`rgba(240,246,255,${a.toFixed(3)})`;
+        sctx.beginPath(); sctx.arc(px,py,1.1*DPR,0,6.283); sctx.fill();
+      }
     }
   }
 
