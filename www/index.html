@@ -215,9 +215,9 @@
     .nav-links{ position:fixed; inset:0; background:rgba(10,12,14,.97); flex-direction:column; align-items:center; justify-content:center; gap:34px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,1,.3,1); }
     .nav-links.open{ transform:none; } .nav-links a{ font-size:1.1rem; }
     /* snap de secciones también en el celular */
-    html{ scroll-snap-type:y proximity; }
+    html{ scroll-snap-type:y mandatory; scroll-padding-top:0; }
     .scene{ min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
-      scroll-snap-align:start; overflow:hidden; }
+      scroll-snap-align:start; scroll-snap-stop:always; overflow:hidden; }
     .scene-inner{ padding:86px 22px 54px; width:100%; }
     .htitle{ font-size:clamp(2.5rem,11.5vw,4rem); }
     .hsub{ margin-bottom:20px; font-size:.96rem; }
