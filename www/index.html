@@ -205,6 +205,8 @@
   .foot{ position:absolute; bottom:30px; right:60px; display:flex; gap:28px;
     font-size:.7rem; color:var(--fg-dim); letter-spacing:.5px; }
 
+  .scene-off{ display:none !important; }
+
   /* aviso flotante */
   .toast{ position:fixed; left:50%; bottom:26px; transform:translate(-50%,14px); z-index:1200;
     background:rgba(12,16,20,.94); border:1px solid rgba(236,231,223,.18); color:var(--fg);
@@ -313,6 +315,12 @@
     .pr-head p{ font-size:.82rem; margin-top:8px; }
     .pr-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
     .pcard{ padding:20px 18px; }
+    /* cada tarjeta ocupa su propia escena */
+    .pr-scene .pcard{ width:100%; }
+    .pr-scene .pr-head{ margin-bottom:14px; }
+    .pr-count{ display:block; text-align:center; font-family:'Fraunces',serif;
+      font-size:.92rem; color:var(--fg-dim); margin-bottom:10px; }
+    .pr-count b{ color:var(--sage); font-weight:400; }
     .pcard h3{ font-size:1.14rem; min-height:0; }
     .pcard .desc{ font-size:.78rem; min-height:0; }
     .pcard .price{ font-size:1.7rem; min-height:0; margin:10px 0 0; }
@@ -399,7 +407,7 @@
 <div id="stagewrap">
 
   <!-- 0 · HERO -->
-  <section class="scene" id="hero" data-org="0">
+  <section class="scene" id="hero" data-org="0" data-name="Inicio" data-word="Ecléctico">
     <div class="scene-inner">
       <p class="eyebrow reveal">Antropología · Comunidades · Inteligencia Artificial</p>
       <h1 class="htitle">
@@ -414,7 +422,7 @@
   </section>
 
   <!-- 1 · SOBRE MÍ -->
-  <section class="scene" id="sobre" data-org="1">
+  <section class="scene" id="sobre" data-org="1" data-name="Sobre mí" data-word="Ecléctico">
     <div class="scene-inner">
       <div class="about-grid">
         <div class="about-side">
@@ -439,7 +447,7 @@
   </section>
 
   <!-- 2 · SERVICIO 1 -->
-  <section class="scene" id="serv-1" data-org="1.15">
+  <section class="scene" id="serv-1" data-org="1.15" data-name="Servicios 1/5" data-word="Liminal">
     <div class="scene-inner">
       <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>01</b> / 05</span></div>
       <span class="pn">01</span>
@@ -461,7 +469,7 @@
   </section>
 
   <!-- 3 · SERVICIO 2 -->
-  <section class="scene" id="serv-2" data-org="1.4">
+  <section class="scene" id="serv-2" data-org="1.4" data-name="Servicios 2/5" data-word="Liminal">
     <div class="scene-inner">
       <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>02</b> / 05</span></div>
       <span class="pn">02</span>
@@ -483,7 +491,7 @@
   </section>
 
   <!-- 4 · SERVICIO 3 -->
-  <section class="scene" id="serv-3" data-org="1.65">
+  <section class="scene" id="serv-3" data-org="1.65" data-name="Servicios 3/5" data-word="Transhumanismo">
     <div class="scene-inner">
       <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>03</b> / 05</span></div>
       <span class="pn">03</span>
@@ -506,7 +514,7 @@
   </section>
 
   <!-- 5 · SERVICIO 4 -->
-  <section class="scene" id="serv-4" data-org="1.85">
+  <section class="scene" id="serv-4" data-org="1.85" data-name="Servicios 4/5" data-word="Transhumanismo">
     <div class="scene-inner">
       <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>04</b> / 05</span></div>
       <span class="pn">04</span>
@@ -528,7 +536,7 @@
   </section>
 
   <!-- 6 · SERVICIO 5 -->
-  <section class="scene" id="serv-5" data-org="1.92">
+  <section class="scene" id="serv-5" data-org="1.92" data-name="Servicios 5/5" data-word="Transhumanismo">
     <div class="scene-inner">
       <div class="room-head"><span class="rh-t reveal">Servicios y proceso</span><span class="rh-c reveal"><b>05</b> / 05</span></div>
       <span class="pn">05</span>
@@ -551,7 +559,7 @@
   </section>
 
   <!-- 7 · PRECIOS -->
-  <section class="scene" id="precios" data-org="2">
+  <section class="scene" id="precios" data-org="2" data-name="Precios" data-word="Exponencialidad">
     <div class="scene-inner">
       <div class="pr-head">
         <p class="eyebrow reveal">Trabajemos</p>
@@ -597,7 +605,7 @@
   </section>
 
   <!-- 7 · CONTACTO -->
-  <section class="scene" id="contacto" data-org="2">
+  <section class="scene" id="contacto" data-org="2" data-name="Contacto" data-word="Exponencialidad">
     <div class="scene-inner">
       <span class="eyebrow reveal">Contacto</span>
       <h2 class="ctitle reveal" style="margin-top:20px">Empecemos<br>tu <em>recorrido</em></h2>
@@ -623,9 +631,43 @@
   let vw=innerWidth, vh=innerHeight;
   let deck=false;            // modo escenas (desktop)
   let idx=0, busy=false;     // escena actual
-  const scenes=[...document.querySelectorAll('.scene')];
-  const TOT=scenes.length;
-  const names=['Inicio','Sobre mí','Servicios 1/5','Servicios 2/5','Servicios 3/5','Servicios 4/5','Servicios 5/5','Precios','Contacto'];
+  let scenes=[], TOT=0;
+  const priceBase=document.getElementById('precios');
+  let priceScenes=[], splitState=null;
+
+  /* En móvil cada tarjeta de precios pasa a ser su propia escena */
+  function splitPricing(on){
+    if(on && !priceScenes.length){
+      const cards=[...priceBase.querySelectorAll('.pcard')];
+      const head=priceBase.querySelector('.pr-head');
+      const note=priceBase.querySelector('.pr-note');
+      cards.forEach((c,i)=>{
+        const sc=document.createElement('section');
+        sc.className='scene pr-scene';
+        sc.id='precio-'+(i+1);
+        sc.dataset.org='2';
+        sc.dataset.name='Precios '+(i+1)+'/'+cards.length;
+        sc.dataset.word='Exponencialidad';
+        const inner=document.createElement('div'); inner.className='scene-inner';
+        if(i===0 && head) inner.appendChild(head.cloneNode(true));
+        const cnt=document.createElement('span'); cnt.className='pr-count';
+        cnt.innerHTML='<b>'+('0'+(i+1)).slice(-2)+'</b> / '+('0'+cards.length).slice(-2);
+        inner.appendChild(cnt);
+        inner.appendChild(c.cloneNode(true));
+        if(i===cards.length-1 && note) inner.appendChild(note.cloneNode(true));
+        sc.appendChild(inner);
+        priceBase.parentNode.insertBefore(sc,priceBase);
+        priceScenes.push(sc);
+      });
+      priceBase.classList.add('scene-off');
+    }else if(!on && priceScenes.length){
+      priceScenes.forEach(s=>s.remove()); priceScenes=[];
+      priceBase.classList.remove('scene-off');
+    }
+    scenes=[...document.querySelectorAll('.scene:not(.scene-off)')];
+    TOT=scenes.length;
+  }
+  splitPricing(false);
 
   /* ============================================================
      EL ORGANISMO — pantalla completa
@@ -1113,7 +1155,7 @@
   const pct=document.getElementById('pct'), ptot=document.getElementById('ptot'),
         dlab=document.getElementById('dlab'), bar=document.getElementById('bar');
   const snLinks=[...document.querySelectorAll('#scenenav a')];
-  ptot.textContent='/'+('0'+TOT).slice(-2);
+
 
   const EASE='cubic-bezier(.16,1,.3,1)', DUR=880, LOCK=340;
 
@@ -1130,17 +1172,22 @@
     ws.forEach((w,i)=>{ w.style.transition=`transform .9s ${EASE} ${i*0.07+0.25}s`; w.style.transform='translateY(0)'; });
     rs.forEach((el,i)=>{ el.style.transitionDelay=(i*70+250)+'ms'; el.classList.add('in'); });
   }
-  const WORDS=['Ecléctico','Ecléctico','Liminal','Liminal','Transhumanismo','Transhumanismo','Transhumanismo','Exponencialidad','Exponencialidad'];
   function updateHud(){
     document.documentElement.classList.toggle('pull-ok', idx===0);
+    const sc=scenes[idx];
+    ptot.textContent='/'+('0'+TOT).slice(-2);
     pct.textContent=('0'+(idx+1)).slice(-2);
-    dlab.textContent=names[idx];
-    phaseName.textContent=WORDS[idx];
+    dlab.textContent=sc.dataset.name||'';
+    phaseName.textContent=sc.dataset.word||'';
     bar.style.width=(idx/(TOT-1)*100)+'%';
-    snLinks.forEach(a=>{ const[lo,hi]=a.dataset.range.split('-').map(Number);
-      a.classList.toggle('active', idx>=lo&&idx<=hi); });
-    morphTarget=parseFloat(scenes[idx].dataset.org)||0;
-    cam.rotT=ROTS[idx]||0;
+    const cid=sc.id;
+    snLinks.forEach(a=>{
+      const t=a.getAttribute('href').slice(1);
+      const on = cid===t || (t==='precios'&&cid.startsWith('precio')) || (t==='serv-1'&&cid.startsWith('serv-'));
+      a.classList.toggle('active',on);
+    });
+    morphTarget=parseFloat(sc.dataset.org)||0;
+    cam.rotT=ROTS[idx%ROTS.length]||0;
   }
   function go(n,instant){
     n=clamp(n,0,TOT-1);
@@ -1209,17 +1256,28 @@
     go(idx+(dy>0?1:-1));
   },{passive:true});
 
+  function indexOfTarget(id){
+    let i=scenes.findIndex(s=>s.id===id);
+    if(i<0) i=scenes.findIndex(s=>s.id.startsWith(id.replace(/-\d+$/,'')));
+    if(i<0 && id==='precios') i=scenes.findIndex(s=>s.id.startsWith('precio'));
+    return i;
+  }
   document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{
-    if(deck){ e.preventDefault(); go(parseInt(a.dataset.go,10)); }
+    if(deck){
+      const i=indexOfTarget(a.getAttribute('href').slice(1));
+      if(i>=0){ e.preventDefault(); go(i); }
+    }
     setMenu(false);
   }));
 
   /* modo según viewport */
   function setMode(){
-    const want=!reduce;
-    if(want===deck) return;
-    deck=want;
+    const want=!reduce, wantSplit=innerWidth<=980;
+    if(want===deck && wantSplit===splitState) return;
+    splitState=wantSplit; deck=want;
     document.body.classList.toggle('deck',deck);
+    splitPricing(wantSplit);
+    idx=Math.max(0,Math.min(idx,TOT-1));
     scenes.forEach((s,i)=>{
       s.classList.toggle('on', !deck||i===idx);
       if(deck){ setScene(s, i===idx?'none':'translateY(62vh)', i===idx?1:0, 0, true); }
