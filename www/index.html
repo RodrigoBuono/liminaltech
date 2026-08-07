@@ -117,7 +117,8 @@
   @keyframes slide{ 50%{transform:translateX(0)} 100%{transform:translateX(100%)} }
 
   /* SOBRE MÍ */
-  .about-grid{ display:grid; grid-template-columns:1fr 1.25fr; gap:70px; align-items:center; }
+  #sobre .scene-inner{ max-width:1290px; }
+  .about-grid{ display:grid; grid-template-columns:.85fr 1.45fr; gap:56px; align-items:center; }
   .about-side h2{ font-family:'Fraunces',serif; font-weight:330; font-size:clamp(1.8rem,3vw,2.6rem); line-height:1.08; margin-top:14px; }
   .about-portrait{ margin-top:26px; max-width:320px; position:relative; will-change:transform; }
   .about-portrait::before{ content:''; position:absolute; left:2%; right:2%; top:12%; bottom:-4%;
@@ -130,7 +131,7 @@
     background:linear-gradient(160deg,rgba(134,163,122,.14),rgba(201,166,121,.07)); }
   .about-portrait.noimg::before{ display:none; }
   .about-portrait.noimg span{ position:absolute; inset:auto 0 0 0; padding:18px; margin:0; }
-  .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:16px; font-size:1.0rem; }
+  .about-body p{ color:var(--fg-dim); font-weight:300; margin-bottom:16px; font-size:.97rem; }
   .about-body p strong{ color:var(--fg); font-weight:400; }
   .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
   .tags span{ padding:6px 15px; border:1px solid var(--line); border-radius:40px; font-size:.72rem; color:var(--fg-dim); transition:.3s; background:rgba(10,12,16,.35); }
@@ -223,6 +224,7 @@
     .hsub br{ display:none; }
     .hint{ position:static; margin:26px 22px 0; justify-content:flex-start; }
     .about-grid{ grid-template-columns:1fr; gap:26px; }
+    .about-body p br{ display:none; }
     .about-portrait{ max-width:210px; margin-top:14px; }
     .about-body p{ font-size:.94rem; margin-bottom:12px; }
     .tags span{ font-size:.68rem; padding:5px 12px; }
@@ -335,8 +337,8 @@
         </div>
         <div class="about-body">
           <p class="reveal">Soy antropólogo social especializado en comunidades intencionales, ecoaldeas y nuevas formas de habitar.</p>
-          <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>, la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la <strong>transición</strong> a y la creación de <strong>ecoaldeas</strong>, <strong>co-livings</strong>, <strong>co-workings</strong> y <strong>espacios compartidos</strong>.</p>
-          <p class="reveal">También implemento <strong>IA</strong> con un <strong>enfoque antropológico</strong>: estudio cómo la tecnología modifica los <strong>proyectos</strong>, las <strong>comunidades</strong> y la vida cotidiana.</p>
+          <p class="reveal">Mi trabajo se sitúa en la intersección entre la <strong>organización social</strong>,<br>la <strong>sustentabilidad</strong> y la <strong>inteligencia artificial</strong>. Asesoro en la <strong>transición</strong><br>a y la creación de <strong>ecoaldeas</strong>, <strong>co-livings</strong>, <strong>co-workings</strong> y <strong>espacios compartidos</strong>.</p>
+          <p class="reveal">También implemento <strong>IA</strong> con un <strong>enfoque antropológico</strong>:<br>estudio cómo la tecnología modifica los <strong>proyectos</strong>,<br>las <strong>comunidades</strong> y la vida cotidiana.</p>
           <div class="tags reveal">
             <span>Antropología</span><span>Ecoaldeas</span><span>Comunidades</span><span>Co-living</span><span>Inteligencia Artificial</span><span>Sustentabilidad</span>
           </div>
