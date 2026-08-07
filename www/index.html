@@ -265,7 +265,12 @@
     .menu-x svg{ width:17px; height:17px; stroke:var(--fg); stroke-width:1.8; fill:none; }
     .nav-links a:active{ transform:scale(.97); background:rgba(143,172,130,.18); border-color:var(--sage); color:var(--sage); }
     /* una deslizada = una sección (mismo motor que en desktop) */
-    body{ overscroll-behavior-y:none; }
+    /* el gesto de refrescar solo vive en la primera escena;
+       en el resto, deslizar hacia arriba cambia de sección sin arrastrar la página */
+    html, body{ overscroll-behavior-y:none; }
+    .deck .scene{ overscroll-behavior-y:contain; }
+    html.pull-ok, html.pull-ok body{ overscroll-behavior-y:auto; }
+    html.pull-ok .scene.on{ overscroll-behavior-y:auto; }
     .deck, .deck #stagewrap{ height:100svh; }
     .deck #stagewrap{ perspective:1100px; }
     .deck .scene{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
@@ -1127,6 +1132,7 @@
   }
   const WORDS=['Ecléctico','Ecléctico','Liminal','Liminal','Transhumanismo','Transhumanismo','Transhumanismo','Exponencialidad','Exponencialidad'];
   function updateHud(){
+    document.documentElement.classList.toggle('pull-ok', idx===0);
     pct.textContent=('0'+(idx+1)).slice(-2);
     dlab.textContent=names[idx];
     phaseName.textContent=WORDS[idx];
