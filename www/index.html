@@ -205,6 +205,15 @@
   .foot{ position:absolute; bottom:30px; right:60px; display:flex; gap:28px;
     font-size:.7rem; color:var(--fg-dim); letter-spacing:.5px; }
 
+  /* aviso flotante */
+  .toast{ position:fixed; left:50%; bottom:26px; transform:translate(-50%,14px); z-index:1200;
+    background:rgba(12,16,20,.94); border:1px solid rgba(236,231,223,.18); color:var(--fg);
+    padding:12px 20px; border-radius:40px; font-size:.76rem; letter-spacing:.3px; max-width:88vw;
+    text-align:center; opacity:0; pointer-events:none; box-shadow:0 14px 40px rgba(0,0,0,.5);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    transition:opacity .35s, transform .35s cubic-bezier(.16,1,.3,1); }
+  .toast.show{ opacity:1; transform:translate(-50%,0); }
+
   /* ====== MOBILE: flujo normal ====== */
   @media (max-width:980px){
     body{ cursor:auto; }
@@ -1264,6 +1273,32 @@
     btn.addEventListener('mousemove',e=>{ const r=btn.getBoundingClientRect(); btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*0.18}px,${(e.clientY-r.top-r.height/2)*0.25}px)`; });
     btn.addEventListener('mouseleave',()=>btn.style.transform='');
   });
+  /* Aviso flotante */
+  const toastEl=document.createElement('div'); toastEl.className='toast'; document.body.appendChild(toastEl);
+  let toastT=null;
+  function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show');
+    clearTimeout(toastT); toastT=setTimeout(()=>toastEl.classList.remove('show'),3600); }
+
+  /* El botón de mail: si no hay cliente de correo configurado, el navegador ignora
+     el mailto sin avisar. Copiamos la dirección y abrimos Gmail como respaldo. */
+  const MAIL='contacto@rodrigobuono.com';
+  const GMAIL='https://mail.google.com/mail/?view=cm&fs=1&to='+MAIL
+    +'&su='+encodeURIComponent('Consulta desde la web')
+    +'&body='+encodeURIComponent('Hola Rodrigo,\n\nte escribo porque...');
+  document.querySelectorAll('a[href^="mailto:"]').forEach(a=>a.addEventListener('click',()=>{
+    if(navigator.clipboard) navigator.clipboard.writeText(MAIL).catch(()=>{});
+    let left=false;
+    const mark=()=>{ left=true; };
+    addEventListener('blur',mark,{once:true});
+    document.addEventListener('visibilitychange',mark,{once:true});
+    setTimeout(()=>{
+      removeEventListener('blur',mark);
+      if(left||document.hidden||!document.hasFocus()) return;   // el correo se abrió: no tocamos nada
+      toast('Dirección copiada: '+MAIL+' · abriendo Gmail…');
+      setTimeout(()=>{ location.href=GMAIL; },900);
+    },1500);
+  }));
+
   document.querySelectorAll('[data-pay]').forEach(a=>a.addEventListener('click',e=>{
     if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:contacto@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
   }));
