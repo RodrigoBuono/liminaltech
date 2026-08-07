@@ -279,9 +279,12 @@
     .hint{ position:static; margin:22px 0 0; justify-content:flex-start; font-size:.58rem; }
     .about-grid{ grid-template-columns:1fr; gap:16px; }
     .about-body p br{ display:none; }
-    .about-side h2{ font-size:1.5rem; margin-top:8px; }
-    .about-portrait{ max-width:132px; margin-top:12px; }
-    .about-portrait span{ margin-top:8px; font-size:.55rem; }
+    /* texto a la izquierda, retrato a la derecha */
+    .about-side{ display:grid; grid-template-columns:1fr 43%; column-gap:16px; align-items:start; }
+    .about-side .eyebrow{ grid-column:1; grid-row:1; align-self:end; }
+    .about-side h2{ grid-column:1; grid-row:2; font-size:1.4rem; margin-top:6px; }
+    .about-portrait{ grid-column:2; grid-row:1 / span 2; max-width:none; width:100%; margin-top:0; }
+    .about-portrait span{ margin-top:8px; font-size:.54rem; letter-spacing:1.4px; line-height:1.35; }
     .about-body p{ font-size:.83rem; margin-bottom:9px; line-height:1.55; }
     .tags{ gap:6px; margin-top:12px; }
     .tags span{ font-size:.62rem; padding:4px 10px; }
@@ -303,11 +306,8 @@
     .pr-head{ margin-bottom:18px; }
     .pr-head h2{ font-size:1.7rem; }
     .pr-head p{ font-size:.82rem; margin-top:8px; }
-    /* precios: tarjetas que se pasan de costado */
-    .pr-grid{ display:flex; grid-template-columns:none; gap:12px; overflow-x:auto; padding:4px 0 10px;
-      scroll-snap-type:x mandatory; scrollbar-width:none; }
-    .pr-grid::-webkit-scrollbar{ display:none; }
-    .pcard{ min-width:78vw; flex-shrink:0; scroll-snap-align:center; padding:20px 18px; }
+    .pr-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+    .pcard{ padding:20px 18px; }
     .pcard h3{ font-size:1.14rem; min-height:0; }
     .pcard .desc{ font-size:.78rem; min-height:0; }
     .pcard .price{ font-size:1.7rem; min-height:0; margin:10px 0 0; }
