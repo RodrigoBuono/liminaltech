@@ -191,9 +191,12 @@
   .ctitle em{ font-style:italic; color:var(--sage); }
   .csub{ color:var(--fg-dim); font-weight:300; max-width:480px; margin:26px auto 0; font-size:1.02rem; line-height:1.7; }
   .csub strong{ color:var(--fg); font-weight:500; }
-  .cta-links{ margin-top:38px; }
+  .cta-links{ margin-top:38px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .mbtn.wa{ border-color:var(--earth); color:var(--earth); }
+  .mbtn.wa::before{ background:var(--earth); }
+  .mbtn.wa svg{ width:18px; height:18px; fill:currentColor; }
   .mbtn{ display:inline-block; padding:17px 46px; border:1px solid var(--sage); border-radius:50px; color:var(--sage); font-size:.98rem; letter-spacing:.5px; position:relative; overflow:hidden; will-change:transform; background:rgba(10,12,16,.4); }
-  .mbtn span{ position:relative; z-index:1; transition:color .4s; }
+  .mbtn span{ position:relative; z-index:1; transition:color .4s; display:inline-flex; align-items:center; gap:9px; }
   .mbtn::before{ content:''; position:absolute; inset:0; background:var(--sage); transform:translateX(-101%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
   .mbtn:hover::before{ transform:translateX(0); } .mbtn:hover span{ color:#0d0f12; }
   .social{ margin-top:32px; display:flex; gap:26px; justify-content:center; }
@@ -239,6 +242,9 @@
     .pcard .price{ min-height:0; }
     .ctitle{ font-size:clamp(2.4rem,13vw,4.5rem); }
     .csub{ font-size:.96rem; }
+    .cta-links{ flex-direction:column; align-items:stretch; gap:12px; }
+    .mbtn{ padding:15px 24px; font-size:.9rem; text-align:center; }
+    .mbtn span{ justify-content:center; }
     .foot{ position:static; display:flex; justify-content:center; flex-wrap:wrap; gap:8px 22px;
       padding:26px 20px 34px; text-align:center; width:100%; }
   }
@@ -506,7 +512,8 @@
       <h2 class="ctitle reveal" style="margin-top:20px">Empecemos<br>tu <em>recorrido</em></h2>
       <p class="csub reveal">Si estás pensando en <strong>un cambio de vida</strong>,<br>en <strong>crear una comunidad</strong>,<br>en <strong>implementar IA en tu proyecto</strong>,<br>o simplemente querés conversar.</p>
       <div class="cta-links reveal">
-        <a href="mailto:hola@rodrigobuono.com" class="mbtn"><span>hola@rodrigobuono.com</span></a>
+        <a href="mailto:contacto@rodrigobuono.com?subject=Consulta%20desde%20la%20web&amp;body=Hola%20Rodrigo%2C%0A%0Ate%20escribo%20porque..." class="mbtn"><span>contacto@rodrigobuono.com</span></a>
+        <a href="https://wa.me/5491165718894?text=Hola%20Rodrigo%2C%20te%20escribo%20desde%20tu%20web." class="mbtn wa" target="_blank" rel="noopener"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.24-.86.84-.86 2.05s.88 2.38 1 2.54c.12.16 1.73 2.65 4.2 3.72.59.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>WhatsApp</span></a>
       </div>
       <div class="social reveal">
         <a href="https://www.instagram.com/rodri_buono/" target="_blank" rel="noopener">Instagram</a>
@@ -1071,7 +1078,7 @@
     btn.addEventListener('mouseleave',()=>btn.style.transform='');
   });
   document.querySelectorAll('[data-pay]').forEach(a=>a.addEventListener('click',e=>{
-    if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:hola@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
+    if(a.getAttribute('href')==='#'){ e.preventDefault(); location.href='mailto:contacto@rodrigobuono.com?subject=Reserva: '+a.dataset.pay; }
   }));
 
   function measure(){ vw=innerWidth; vh=innerHeight; DPR=Math.min(devicePixelRatio||1,2); buildShapes(); buildSky(); if(reduce) renderSky(0,0,0,0); setMode(); }
