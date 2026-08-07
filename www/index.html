@@ -555,7 +555,7 @@
      ============================================================ */
   const sky=document.getElementById('sky'), sctx=sky.getContext('2d');
   let SW=0,SH=0, lFar=null,lMid=null,lNear=null,lNeb=null,lMilky=null;
-  let galx=[], twinks=[], meteors=[], nextMeteor=0, sats=[], nextSat=0;
+  let galx=[], twinks=[], meteors=[], nextMeteor=0, sats=[], nextSat=0, rockets=[], nextRocket=0;
 
   function starColor(t){
     if(t<.15) return [160,185,255];
@@ -674,7 +674,7 @@
            {sp:makeGalaxy(Math.round(46*DPR),[175,150,215]), x:.70,y:.12, rot:.9, spd:.000016} ];
     twinks=[]; const nT=Math.round(110*k);
     for(let i=0;i<nT;i++) twinks.push({x:Math.random()*SW,y:Math.random()*SH,r:(Math.random()*1.4+.6)*DPR,ph:rnd(0,6.28),sp:rnd(.6,2.2),c:starColor(Math.random())});
-    meteors=[]; nextMeteor=0; sats=[]; nextSat=0;
+    meteors=[]; nextMeteor=0; sats=[]; nextSat=0; rockets=[]; nextRocket=0;
   }
   function renderSky(time,p,nx,ny){
     sctx.clearRect(0,0,SW,SH);
@@ -749,6 +749,97 @@
         sctx.fillStyle=`rgba(240,246,255,${a.toFixed(3)})`;
         sctx.beginPath(); sctx.arc(px,py,1.1*DPR,0,6.283); sctx.fill();
       }
+    }
+    renderRockets(time);
+  }
+
+  /* --- COHETES: despegan desde la base y suben --- */
+  function spawnRocket(){
+    const x=SW*(0.12+Math.random()*0.76);
+    const R={ x, y:SH+10*DPR, vy:0.5*DPR, lean:(Math.random()-.5)*0.55*DPR,
+      size:(0.85+Math.random()*0.5), smoke:[], t:0, ground:[] };
+    for(let i=0;i<14;i++){
+      R.ground.push({ x:x+gauss()*16*DPR, y:SH-2*DPR+gauss()*5*DPR,
+        vx:(Math.random()-.5)*0.9*DPR, vy:-(0.05+Math.random()*0.2)*DPR,
+        r:(7+Math.random()*13)*DPR, a:.30+Math.random()*.22 });
+    }
+    rockets.push(R);
+  }
+  function puff(p,warm){
+    const g=sctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+    const c=warm?'255,214,158':'214,220,232';
+    g.addColorStop(0,`rgba(${c},${(p.a*.8).toFixed(3)})`);
+    g.addColorStop(.55,`rgba(${c},${(p.a*.3).toFixed(3)})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    sctx.fillStyle=g; sctx.beginPath(); sctx.arc(p.x,p.y,p.r,0,6.283); sctx.fill();
+  }
+  function renderRockets(time){
+    if(time>nextRocket){ spawnRocket(); nextRocket=time+14000+Math.random()*16000; }
+    for(let i=rockets.length-1;i>=0;i--){
+      const R=rockets[i];
+      R.t++;
+      R.vy=Math.min(R.vy+0.055*DPR, 7*DPR);
+      R.y-=R.vy; R.x+=R.lean*Math.min(1,R.t/90);
+      const s=R.size*DPR;
+
+      // humo del despegue
+      for(let k=R.ground.length-1;k>=0;k--){
+        const p=R.ground[k];
+        p.x+=p.vx; p.y+=p.vy; p.r+=0.55*DPR; p.a*=0.982;
+        if(p.a<0.012){ R.ground.splice(k,1); continue; }
+        puff(p, p.y>SH-60*DPR);
+      }
+      // estela
+      if(R.t%2===0 && R.y>-60*DPR){
+        R.smoke.push({ x:R.x+gauss()*2.5*DPR, y:R.y+11*s,
+          vx:(Math.random()-.5)*0.35*DPR, vy:0.25*DPR,
+          r:(3.5+Math.random()*3.5)*DPR, a:.34 });
+      }
+      for(let k=R.smoke.length-1;k>=0;k--){
+        const p=R.smoke[k];
+        p.x+=p.vx; p.y+=p.vy; p.r+=0.42*DPR; p.a*=0.965;
+        if(p.a<0.012){ R.smoke.splice(k,1); continue; }
+        puff(p,false);
+      }
+
+      if(R.y<-90*DPR && !R.smoke.length && !R.ground.length){ rockets.splice(i,1); continue; }
+      if(R.y<-90*DPR) continue;
+
+      // llama
+      const flick=0.82+0.18*Math.sin(time*0.05+R.t*0.7);
+      const len=(16+R.vy*3.4)*flick;
+      const gy=R.y+6*s;
+      const halo=sctx.createRadialGradient(R.x,gy,0,R.x,gy,len*1.5);
+      halo.addColorStop(0,'rgba(255,238,200,.55)');
+      halo.addColorStop(.35,'rgba(255,178,90,.20)');
+      halo.addColorStop(1,'rgba(255,150,60,0)');
+      sctx.fillStyle=halo; sctx.beginPath(); sctx.arc(R.x,gy,len*1.5,0,6.283); sctx.fill();
+
+      const fl=sctx.createLinearGradient(R.x,gy,R.x,gy+len);
+      fl.addColorStop(0,'rgba(255,255,250,.98)');
+      fl.addColorStop(.3,'rgba(255,226,160,.85)');
+      fl.addColorStop(.7,'rgba(255,150,60,.45)');
+      fl.addColorStop(1,'rgba(255,110,40,0)');
+      sctx.fillStyle=fl;
+      sctx.beginPath();
+      sctx.moveTo(R.x-2.1*s,gy);
+      sctx.quadraticCurveTo(R.x,gy+len*.65,R.x,gy+len);
+      sctx.quadraticCurveTo(R.x,gy+len*.65,R.x+2.1*s,gy);
+      sctx.closePath(); sctx.fill();
+
+      // cuerpo
+      sctx.fillStyle='rgba(226,230,238,.95)';
+      sctx.beginPath();
+      sctx.moveTo(R.x,R.y-9*s);
+      sctx.lineTo(R.x+1.9*s,R.y-3.5*s);
+      sctx.lineTo(R.x+1.9*s,R.y+6*s);
+      sctx.lineTo(R.x-1.9*s,R.y+6*s);
+      sctx.lineTo(R.x-1.9*s,R.y-3.5*s);
+      sctx.closePath(); sctx.fill();
+      sctx.fillStyle='rgba(120,128,142,.9)';
+      sctx.fillRect(R.x-1.9*s,R.y+1.6*s,3.8*s,1.5*s);
+      sctx.fillStyle='rgba(255,232,190,.55)';
+      sctx.fillRect(R.x-1.9*s,R.y-3.5*s,1.1*s,9.5*s);
     }
   }
 
