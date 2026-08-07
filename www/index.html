@@ -756,7 +756,7 @@
   /* --- COHETES: despegan desde la base y suben --- */
   function spawnRocket(){
     const x=SW*(0.12+Math.random()*0.76);
-    const R={ x, y:SH+10*DPR, vy:0.5*DPR, lean:(Math.random()-.5)*0.55*DPR,
+    const R={ x, y:SH+10*DPR, vy:0.25*DPR, lean:(Math.random()-.5)*0.30*DPR,
       size:(0.85+Math.random()*0.5), smoke:[], t:0, ground:[] };
     for(let i=0;i<14;i++){
       R.ground.push({ x:x+gauss()*16*DPR, y:SH-2*DPR+gauss()*5*DPR,
@@ -778,8 +778,8 @@
     for(let i=rockets.length-1;i>=0;i--){
       const R=rockets[i];
       R.t++;
-      R.vy=Math.min(R.vy+0.055*DPR, 7*DPR);
-      R.y-=R.vy; R.x+=R.lean*Math.min(1,R.t/90);
+      R.vy=Math.min(R.vy+0.0275*DPR, 3.5*DPR);
+      R.y-=R.vy; R.x+=R.lean*Math.min(1,R.t/180);
       const s=R.size*DPR;
 
       // humo del despegue
@@ -807,7 +807,7 @@
 
       // llama
       const flick=0.82+0.18*Math.sin(time*0.05+R.t*0.7);
-      const len=(16+R.vy*3.4)*flick;
+      const len=(16+R.vy*6.8)*flick;
       const gy=R.y+6*s;
       const halo=sctx.createRadialGradient(R.x,gy,0,R.x,gy,len*1.5);
       halo.addColorStop(0,'rgba(255,238,200,.55)');
