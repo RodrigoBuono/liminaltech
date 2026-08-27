@@ -28,9 +28,10 @@
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{ --fg:#f2eee7; --fg-dim:#b6b0a5; --sage:#8fac82; --earth:#d1b087; --cyan:#8fb4c9; --line:rgba(236,231,223,0.16); }
   html{ -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-  body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0a0c10; line-height:1.65; overflow-x:hidden; max-width:100vw; cursor:none; }
+  body{ font-family:'Inter',sans-serif; color:var(--fg); background:#0a0c10; line-height:1.65; overflow-x:hidden; max-width:100vw; }
   ::selection{ background:var(--sage); color:#0d0f12; }
   a{ color:inherit; text-decoration:none; }
+  a, button, .pcard, .about-portrait, .tags span{ cursor:pointer; }
 
   /* ====== ORGANISMO: ahora es TODO el fondo ====== */
   #bg{ position:fixed; inset:0; z-index:-6; background:#0a0c10; }
@@ -60,11 +61,6 @@
   #phase b{ color:var(--fg); font-weight:500; }
 
   /* CURSOR */
-  .cur{ position:fixed; top:0; left:0; width:7px; height:7px; border-radius:50%; background:var(--sage);
-    z-index:10000; pointer-events:none; transform:translate(-50%,-50%); transition:width .3s,height .3s,background .3s; mix-blend-mode:difference; }
-  .cur.big{ width:54px; height:54px; background:var(--fg); }
-  .cur-ring{ position:fixed; top:0; left:0; width:34px; height:34px; border:1px solid rgba(134,163,122,.5);
-    border-radius:50%; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); }
 
   /* NAV */
   nav{ position:fixed; top:0; left:0; right:0; z-index:900; mix-blend-mode:difference; }
@@ -74,7 +70,7 @@
   .nav-links a{ font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--fg); opacity:.72; position:relative; }
   .nav-links a::after{ content:''; position:absolute; left:0; bottom:-5px; width:0; height:1px; background:var(--fg); transition:width .4s cubic-bezier(.16,1,.3,1); }
   .nav-links a:hover{ opacity:1; } .nav-links a:hover::after{ width:100%; }
-  .burger{ display:none; flex-direction:column; gap:6px; background:none; border:0; cursor:none; }
+  .burger{ display:none; flex-direction:column; gap:6px; background:none; border:0; cursor:pointer; }
   .burger span{ width:26px; height:1.5px; background:var(--fg); transition:.35s cubic-bezier(.16,1,.3,1); }
   .burger.on span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
   .burger.on span:nth-child(2){ opacity:0; }
@@ -241,7 +237,7 @@
   /* ====== MOBILE: flujo normal ====== */
   @media (max-width:980px){
     body{ cursor:auto; }
-    .cur,.cur-ring,#scenenav,#depth,#phase,#sweep{ display:none; }
+    #scenenav,#depth,#phase,#sweep{ display:none; }
     .burger{ display:flex; }
     .nav-in{ padding:18px 22px; }
     .brand{ font-size:1rem; }
@@ -399,8 +395,6 @@
 <div id="veil"></div>
 <div class="grain"></div>
 <div id="sweep"></div>
-<div class="cur"></div>
-<div class="cur-ring"></div>
 <div id="bar"></div>
 <div id="phase">Organismo · <b id="phaseName">Ecléctico</b></div>
 
@@ -1310,11 +1304,9 @@
     if(deck){ updateHud(); playReveals(scenes[idx]); }
   }
 
-  /* CURSOR */
-  const cur=document.querySelector('.cur'), ring=document.querySelector('.cur-ring');
-  let mx=vw/2,my=vh/2,rx=mx,ry=my, nmx=0,nmy=0, mouseOn=false;
+  /* Seguimiento del mouse/tacto: alimenta el organismo y el parallax (sin cursor personalizado) */
+  let mx=vw/2,my=vh/2, nmx=0,nmy=0, mouseOn=false;
   addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; mouseOn=true;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
     nmx=(mx/vw-0.5)*2; nmy=(my/vh-0.5)*2; });
   addEventListener('mouseleave',()=>mouseOn=false);
   // el organismo también reacciona al tacto
@@ -1322,10 +1314,6 @@
     nmx=(mx/vw-0.5)*2; nmy=(my/vh-0.5)*2; mouseOn=true; },{passive:true});
   addEventListener('touchstart',e=>{ const t=e.touches[0]; mx=t.clientX; my=t.clientY; mouseOn=true; },{passive:true});
   document.addEventListener('touchend',()=>{ setTimeout(()=>{ mouseOn=false; },300); },{passive:true});
-  document.querySelectorAll('a,button,.tags span,.about-portrait,.pcard').forEach(el=>{
-    el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-    el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
-  });
 
   /* NAV mobile */
   const burger=document.getElementById('burger'), menu=document.getElementById('menu');
@@ -1412,7 +1400,6 @@
 
     if(portrait && vw>980) portrait.style.transform=`perspective(800px) rotateY(${nmx*5}deg) rotateX(${-nmy*5}deg)`;
 
-    rx=lerp(rx,mx,.16); ry=lerp(ry,my,.16); ring.style.left=rx+'px'; ring.style.top=ry+'px';
     requestAnimationFrame(tick);
   }
 
