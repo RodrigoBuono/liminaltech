@@ -3,6 +3,442 @@ window.CUADERNOS = {
  "actualizado": "2026-10",
  "repositorio": [
   {
+   "titulo": "Environmental Anthropology Engaging Ecotopia: Bioregionalism, Permaculture, and Ecovillages",
+   "autores": [
+    "Lockyer, Joshua",
+    "Veteto, James R."
+   ],
+   "anio": 2013,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Berghahn Books (Studies in Environmental Anthropology and Ethnobiology, vol. 17)",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "antropología ambiental",
+    "biorregionalismo",
+    "ecoaldeas",
+    "permacultura"
+   ],
+   "resumen": "Volumen colectivo que propone que la antropología ambiental pase del diagnóstico de problemas al acompañamiento de soluciones, a partir de estudios de caso sobre biorregionalismo, permacultura y ecoaldeas entendidos como movimientos sociales conectados.",
+   "url": "https://www.berghahnbooks.com/title/LockyerEnvironmental",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Redefining Social and Environmental Relations at the Ecovillage at Ithaca: A Case Study",
+   "autores": [
+    "Kirby, Andy"
+   ],
+   "anio": 2003,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Journal of Environmental Psychology, 23(3), 323-332",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "cohousing",
+    "ecoaldeas",
+    "estados unidos",
+    "relación con la naturaleza"
+   ],
+   "resumen": "Estudio de caso basado en observación participante, entrevistas y documentos sobre EcoVillage at Ithaca, que identifica distintos tipos de vínculo de los residentes con la comunidad, el paisaje silvestre y el cultivado, y el peso de las motivaciones sociales para integrarse.",
+   "url": "https://www.researchgate.net/publication/222691611_Redefining_Social_and_Environmental_Relations_at_the_Ecovillage_at_Ithaca_A_Case_Study",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Living in Utopia: New Zealand's Intentional Communities",
+   "autores": [
+    "Sargisson, Lucy",
+    "Sargent, Lyman Tower"
+   ],
+   "anio": 2004,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Ashgate (reedición Routledge, 2016)",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "comunidades intencionales",
+    "conflicto",
+    "nueva zelanda",
+    "utopía"
+   ],
+   "resumen": "Estudio de unas cincuenta comunidades intencionales de Nueva Zelanda que examina cómo se sostienen, gestionan el conflicto y equilibran necesidades individuales y colectivas, con lecciones extensibles a la vida comunitaria en general.",
+   "url": "https://www.taylorfrancis.com/books/9781138276475",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Alienation and Charisma: A Study of Contemporary American Communes",
+   "autores": [
+    "Zablocki, Benjamin"
+   ],
+   "anio": 1980,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "The Free Press, Nueva York",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "carisma",
+    "comunas",
+    "estados unidos",
+    "toma de decisiones"
+   ],
+   "resumen": "Estudio sociológico comparativo de comunas estadounidenses contemporáneas que analiza la alienación, el liderazgo y el carisma entendido como un estado colectivo que configura las relaciones dentro de cada grupo.",
+   "url": "https://library.holycross.edu/Record/b1084140",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "The 60s Communes: Hippies and Beyond",
+   "autores": [
+    "Miller, Timothy"
+   ],
+   "anio": 1999,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Syracuse University Press",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "comunas",
+    "contracultura",
+    "estados unidos",
+    "historia"
+   ],
+   "resumen": "Historia de la gran ola de vida comunal en Estados Unidos durante los años sesenta y comienzos de los setenta, acompañada de un extenso directorio de comunas con sus fechas de fundación y disolución.",
+   "url": "https://www.fulcrum.org/concern/monographs/rb68xc43w",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Utopia as Method: The Imaginary Reconstitution of Society",
+   "autores": [
+    "Levitas, Ruth"
+   ],
+   "anio": 2013,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Palgrave Macmillan",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "futuros alternativos",
+    "sociología",
+    "teoría social",
+    "utopía"
+   ],
+   "resumen": "Propone entender la utopía no como meta o plano cerrado sino como un método reflexivo y dialógico para imaginar y evaluar futuros posibles frente a las crisis ecológicas y económicas.",
+   "url": "https://www.springer.com/br/book/9780230231962",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Shared Visions, Shared Lives: Communal Living Around the Globe",
+   "autores": [
+    "Metcalf, William James"
+   ],
+   "anio": null,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": null,
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "comparación internacional",
+    "comunidades intencionales",
+    "vida comunal"
+   ],
+   "resumen": "Compilación de experiencias de vida comunal en distintos países, narradas en buena medida desde la perspectiva de sus propios integrantes, que ofrece un panorama internacional de las comunidades intencionales.",
+   "url": "https://relbib.de/Record/215345118",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "The Simpler Way: Collected Writings of Ted Trainer",
+   "autores": [
+    "Trainer, Ted",
+    "Alexander, Samuel",
+    "Rutherford, Jonathan"
+   ],
+   "anio": 2020,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Simplicity Institute (ed. Samuel Alexander y Jonathan Rutherford)",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "autogestión",
+    "decrecimiento",
+    "simplicidad voluntaria",
+    "transición"
+   ],
+   "resumen": "Recopilación de escritos de Ted Trainer que plantean una transición decrecentista hacia comunidades pequeñas, en gran medida autosuficientes y autogobernadas, y discuten críticamente los límites de los movimientos de ecoaldeas y de transición.",
+   "url": "https://degrowth.info/library/the-simpler-way-collected-writings-of-ted-trainer",
+   "doi": null,
+   "acceso": "desconocido"
+  },
+  {
+   "titulo": "Sustainable Living and Community Building in EcoVillage at Ithaca: The Challenges of Incorporating Social Justice Concerns into the Practices of an Ecological Cohousing Community",
+   "autores": [
+    "Chitewere",
+    "Taylor"
+   ],
+   "anio": 2010,
+   "tipo": "capitulo",
+   "idioma": "en",
+   "fuente": "Environment and Social Justice: An International Perspective (Research in Social Problems and Public Policy, vol. 18), Emerald, pp. 141-176",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "cohousing",
+    "ecoaldeas",
+    "ecovillage at ithaca",
+    "equidad",
+    "estados unidos",
+    "justicia ambiental"
+   ],
+   "resumen": "Analiza cómo EcoVillage at Ithaca concibe y practica la sustentabilidad y muestra las dificultades de la comunidad para integrar cuestiones de justicia social y la participación de minorías y sectores de bajos ingresos.",
+   "url": "https://emerald.com/insight/content/doi/10.1108/S0196-1152(2010)0000018007",
+   "doi": "10.1108/S0196-1152(2010)0000018007",
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Building an island of sustainability in a sea of unsustainability? A study of two ecovillages",
+   "autores": [
+    "Temesgen, Amsale Kassahun"
+   ],
+   "anio": 2020,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Sustainability",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "ecoaldeas",
+    "escocia",
+    "estudio comparativo",
+    "findhorn",
+    "noruega",
+    "propiedad"
+   ],
+   "resumen": "Comparación de Findhorn (Escocia) y Hurdal (Noruega) mediante análisis documental, observación participante y entrevistas, que muestra cómo el avance de la propiedad privada y el abandono de cursos introductorios debilitan las prácticas compartidas.",
+   "url": "https://nordopen.nord.no/nord-xmlui/handle/11250/2734452",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Movimiento ecoaldeano: una mirada crítica sobre sus desafíos y aprendizajes desde la sustentabilidad comunitaria",
+   "autores": [
+    "Zúñiga Becerra, Paulina Belén"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "BeGEO, Instituto de Geografía UC, n.º 6, pp. 67-76",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "chile",
+    "desarrollo sustentable",
+    "ecoaldeas",
+    "sustentabilidad comunitaria"
+   ],
+   "resumen": "Revisa críticamente el movimiento de ecoaldeas desde las nociones de desarrollo sustentable y sustentabilidad comunitaria, para identificar aprendizajes y desafíos de su puesta en práctica.",
+   "url": "https://geografia.uc.cl/wp-content/uploads/2024/10/5_Zuniga.pdf",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Los migrantes por estilo de vida como agentes de transformación en la Norpatagonia chilena",
+   "autores": [
+    "Zunino, Hugo Marcelo",
+    "Espinoza Arévalo, Lorena",
+    "Vallejos-Romero, Arturo"
+   ],
+   "anio": 2016,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Revista de Estudios Sociales (Bogotá), n.º 55",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "chile",
+    "migración por estilo de vida",
+    "neorrurales",
+    "patagonia"
+   ],
+   "resumen": "Analiza la migración por estilo de vida hacia zonas de montaña y grandes lagos de la Norpatagonia chilena y discute la capacidad de estos migrantes para impulsar transformaciones territoriales.",
+   "url": "https://biblat.unam.mx/hevila/RevistadeestudiossocialesBogota/2016/no55/14.pdf",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Europeos y estadounidenses en la Norpatagonia andina: nuevas experiencias",
+   "autores": [
+    "Matossian, Brenda",
+    "Zebryte, Ieva",
+    "Zunino, Hugo"
+   ],
+   "anio": 2014,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Revista CIDOB d'Afers Internacionals",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "argentina",
+    "chile",
+    "migración por estilo de vida",
+    "patagonia"
+   ],
+   "resumen": "Estudia a migrantes europeos y estadounidenses asentados en Bariloche y Pucón, cuya búsqueda de nuevos estilos de vida en la Norpatagonia andina se presenta como un fenómeno que requiere atención específica.",
+   "url": "https://www.cidob.org/publicaciones/europeos-estadounidenses-norpatagonia-andina-nuevas-experiencias",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Diagnóstico histórico y socioeconómico para la comprensión de los procesos de cambio en la Comarca Andina del Paralelo 42°",
+   "autores": [
+    "Madariaga, Marta",
+    "López, Silvana"
+   ],
+   "anio": 2020,
+   "tipo": "informe",
+   "idioma": "es",
+   "fuente": "INTA, Estación Experimental Agropecuaria Bariloche (Repositorio RID-UNRN)",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "argentina",
+    "cambio territorial",
+    "comarca andina",
+    "patagonia"
+   ],
+   "resumen": "Informe que reconstruye la historia y la situación socioeconómica de la Comarca Andina del Paralelo 42° (El Bolsón, Lago Puelo y valles vecinos) para comprender sus procesos de cambio territorial y poblacional.",
+   "url": "https://rid.unrn.edu.ar/bitstream/20.500.12049/8521/1/INTA_CRPatagoniaNorte_EEABariloche_Madariaga_MC_Diagnostico_Historico_Y_SOcio_Economico_Para_La_Comprension_De_Los_Procesos_De_Cambio_Comarca_Andina.pdf",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Emergência dos complexos culturais nas ecovilas: estudos etnográficos Brasil/Suíça",
+   "autores": [
+    "Duarte, Luiz Guilherme Mafle Ferreira",
+    "Barçante, Henrique",
+    "Bragança e Moreira, João de"
+   ],
+   "anio": 2023,
+   "tipo": "articulo",
+   "idioma": "pt",
+   "fuente": "Estudos de Psicologia (Campinas), 40, e210139",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "brasil",
+    "ecoaldeas",
+    "etnografía",
+    "subjetividad",
+    "suiza"
+   ],
+   "resumen": "A partir de inmersiones etnográficas en dos ecoaldeas suizas y una brasileña, analiza la subjetividad de sus habitantes con el concepto de complejo cultural de la psicología analítica.",
+   "url": "https://scielo.br/j/estpsi/a/q4JLyhT77MdPPp3r77wRBLL/?lang=en",
+   "doi": "10.1590/1982-0275202340e210139",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "A natureza epistemológica das ecovilas: Revisão sistemática nas teses defendidas em programas de pós-graduação no Brasil",
+   "autores": [
+    "Tres, Guilherme Smaniotto",
+    "Souza, Washington José de"
+   ],
+   "anio": 2019,
+   "tipo": "articulo",
+   "idioma": "pt",
+   "fuente": "RIPS. Revista de Investigaciones Políticas y Sociológicas, 18(2), 137-156",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "brasil",
+    "ecoaldeas",
+    "epistemología",
+    "revisión sistemática"
+   ],
+   "resumen": "Revisión sistemática de tesis doctorales brasileñas sobre ecoaldeas que las clasifica según los paradigmas de Burrell y Morgan, con el fin de delimitar el concepto de ecoaldea.",
+   "url": "https://revistas.usc.gal/index.php/rips/article/view/5407/6994",
+   "doi": "10.15304/rips.18.2.5407",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Refúgios ao fim?: ecovilas, solarpunk e ecofuturismo",
+   "autores": [
+    "Guimarães, Heitor Martins"
+   ],
+   "anio": 2025,
+   "tipo": "tesis",
+   "idioma": "pt",
+   "fuente": "Disertación de maestría, Programa de Pós-Graduação em Antropologia Social, Museu Nacional, Universidade Federal do Rio de Janeiro",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "brasil",
+    "ecoaldeas",
+    "futuros",
+    "permacultura"
+   ],
+   "resumen": "Disertación en antropología social que lee las ecoaldeas como modos de vida menos dañinos para la naturaleza frente a la crisis socioambiental brasileña, en diálogo con el solarpunk y el ecofuturismo.",
+   "url": "https://pantheon.ufrj.br/handle/11422/28670",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "O fenômeno de ecovilas no Brasil contemporâneo",
+   "autores": [
+    "Arruda, Beatriz Martins"
+   ],
+   "anio": 2018,
+   "tipo": "tesis",
+   "idioma": "pt",
+   "fuente": "Disertación de maestría en Arquitectura y Urbanismo, Pontifícia Universidade Católica de Campinas",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "brasil",
+    "ecoaldeas",
+    "estado del arte"
+   ],
+   "resumen": "Mapea la producción académica y la distribución geográfica del fenómeno de las ecoaldeas en el Brasil contemporáneo.",
+   "url": "https://repositorio.sis.puc-campinas.edu.br/handle/123456789/1651",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Ecological Epistemologies and Spiritualities in Brazilian Ecovillages: In the Labyrinth of an Environmental Anthropology",
+   "autores": [
+    "Gonçalves Brito"
+   ],
+   "anio": null,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Routledge",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "antropología ambiental",
+    "brasil",
+    "ecoaldeas",
+    "espiritualidad"
+   ],
+   "resumen": "Monografía de antropología ambiental sobre las epistemologías ecológicas y las espiritualidades que se configuran en ecoaldeas brasileñas.",
+   "url": "https://www.routledge.com/Ecological-Epistemologies-and-Spiritualities-in-Brazilian-Ecovillages-In-the-Labyrinth-of-an-Environmental-Anthropology/GoncalvesBrito/p/book/9781032458212",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Building Resistance from Home: EcoVillage at Ithaca as a Model of Sustainable Living",
+   "autores": [
+    "Fischetti"
+   ],
+   "anio": 2008,
+   "tipo": "tesis",
+   "idioma": "en",
+   "fuente": "University of Oregon (Scholars' Bank)",
+   "tema": "Antropología y comunidades",
+   "etiquetas": [
+    "consumo",
+    "ecoaldeas",
+    "estados unidos",
+    "resistencia"
+   ],
+   "resumen": "Trabajo que interpreta EcoVillage at Ithaca como un espacio de resistencia frente a la sociedad de consumo y como modelo de vida sustentable.",
+   "url": "https://scholarsbank.uoregon.edu/items/1446ed53-f3b4-46a5-940f-59be2a8155c0/full",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
    "titulo": "Paisas y gringos. Neorruralidad serrana, transformaciones relacionales e identidades emergentes en Córdoba, Argentina",
    "autores": [
     "Trimano, Luciana"
@@ -1151,28 +1587,6 @@ window.CUADERNOS = {
    "acceso": "abierto"
   },
   {
-   "titulo": "Sustainable living and community building in EcoVillage at Ithaca: The challenges of incorporating social justice concerns into the practices of an ecological cohousing community",
-   "autores": [
-    "Chitewere, Tendai",
-    "Taylor, Dorceta E."
-   ],
-   "anio": 2010,
-   "tipo": "capitulo",
-   "idioma": "en",
-   "fuente": "Environment and Social Justice (Research in Social Problems and Public Policy, vol. 18), Emerald",
-   "tema": "Ecoaldeas y sostenibilidad",
-   "etiquetas": [
-    "cohousing",
-    "ecovillage at ithaca",
-    "equidad",
-    "justicia ambiental"
-   ],
-   "resumen": "Analiza cómo EcoVillage at Ithaca conceptualiza y practica la sostenibilidad y en qué medida incorpora preocupaciones de equidad y justicia social, señalando las tensiones entre el estilo de vida ecológico y la inclusión social.",
-   "url": "https://emerald.com/insight/content/doi/10.1108/S0196-1152(2010)0000018007",
-   "doi": "10.1108/S0196-1152(2010)0000018007",
-   "acceso": "restringido"
-  },
-  {
    "titulo": "Re-imagining the utopian: Transformation of a sustainable lifestyle in ecovillages",
    "autores": [
     "Hong, Soonkwan",
@@ -1304,27 +1718,6 @@ window.CUADERNOS = {
    "resumen": "Revisión de literatura sobre los conceptos y prácticas de la ecoaldea como forma de vida sostenible situada; critica el modelo de pilares de la sostenibilidad y propone atender a lo cultural y lo regional para escalar del nivel local al nacional y global.",
    "url": "https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/2626781",
    "doi": "10.1002/sd.1882",
-   "acceso": "abierto"
-  },
-  {
-   "titulo": "Building an island of sustainability in a sea of unsustainability? A study of two ecovillages",
-   "autores": [
-    "Temesgen, Amsale Kassahun"
-   ],
-   "anio": 2020,
-   "tipo": "articulo",
-   "idioma": "en",
-   "fuente": "Sustainability (MDPI), 12(24), 10585",
-   "tema": "Ecoaldeas y sostenibilidad",
-   "etiquetas": [
-    "estudio comparativo",
-    "findhorn",
-    "propiedad",
-    "prácticas compartidas"
-   ],
-   "resumen": "Compara la expansión física de las ecoaldeas de Hurdal (Noruega) y Findhorn (Escocia) y muestra que, por vías distintas, ambas debilitaron las competencias para las prácticas compartidas al imponerse la propiedad privada.",
-   "url": "https://www.mdpi.com/2071-1050/12/24/10585/html",
-   "doi": null,
    "acceso": "abierto"
   },
   {
@@ -2045,6 +2438,733 @@ window.CUADERNOS = {
    "acceso": "abierto"
   },
   {
+   "titulo": "Algorithms as culture: Some tactics for the ethnography of algorithmic systems",
+   "autores": [
+    "Seaver, Nick"
+   ],
+   "anio": 2017,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Big Data & Society, 4(2)",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "algoritmos",
+    "antropología de la tecnología",
+    "etnografía"
+   ],
+   "resumen": "Propone entender los algoritmos como cultura y no como objetos técnicos aislados, y ofrece tácticas etnográficas para estudiar sistemas algorítmicos sin depender de un acceso privilegiado a su código.",
+   "url": "https://doi.org/10.1177/2053951717738104",
+   "doi": "10.1177/2053951717738104",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Atlas of AI: Power, Politics, and the Planetary Costs of Artificial Intelligence",
+   "autores": [
+    "Crawford, Kate"
+   ],
+   "anio": 2021,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Yale University Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "extractivismo",
+    "inteligencia artificial",
+    "poder",
+    "trabajo"
+   ],
+   "resumen": "Analiza la inteligencia artificial como una industria material y política que depende de la extracción de recursos, del trabajo humano y de datos, y que concentra poder en pocas corporaciones.",
+   "url": "https://www.degruyterbrill.com/document/doi/10.12987/9780300252392/html?lang=en",
+   "doi": "10.12987/9780300252392",
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Human-Machine Reconfigurations: Plans and Situated Actions (2nd ed.)",
+   "autores": [
+    "Suchman, Lucy"
+   ],
+   "anio": 2007,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Cambridge University Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "acción situada",
+    "antropología de la tecnología",
+    "interacción humano-máquina"
+   ],
+   "resumen": "Edición ampliada del clásico Plans and Situated Actions, que desplaza la pregunta de si humanos y máquinas se parecen hacia cómo se configuran en la práctica sus similitudes y diferencias.",
+   "url": "https://www.cambridge.org/core/books/humanmachine-reconfigurations/introduction/88A0D7820B250DB39BC9F9F63ABF73AD",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Moral Crumple Zones: Cautionary Tales in Human-Robot Interaction",
+   "autores": [
+    "Elish, Madeleine Clare"
+   ],
+   "anio": 2019,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Engaging Science, Technology, and Society, 5, 40-60",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "automatización",
+    "responsabilidad",
+    "sistemas sociotécnicos"
+   ],
+   "resumen": "A partir de accidentes con sistemas automatizados, acuña el concepto de 'zona de deformación moral' para describir cómo la responsabilidad recae sobre el operador humano con escaso control sobre la máquina.",
+   "url": "https://estsjournal.org/index.php/ests/article/view/260",
+   "doi": "10.17351/ests2019.260",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Situating Methods in the Magic of Big Data and Artificial Intelligence",
+   "autores": [
+    "Elish, Madeleine Clare",
+    "boyd, danah"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Communication Monographs, 85(1), 57-80",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "big data",
+    "etnografía computacional",
+    "inteligencia artificial"
+   ],
+   "resumen": "Cuestiona los mitos que presentan al big data y la IA como algo mágico y propone pensar el aprendizaje automático como una forma de etnografía computacional que exige reflexividad metodológica.",
+   "url": "https://papers.ssrn.com/abstract=3040201",
+   "doi": "10.1080/03637751.2017.1375130",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Big Other: Surveillance Capitalism and the Prospects of an Information Civilization",
+   "autores": [
+    "Zuboff, Shoshana"
+   ],
+   "anio": 2015,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Journal of Information Technology, 30, 75-89",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "capitalismo de vigilancia",
+    "datos",
+    "poder"
+   ],
+   "resumen": "Formula la noción de capitalismo de vigilancia como nueva lógica de acumulación basada en la extracción de datos conductuales, tomando a Google como caso central.",
+   "url": "https://aisel.aisnet.org/jit/vol30/iss1/10",
+   "doi": "10.1057/jit.2015.5",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "The Age of Surveillance Capitalism: The Fight for a Human Future at the New Frontier of Power",
+   "autores": [
+    "Zuboff, Shoshana"
+   ],
+   "anio": 2019,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "PublicAffairs",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "capitalismo de vigilancia",
+    "datos",
+    "plataformas digitales"
+   ],
+   "resumen": "Desarrolla en extenso cómo las grandes empresas digitales convierten la experiencia humana en datos para predecir y modificar comportamientos, y discute sus consecuencias para la autonomía y la democracia.",
+   "url": "https://eld.bl.uk/catalog/019249759",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "The future of employment: How susceptible are jobs to computerisation?",
+   "autores": [
+    "Frey, Carl Benedikt",
+    "Osborne, Michael A."
+   ],
+   "anio": 2017,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Technological Forecasting and Social Change, 114, 254-280",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "automatización",
+    "empleo",
+    "futuro del trabajo"
+   ],
+   "resumen": "Estima la probabilidad de automatización de cientos de ocupaciones en Estados Unidos y su relación con salarios y nivel educativo; es una referencia muy influyente en el debate sobre IA y empleo.",
+   "url": "https://www.oxfordmartin.ox.ac.uk/publications/the-future-of-employment-how-susceptible-are-jobs-to-computerisation/",
+   "doi": "10.1016/j.techfore.2016.08.019",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Algorithms at Work: The New Contested Terrain of Control",
+   "autores": [
+    "Kellogg, Katherine C.",
+    "Valentine, Melissa A.",
+    "Christin, Angèle"
+   ],
+   "anio": 2020,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Academy of Management Annals, 14(1), 366-410",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "algoritmos",
+    "control laboral",
+    "organizaciones"
+   ],
+   "resumen": "Revisa la investigación sobre algoritmos en el trabajo desde la teoría del proceso laboral, propone seis mecanismos de control algorítmico y describe formas de resistencia que denomina algoactivismo.",
+   "url": "https://par.nsf.gov/servlets/purl/10195395",
+   "doi": "10.5465/annals.2018.0174",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Working and organizing in the age of the learning algorithm",
+   "autores": [
+    "Faraj, Samer",
+    "Pachidi, Stella",
+    "Sayegh, Karla"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Information and Organization, 28, 62-70",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "aprendizaje automático",
+    "organizaciones",
+    "trabajo"
+   ],
+   "resumen": "Sostiene que los algoritmos de aprendizaje transforman cualitativamente el trabajo y la organización, al reconfigurar la pericia, las fronteras ocupacionales y las formas de coordinación y control.",
+   "url": "https://core.ac.uk/display/158355346",
+   "doi": "10.1016/j.infoandorg.2018.02.005",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "The Relevance of Algorithms",
+   "autores": [
+    "Gillespie, Tarleton"
+   ],
+   "anio": 2014,
+   "tipo": "capitulo",
+   "idioma": "en",
+   "fuente": "En Gillespie, Boczkowski y Foot (eds.), Media Technologies: Essays on Communication, Materiality, and Society. MIT Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "algoritmos",
+    "plataformas digitales",
+    "sociología de la tecnología"
+   ],
+   "resumen": "Ofrece un mapa conceptual de los algoritmos que seleccionan información relevante y distingue varias dimensiones políticas de su funcionamiento, más allá de su dimensión técnica.",
+   "url": "https://www.microsoft.com/en-us/research/?p=215415",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Determinants of AI Adoption in Nonprofit Organizations",
+   "autores": [
+    "Shi, Wanzhu",
+    "Azevedo, Lauren"
+   ],
+   "anio": 2026,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Nonprofit and Voluntary Sector Quarterly",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "adopción tecnológica",
+    "inteligencia artificial",
+    "organizaciones sin fines de lucro"
+   ],
+   "resumen": "Analiza los factores tecnológicos, organizacionales y de entorno que inciden en la adopción de inteligencia artificial por parte de organizaciones sin fines de lucro.",
+   "url": "https://scholars.unf.edu/en/publications/determinants-of-ai-adoption-in-nonprofit-organizations/",
+   "doi": "10.1177/08997640261429018",
+   "acceso": "desconocido"
+  },
+  {
+   "titulo": "Platform Cooperativism: Challenging the Corporate Sharing Economy",
+   "autores": [
+    "Scholz, Trebor"
+   ],
+   "anio": 2016,
+   "tipo": "informe",
+   "idioma": "en",
+   "fuente": "Rosa Luxemburg Stiftung, New York Office",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "cooperativismo de plataforma",
+    "economía colaborativa",
+    "propiedad democrática"
+   ],
+   "resumen": "Critica la llamada economía colaborativa corporativa y propone el cooperativismo de plataforma, basado en propiedad compartida y gobernanza democrática, con una tipología y principios orientadores.",
+   "url": "https://resources.uwcc.wisc.edu/Platform/platformcoop.pdf",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Ours to Hack and to Own: The Rise of Platform Cooperativism, A New Vision for the Future of Work and a Fairer Internet",
+   "autores": [
+    "Scholz, Trebor",
+    "Schneider, Nathan"
+   ],
+   "anio": 2016,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "OR Books",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "cooperativismo de plataforma",
+    "futuro del trabajo",
+    "gobernanza democrática"
+   ],
+   "resumen": "Volumen colectivo con decenas de contribuciones que delinean el cooperativismo de plataforma como alternativa de propiedad comunitaria y gobernanza democrática frente a las plataformas corporativas.",
+   "url": "https://westminsterresearch.westminster.ac.uk/item/w829q/ours-to-hack-and-to-own-the-rise-of-platform-cooperativism-a-new-vision-for-the-future-of-work-and-a-fairer-internet",
+   "doi": null,
+   "acceso": "desconocido"
+  },
+  {
+   "titulo": "Everything for Everyone: The Radical Tradition That Is Shaping the Next Economy",
+   "autores": [
+    "Schneider, Nathan"
+   ],
+   "anio": 2018,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Nation Books",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "cooperativismo",
+    "democracia económica",
+    "economía digital"
+   ],
+   "resumen": "Recorre la tradición cooperativa y sus expresiones actuales, desde cooperativas de taxis frente a las aplicaciones hasta movimientos urbanos, como base para una economía digital más democrática.",
+   "url": "https://mitpressbookstore.mit.edu/book/9781568589596",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Coase's Penguin, or, Linux and The Nature of the Firm",
+   "autores": [
+    "Benkler, Yochai"
+   ],
+   "anio": 2002,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "The Yale Law Journal, 112(3), 369-446",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "bienes comunes",
+    "producción entre pares",
+    "software libre"
+   ],
+   "resumen": "Introduce el concepto de producción entre pares basada en bienes comunes como tercer modo de producción, junto a mercados y empresas, a partir de casos como Linux.",
+   "url": "https://www.yalelawjournal.org/pdf/354_t5aih5i1.pdf",
+   "doi": "10.2307/1562247",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "The Wealth of Networks: How Social Production Transforms Markets and Freedom",
+   "autores": [
+    "Benkler, Yochai"
+   ],
+   "anio": 2006,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Yale University Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "bienes comunes digitales",
+    "economía en red",
+    "producción social"
+   ],
+   "resumen": "Argumenta que la economía de la información en red habilita formas de producción social no mercantil y discute sus implicancias para la libertad, la cultura y la política.",
+   "url": "https://www.benkler.org/Benkler_Wealth_Of_Networks.pdf",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Peer to Peer: The Commons Manifesto",
+   "autores": [
+    "Bauwens, Michel",
+    "Kostakis, Vasilis",
+    "Pazaitis, Alex"
+   ],
+   "anio": 2019,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "University of Westminster Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "bienes comunes",
+    "peer to peer",
+    "transición"
+   ],
+   "resumen": "Presenta lo peer to peer como relación social e infraestructura tecnológica a la vez, y plantea cómo podría impulsar una transición hacia una economía centrada en los bienes comunes.",
+   "url": "https://www.fulcrum.org/concern/monographs/2v23vx522",
+   "doi": "10.16997/book33",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Understanding Knowledge as a Commons: From Theory to Practice",
+   "autores": [
+    "Hess, Charlotte",
+    "Ostrom, Elinor"
+   ],
+   "anio": 2007,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "MIT Press",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "acceso abierto",
+    "bienes comunes del conocimiento",
+    "gobernanza"
+   ],
+   "resumen": "Volumen editado que adapta el marco de análisis institucional de los comunes al conocimiento en la era digital, abordando cómo conceptualizarlo, protegerlo de cercamientos y construirlo.",
+   "url": "https://seslibrary.asu.edu/node/998",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Tools for Conviviality",
+   "autores": [
+    "Illich, Ivan"
+   ],
+   "anio": 1973,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Harper & Row",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "autonomía",
+    "crítica de la técnica",
+    "tecnología convivencial"
+   ],
+   "resumen": "Ensayo clásico que distingue entre herramientas que amplían la autonomía de las personas y las que las someten, y plantea límites al crecimiento de las instituciones industriales.",
+   "url": "https://find.library.upatras.gr/Record/104318?lng=en",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "The Matrix of Convivial Technology: Assessing technologies for degrowth",
+   "autores": [
+    "Vetter, Andrea"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Journal of Cleaner Production, 197(2), 1778-1786",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "decrecimiento",
+    "innovación de base",
+    "tecnología convivencial"
+   ],
+   "resumen": "A partir de investigación con grupos que desarrollan tecnologías de base, propone una matriz de cinco dimensiones y cuatro niveles del ciclo de vida para evaluar cuán convivencial es una tecnología.",
+   "url": "https://degrowth.info/es/library/the-matrix-of-convivial-technology-assessing-technologies-for-degrowth",
+   "doi": "10.1016/j.jclepro.2017.02.195",
+   "acceso": "desconocido"
+  },
+  {
+   "titulo": "Degrowth and Technology: Towards feasible, viable, appropriate and convivial imaginaries",
+   "autores": [
+    "Kerschner, Christian",
+    "Wächter, Petra",
+    "Nierling, Linda",
+    "Ehlers, Melf-Hinrich"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Journal of Cleaner Production, 197, 1619-1636",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "decrecimiento",
+    "democratización tecnológica",
+    "tecnología apropiada"
+   ],
+   "resumen": "Editorial de un número especial que sistematiza las distintas miradas sobre la tecnología dentro del movimiento del decrecimiento, con ejes como la energía, la agencia y la democratización técnica.",
+   "url": "https://research.wu.ac.at/en/publications/degrowth-and-technology-towards-feasible-viable-appropriate-and-c/",
+   "doi": "10.1016/j.jclepro.2018.07.147",
+   "acceso": "desconocido"
+  },
+  {
+   "titulo": "The infrastructural conditions of (de-)growth: The case of the internet",
+   "autores": [
+    "Pansera, Mario",
+    "Lloveras, Javier",
+    "Durrant, Dan"
+   ],
+   "anio": 2024,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Ecological Economics, 215, 108001",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "decrecimiento",
+    "infraestructura digital",
+    "internet"
+   ],
+   "resumen": "Examina internet desde los estudios de infraestructura y el decrecimiento, considerando tanto los costos materiales de centros de datos y cables como los supuestos de crecimiento inscritos en sus protocolos.",
+   "url": "https://postgrowth-lab.uvigo.es/publications/2024-ecological-economics-215-2024",
+   "doi": "10.1016/j.ecolecon.2023.108001",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "The Internet at the eco-village: Performing sustainability in the twenty-first century",
+   "autores": [
+    "Cerratto-Pargman, Teresa",
+    "Pargman, Daniel",
+    "Nardi, Bonnie"
+   ],
+   "anio": 2016,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "First Monday, 21(5)",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "ecoaldeas",
+    "internet",
+    "sostenibilidad"
+   ],
+   "resumen": "Estudio de caso en una ecoaldea sueca que muestra cómo internet refuerza valores, saberes y vínculos comunitarios, aunque el compromiso ecológico no basta para transformar significativamente su uso.",
+   "url": "https://doi.org/10.5210/fm.v21i5.6637",
+   "doi": "10.5210/fm.v21i5.6637",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Ecovillagers' Assessment of Sustainability: Differing Perceptions of Technology as a Differing Account of Modernism",
+   "autores": [
+    "Rubin, Zach"
+   ],
+   "anio": 2019,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Sustainability, 11(21), 6167",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "ecoaldeas",
+    "modernidad",
+    "tecnología"
+   ],
+   "resumen": "Estudio cualitativo en la ecoaldea Dancing Rabbit sobre cómo sus integrantes valoran la tecnología, mostrando una postura intermedia entre el optimismo tecnológico y el rechazo primitivista.",
+   "url": "https://www.mdpi.com/2071-1050/11/21/6167",
+   "doi": "10.3390/su11216167",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Smart Villages: Comprehensive Review of Initiatives and Practices",
+   "autores": [
+    "Zavratnik, Veronika",
+    "Kos, Andrej",
+    "Stojmenova Duh, Emilija"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Sustainability, 10(7), 2559",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "aldeas inteligentes",
+    "desarrollo rural",
+    "digitalización"
+   ],
+   "resumen": "Revisa iniciativas de aldeas inteligentes en Europa y otras regiones, defiende un enfoque basado en el territorio y presenta experiencias piloto eslovenas.",
+   "url": "https://www.mdpi.com/2071-1050/10/7/2559",
+   "doi": "10.3390/su10072559",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Smart Villages in the EU and Beyond",
+   "autores": [
+    "Visvizi, Anna",
+    "Lytras, Miltiadis D.",
+    "Mudri, György"
+   ],
+   "anio": 2019,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Emerald Publishing",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "aldeas inteligentes",
+    "comunidades rurales",
+    "políticas públicas"
+   ],
+   "resumen": "Obra colectiva que examina el concepto de aldea inteligente, su desarrollo y sus implicancias para las políticas rurales, con casos de Europa, Corea del Sur y el Golfo.",
+   "url": "https://bookstore.emerald.com/smart-villages-in-the-eu-and-beyond-hb-9781787698468.html",
+   "doi": null,
+   "acceso": "restringido"
+  },
+  {
+   "titulo": "Decidim, a Technopolitical Network for Participatory Democracy: Philosophy, Practice and Autonomy of a Collective Platform in the Age of Digital Intelligence",
+   "autores": [
+    "Barandiaran, Xabier E.",
+    "Calleja-López, Antonio",
+    "Monterde, Arnau",
+    "Romero, Carol"
+   ],
+   "anio": 2024,
+   "tipo": "libro",
+   "idioma": "en",
+   "fuente": "Springer (SpringerBriefs in Political Science)",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "democracia participativa",
+    "software libre",
+    "tecnopolítica"
+   ],
+   "resumen": "Presenta la filosofía, los principios de diseño y la organización comunitaria de Decidim, plataforma libre de participación ciudadana, distinguiendo sus dimensiones política, tecnopolítica y técnica.",
+   "url": "https://library.oapen.org/handle/20.500.12657/87634",
+   "doi": "10.1007/978-3-031-50784-7",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Cooperativismo de plataforma e suas contradições: análise de iniciativas da área de comunicação no Platform.Coop",
+   "autores": [
+    "Grohmann, Rafael"
+   ],
+   "anio": 2018,
+   "tipo": "articulo",
+   "idioma": "pt",
+   "fuente": "Liinc em Revista, 14",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "comunicación",
+    "cooperativismo de plataforma",
+    "trabajo digital"
+   ],
+   "resumen": "Analiza los textos de presentación de iniciativas de comunicación del directorio Platform.Coop y señala contradicciones entre sus discursos y su adaptación a las lógicas capitalistas.",
+   "url": "https://doi.org/10.18617/liinc.v14i1.4149",
+   "doi": "10.18617/liinc.v14i1.4149",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Plataformas de propriedade de trabalhadores: cooperativas e coletivos de entregadores",
+   "autores": [
+    "Grohmann, Rafael"
+   ],
+   "anio": 2022,
+   "tipo": "articulo",
+   "idioma": "pt",
+   "fuente": "MATRIZes, 16(1), 209-233",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "autogestión",
+    "cooperativismo de plataforma",
+    "repartidores"
+   ],
+   "resumen": "Examina el surgimiento de plataformas de propiedad de repartidores a partir de seis casos en España, Francia y Brasil, atendiendo a sus procesos productivos y formas organizativas.",
+   "url": "https://www.journals.usp.br/matrizes/article/view/184245",
+   "doi": "10.11606/issn.1982-8160.v16i1p209-233",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "La implementación local de cooperativas de plataforma: Desafíos y contribuciones para la escalabilidad desde la experiencia argentina",
+   "autores": [
+    "Kasparian, Denise"
+   ],
+   "anio": 2022,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Revista del Centro de Estudios de Sociología del Trabajo, 14, 107-148",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "argentina",
+    "coopcycle",
+    "cooperativismo de plataforma"
+   ],
+   "resumen": "Estudio de caso cualitativo sobre la implementación en Argentina de CoopCycle, plataforma cooperativa de origen francés, y sobre lo que esa experiencia local aporta a su escalabilidad.",
+   "url": "https://ojs.econ.uba.ar/index.php/CESOT/article/download/2266/3031",
+   "doi": null,
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Solidarity across borders: Decoding the functionality of CoopCycle in Latin America",
+   "autores": [
+    "Gualavisí, Alexandra Belén",
+    "Vizuete-Sandoval, Daniel"
+   ],
+   "anio": 2026,
+   "tipo": "articulo",
+   "idioma": "en",
+   "fuente": "Internet Policy Review, 15(1)",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "américa latina",
+    "cooperativismo de plataforma",
+    "economía solidaria"
+   ],
+   "resumen": "Analiza la adaptación sociotécnica de CoopCycle en Argentina, Chile y México entre 2020 y 2023 combinando análisis sociotécnico y análisis de redes sociales.",
+   "url": "https://policyreview.info/articles/analysis/solidarity-coopcycle-latin-america",
+   "doi": "10.14763/2026.1.2040",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "La Inteligencia Artificial desde la perspectiva de los Estudios Sociales de la Tecnología",
+   "autores": [
+    "Ojeda Copa, Alex"
+   ],
+   "anio": 2025,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Revista Punto Cero, 30(51), 78-92",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "estudios sociales de la tecnología",
+    "inteligencia artificial",
+    "teoría del actor-red"
+   ],
+   "resumen": "Ensayo que propone un marco de interpretación social de la inteligencia artificial apoyado en la construcción social de la tecnología y la teoría del actor-red.",
+   "url": "https://puntocero.ucb.edu.bo/a/article/view/421",
+   "doi": "10.35319/puntocero.202551421",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Análisis de redes sociales en antropología: del parentesco a la inteligencia artificial",
+   "autores": [
+    "Hernández, Óscar Gilberto"
+   ],
+   "anio": 2026,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Maguaré, 40(1), 59-84",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "antropología cognitiva",
+    "análisis de redes sociales",
+    "inteligencia artificial"
+   ],
+   "resumen": "Recorre el análisis de redes en antropología desde los estudios de parentesco hasta la IA, y lo propone como herramienta para estudiar redes sociotécnicas y los sesgos de los algoritmos.",
+   "url": "https://revistas.unal.edu.co/index.php/maguare/article/view/124493",
+   "doi": "10.15446/mag.v40n1.124493",
+   "acceso": "abierto"
+  },
+  {
+   "titulo": "Los estudios sociales de la tecnología en América Latina",
+   "autores": [
+    "Thomas, Hernán"
+   ],
+   "anio": 2010,
+   "tipo": "articulo",
+   "idioma": "es",
+   "fuente": "Íconos. Revista de Ciencias Sociales, 37, 35-53",
+   "tema": "Tecnología, IA y comunidad",
+   "etiquetas": [
+    "américa latina",
+    "estudios sociales de la tecnología",
+    "política tecnológica"
+   ],
+   "resumen": "Reconstruye la trayectoria de los estudios sociales de la tecnología en América Latina en dos grandes períodos y señala vacíos temáticos del campo.",
+   "url": "https://repositorio.flacsoandes.edu.ec/items/b04bd6c8-d1d2-485c-8542-d071065bc792",
+   "doi": "10.17141/iconos.37.2010.417",
+   "acceso": "abierto"
+  },
+  {
    "titulo": "Grassroots innovations for sustainable development: Towards a new research and policy agenda",
    "autores": [
     "Seyfang, Gill",
@@ -2509,6 +3629,937 @@ window.CUADERNOS = {
   }
  ],
  "directorio": [
+  {
+   "nombre": "Ecovilla Gaia (Asociación Gaia)",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Argentina",
+   "descripcion": "Ecoaldea y centro de permacultura en Navarro, provincia de Buenos Aires, impulsada por la Asociación Gaia desde los años noventa. Organizada en condominios, es sede del Instituto Argentino de Permacultura y ofrece cursos de permacultura y bioconstrucción.",
+   "url": "https://gaia.org.ar/ecovilla/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "bioconstrucción",
+    "ecoaldea",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Quinta Esencia (Asociación Civil Amartya)",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Argentina",
+   "descripcion": "Centro de educación experiencial para la regeneración en la región pampeana de la provincia de Buenos Aires, desarrollado por la Asociación Civil Amartya. Enlace a su perfil en la Red Global de Ecoaldeas (GEN), ya que no se localizó un sitio propio.",
+   "url": "https://ecovillage.org/project/quinta-esencia",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "educación ambiental",
+    "perfil gen",
+    "regeneración"
+   ]
+  },
+  {
+   "nombre": "Bio Chakra",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Argentina",
+   "descripcion": "Espacio urbano en Don Torcuato, a unos 20 km de la Ciudad de Buenos Aires, dedicado a la práctica de la permacultura, la agroecología, la bioconstrucción, la huerta urbana, el vivero de nativas y la apicultura. Enlace a su perfil en la plataforma de la Red Global de Ecoaldeas (GEN).",
+   "url": "https://resilience.ecovillage.org/user/bio-chakra",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "agroecología",
+    "huerta urbana",
+    "perfil gen",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Huehuecóyotl",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "México",
+   "descripcion": "Ecoaldea en las afueras de Tepoztlán, Morelos, fundada en 1982 por un colectivo de artistas que antes vivía como tribu nómada. Su proyecto combina ecología, artes, autogobierno y salud holística.",
+   "url": "https://huehuecoyotl.net/inicio/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "arte",
+    "comunidad intencional",
+    "ecoaldea",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Las Cañadas – Bosque de Niebla",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "México",
+   "descripcion": "Cooperativa y centro de agroecología y permacultura en Huatusco, Veracruz, que protege un remanente de bosque de niebla. Ofrece cursos de diseño en permacultura, bioconstrucción, agroforestería y ganadería regenerativa.",
+   "url": "https://bosquedeniebla.com.mx/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "agroecología",
+    "cooperativa",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Consejo de Visiones – Guardianes de la Tierra México",
+   "tipo": "Organización",
+   "region": "América Latina",
+   "pais": "México",
+   "descripcion": "Encuentro itinerante en México vinculado a la red CASA México, orientado a la conciencia sobre la restauración ambiental y el encuentro entre comunidades. Enlace a su perfil en la Red Global de Ecoaldeas (GEN).",
+   "url": "https://ecovillage.org/ecovillage/consejo-de-visiones-guardianes-de-la-tierra-mexico/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "encuentros",
+    "perfil gen",
+    "redes",
+    "restauración"
+   ]
+  },
+  {
+   "nombre": "Rede CASA Brasil",
+   "tipo": "Red",
+   "region": "América Latina",
+   "pais": "Brasil",
+   "descripcion": "Consejo de Asentamientos Sustentables de Brasil, nodo brasileño de CASA Latina y de la Red Global de Ecoaldeas. Articula ecoaldeas y comunidades regenerativas, se organiza mediante sociocracia y publica un mapeo nacional de ecoaldeas.",
+   "url": "https://www.redecasabrasil.org/",
+   "idiomas": [
+    "pt"
+   ],
+   "etiquetas": [
+    "ecoaldeas",
+    "políticas públicas",
+    "red nacional",
+    "sociocracia"
+   ]
+  },
+  {
+   "nombre": "Ecovila Piracanga – Inkiri",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Brasil",
+   "descripcion": "Ecoaldea en la península de Maraú, en el sur de Bahía, cuyo núcleo es la comunidad ecoespiritual Inkiri. Recibe visitantes y ofrece cursos, retiros y formación en permacultura a través de su Escola da Natureza.",
+   "url": "https://inkiri.com/vida-em-comunidade/",
+   "idiomas": [
+    "pt"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "educación",
+    "espiritualidad",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Ecocentro IPEC – Instituto de Permacultura e Ecovilas do Cerrado",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Brasil",
+   "descripcion": "ONG y centro demostrativo de permacultura en Pirenópolis, Goiás, con construcciones naturales, saneamiento ecológico y energías renovables. Ofrece cursos de diseño en permacultura y de bioconstrucción.",
+   "url": "https://ecocentro.org/quem-somos/",
+   "idiomas": [
+    "pt"
+   ],
+   "etiquetas": [
+    "bioconstrucción",
+    "cerrado",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "IPEMA – Instituto de Permacultura e Ecovilas da Mata Atlântica",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Brasil",
+   "descripcion": "Instituto con sede en Ubatuba, São Paulo, que promueve la permacultura como camino hacia modos de vida sustentables en la Mata Atlántica. Realiza cursos de diseño en permacultura y proyectos socioambientales.",
+   "url": "https://ipemabrasil.org.br/",
+   "idiomas": [
+    "pt"
+   ],
+   "etiquetas": [
+    "formación",
+    "mata atlántica",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Instituto Arca Verde",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Brasil",
+   "descripcion": "Ecoaldea e instituto de permacultura fundado en 2005 en São Francisco de Paula, Rio Grande do Sul. Ofrece cursos de diseño en permacultura, bioconstrucción y agricultura sintrópica, y recibe visitantes y voluntarios.",
+   "url": "https://www.arcaverde.org/new/agenda/",
+   "idiomas": [
+    "pt"
+   ],
+   "etiquetas": [
+    "agricultura sintrópica",
+    "ecoaldea",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Ecoaldea Aldeafeliz",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Colombia",
+   "descripcion": "Ecoaldea rural en San Francisco, Cundinamarca, a unas dos horas de Bogotá, surgida en 2006 y autogobernada por sociocracia desde 2013. Forma parte de CASA Colombia y coorganiza el encuentro anual Llamado de la Montaña.",
+   "url": "https://aldeafeliz.org/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "comunidad intencional",
+    "ecoaldea",
+    "educación",
+    "sociocracia"
+   ]
+  },
+  {
+   "nombre": "Una Nueva Ecoaldea",
+   "tipo": "Organización",
+   "region": "América Latina",
+   "pais": "Colombia",
+   "descripcion": "Iniciativa con base en la ecoaldea Aldeafeliz dedicada a asesorar, promover y facilitar la creación de nuevas ecoaldeas en América Latina.",
+   "url": "https://pioneros.aldeafeliz.org/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "asesoría",
+    "comunidad intencional",
+    "nuevas ecoaldeas"
+   ]
+  },
+  {
+   "nombre": "Ecoaldea Tierra Madre",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Uruguay",
+   "descripcion": "Proyecto de ecoaldea rural en formación, fundado en 2018 por un colectivo reunido en torno al ideal de ecoaldea y reserva natural. Enlace a su perfil en la Red Global de Ecoaldeas (GEN), ya que no se localizó un sitio propio.",
+   "url": "https://ecovillage.org/map/community/ecoaldea-tierra-madre/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "en formación",
+    "perfil gen"
+   ]
+  },
+  {
+   "nombre": "EcoAldea Crisálida",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Chile",
+   "descripcion": "Ecoaldea en formación, fundada en 2020 en la región de Ñuble, en la zona del corredor biológico Nevados de Chillán–Saltos del Laja. Enlace a su perfil en la Red Global de Ecoaldeas (GEN).",
+   "url": "https://ecovillage.org/map/community/ecoaldea-crisalida/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "en formación",
+    "perfil gen"
+   ]
+  },
+  {
+   "nombre": "Aldea Domo Permacultura Integral",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Chile",
+   "descripcion": "Escuela de permacultura integral y taller de domos geodésicos con base en la Ecoaldea Pailimay, en la precordillera de la región de O'Higgins. Enlace a su perfil en la Red Global de Ecoaldeas (GEN).",
+   "url": "https://ecovillage.org/map/community/aldea-domo-permacultura-integral/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "domos geodésicos",
+    "formación",
+    "perfil gen",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "La Bella Ecoaldea",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Chile",
+   "descripcion": "Ecoaldea en la comuna de Colbún, región del Maule, vinculada a la red CASA Chile. Enlace a su perfil en la Red Global de Ecoaldeas (GEN), ya que no se localizó un sitio propio.",
+   "url": "https://ecovillage.org/ecovillage/la-bella-ecoaldea/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "casa chile",
+    "ecoaldea",
+    "perfil gen"
+   ]
+  },
+  {
+   "nombre": "Eco Aldea de los Glaciares Sagrados",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Perú",
+   "descripcion": "Ecoaldea en Maras, Cusco, a una hora de la ciudad y cerca del Valle Sagrado, con casas ecológicas autónomas fuera de la red. Enlace a su perfil en la Red Global de Ecoaldeas (GEN).",
+   "url": "https://ecovillage.org/map/community/eco-aldea-de-los-glaciares-sagrados-maras/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "andes",
+    "autonomía energética",
+    "ecoaldea",
+    "perfil gen"
+   ]
+  },
+  {
+   "nombre": "Ecoaldea Kapievi",
+   "tipo": "Ecoaldea",
+   "region": "América Latina",
+   "pais": "Perú",
+   "descripcion": "Proyecto de comunidad, ecología y turismo comunitario fundado en 2005 en las afueras de Puerto Maldonado, Madre de Dios, en la Amazonía peruana. Enlace a un artículo sobre la ecoaldea en el sitio de la Red Global de Ecoaldeas (GEN).",
+   "url": "https://ecovillage.org/resources-library/article/ecoaldea-kapievi-peru/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "amazonía",
+    "ecoaldea",
+    "perfil gen",
+    "turismo comunitario"
+   ]
+  },
+  {
+   "nombre": "Río Muchacho Organic Farm",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Ecuador",
+   "descripcion": "Granja orgánica y ecolodge cerca de Canoa, en la costa central de Ecuador, organizada según principios de permacultura y agroecología. Ofrece cursos de permacultura y agricultura sustentable en español e inglés.",
+   "url": "https://www.riomuchacho.com/",
+   "idiomas": [
+    "es",
+    "en"
+   ],
+   "etiquetas": [
+    "agroecología",
+    "formación",
+    "granja educativa",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Rancho Mastatal",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Costa Rica",
+   "descripcion": "Centro de educación en sustentabilidad, finca de permacultura y comunidad en Mastatal, junto al Parque Nacional La Cangreja. Ofrece cursos de diseño en permacultura, bioconstrucción y agroforestería, además de pasantías.",
+   "url": "https://ranchomastatal.com/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "agroforestería",
+    "bioconstrucción",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "IMAP – Instituto Mesoamericano de Permacultura",
+   "tipo": "Formación",
+   "region": "América Latina",
+   "pais": "Guatemala",
+   "descripcion": "Organización sin fines de lucro fundada en 2000 por personas maya kaqchikel en San Lucas Tolimán, a orillas del lago Atitlán. Trabaja en soberanía alimentaria, conservación de semillas nativas y educación en permacultura desde la cosmovisión maya.",
+   "url": "https://www.imapermacultura.org/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "permacultura",
+    "pueblos indígenas",
+    "semillas nativas",
+    "soberanía alimentaria"
+   ]
+  },
+  {
+   "nombre": "Christiania (Fristaden Christiania)",
+   "tipo": "Organización",
+   "region": "Europa",
+   "pais": "Dinamarca",
+   "descripcion": "Comunidad autogestionada surgida en 1971 con la ocupación de un antiguo cuartel en Copenhague. Su web propia reúne historia, mapa del área e información práctica, en parte en inglés.",
+   "url": "https://www.christiania.org/info/christianias-historie/",
+   "idiomas": [
+    "da",
+    "en"
+   ],
+   "etiquetas": [
+    "autogestión",
+    "comunidad urbana",
+    "historia"
+   ]
+  },
+  {
+   "nombre": "ZEGG",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Alemania",
+   "descripcion": "Comunidad y centro educativo en Bad Belzig (Brandeburgo), activo desde 1991, donde viven y trabajan unas 110 personas. Ofrece seminarios, un curso de vida comunitaria, fines de semana para conocer la comunidad y estancias como trabajador de temporada.",
+   "url": "https://www.zegg.de/en/events/",
+   "idiomas": [
+    "de",
+    "en"
+   ],
+   "etiquetas": [
+    "comunicación",
+    "seminarios",
+    "vida comunitaria"
+   ]
+  },
+  {
+   "nombre": "Svanholm Storkollektiv",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Dinamarca",
+   "descripcion": "Gran colectivo rural que desde 1978 posee y gestiona la finca Svanholm, al oeste de Copenhague, con agricultura ecológica, economía compartida y decisiones por consenso en asamblea. Ofrece visitas guiadas los domingos.",
+   "url": "https://svanholm.dk/",
+   "idiomas": [
+    "da",
+    "en"
+   ],
+   "etiquetas": [
+    "agricultura ecológica",
+    "consenso",
+    "economía compartida"
+   ]
+  },
+  {
+   "nombre": "Lebensgarten Steyerberg",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Alemania",
+   "descripcion": "Ecoaldea y comunidad residencial en Baja Sajonia, inspirada en Findhorn y miembro fundador de la Red Global de Ecoaldeas, que celebró 40 años en 2025. Alberga proyectos como un parque de permacultura, un centro de comunicación no violenta y una casa de seminarios.",
+   "url": "https://lebensgarten.de/",
+   "idiomas": [
+    "de"
+   ],
+   "etiquetas": [
+    "consenso",
+    "ecoaldea",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Matavenero y Poibueno",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "España",
+   "descripcion": "Ecoaldea en el Bierzo (León), en un pueblo abandonado que empezó a reconstruirse a finales de los años 80, con unas 60 personas y gestión asamblearia de los espacios comunes. Tiene albergue y zona de acampada autogestionados para visitantes, sin reserva previa.",
+   "url": "https://matavenero.net/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "asamblea",
+    "permacultura",
+    "pueblo recuperado"
+   ]
+  },
+  {
+   "nombre": "Lakabe",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "España",
+   "descripcion": "Pueblo del valle de Arce (Navarra) abandonado en los años 60 y ocupado en 1980, donde unas cuarenta personas comparten economía, trabajo y decisiones en asamblea. Es conocido por su formación en facilitación de grupos; las visitas deben acordarse con antelación.",
+   "url": "https://www.lakabe.org/",
+   "idiomas": [
+    "es"
+   ],
+   "etiquetas": [
+    "economía compartida",
+    "facilitación",
+    "pueblo recuperado"
+   ]
+  },
+  {
+   "nombre": "Arterra Bizimodu",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "España",
+   "descripcion": "Comunidad intencional y ecoaldea en Artieda (Navarra), iniciada en 2014 en un antiguo hotel rural, donde conviven unas 40 personas organizadas con sociocracia. Ofrece cursos, jornadas de puertas abiertas y voluntariado europeo.",
+   "url": "https://arterrabizimodu.org/",
+   "idiomas": [
+    "es",
+    "en"
+   ],
+   "etiquetas": [
+    "formación",
+    "sociocracia",
+    "voluntariado europeo"
+   ]
+  },
+  {
+   "nombre": "EcoVillage at Ithaca",
+   "tipo": "Ecoaldea",
+   "region": "América del Norte",
+   "pais": "Estados Unidos",
+   "descripcion": "Comunidad de cohousing ecológico en Ithaca (Nueva York) con tres vecindarios, unos 100 hogares y alrededor de 210 residentes. Combina comidas compartidas, decisiones por consenso y trabajo comunitario semanal.",
+   "url": "https://ecovillageithaca.org/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "cohousing",
+    "consenso",
+    "investigación"
+   ]
+  },
+  {
+   "nombre": "Earthaven Ecovillage",
+   "tipo": "Ecoaldea",
+   "region": "América del Norte",
+   "pais": "Estados Unidos",
+   "descripcion": "Comunidad en las montañas del oeste de Carolina del Norte, cerca de Asheville, que se define como ecoaldea en formación. Ofrece visitas guiadas con reserva, recorrido virtual y cursos; cada vecindario fija su propio proceso de membresía.",
+   "url": "https://www.earthaven.org",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "membresía",
+    "visitas"
+   ]
+  },
+  {
+   "nombre": "The Farm",
+   "tipo": "Ecoaldea",
+   "region": "América del Norte",
+   "pais": "Estados Unidos",
+   "descripcion": "Comunidad intencional fundada en 1971 cerca de Summertown (Tennessee) sobre principios de no violencia y respeto por la tierra; en 1983 pasó de una economía comunal a una privatizada. Recibe visitantes a través de su Welcome Center.",
+   "url": "https://thefarmcommunity.com/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "comunidad histórica",
+    "no violencia",
+    "visitas"
+   ]
+  },
+  {
+   "nombre": "Crystal Waters Eco Village",
+   "tipo": "Ecoaldea",
+   "region": "Asia y Oceanía",
+   "pais": "Australia",
+   "descripcion": "Aldea en Queensland diseñada según los principios de la permacultura y establecida a fines de los años 80, con la mayor parte de la tierra en propiedad común. Ofrece un curso de diseño en permacultura y alojamiento para visitantes.",
+   "url": "https://crystalwaters.org.au/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "formación",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Cloughjordan Ecovillage",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Irlanda",
+   "descripcion": "Primera ecoaldea de Irlanda, en el norte de Tipperary, con más de 130 personas en un terreno de 67 acres y calefacción comunitaria por biomasa. Organiza visitas guiadas mensuales y cuenta con un ecohostal.",
+   "url": "https://www.thevillage.ie/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "energía comunitaria",
+    "visitas"
+   ]
+  },
+  {
+   "nombre": "Ecovillaggio Torri Superiore",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Italia",
+   "descripcion": "Aldea medieval restaurada cerca de Ventimiglia (Liguria) que funciona como ecoaldea, centro cultural y casa de huéspedes, con unos 20 residentes permanentes que deciden por consenso. Recibe voluntarios e intercambios juveniles.",
+   "url": "https://www.torri-superiore.org/en/home/",
+   "idiomas": [
+    "it",
+    "en"
+   ],
+   "etiquetas": [
+    "ecoaldea",
+    "restauración",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "Gemeinschaft Schloss Tempelhof",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Alemania",
+   "descripcion": "Comunidad intencional en Kreßberg (Baden-Wurtemberg) fundada en 2010-2011, con una fundación propietaria de la tierra, una cooperativa de vivienda y decisiones por consenso. Ofrece semanas de colaboración para conocer la vida comunitaria.",
+   "url": "https://www.schloss-tempelhof.de/",
+   "idiomas": [
+    "de"
+   ],
+   "etiquetas": [
+    "consenso",
+    "cooperativa",
+    "permacultura"
+   ]
+  },
+  {
+   "nombre": "Kibbutz Lotan",
+   "tipo": "Ecoaldea",
+   "region": "Asia y Oceanía",
+   "pais": "Israel",
+   "descripcion": "Kibutz colectivo en el desierto de Arava, fundado en 1983, con un fuerte compromiso ambiental y un Centro de Ecología Creativa dedicado a la formación en sostenibilidad. Ofrece programas de aprendizaje en permacultura y voluntariado.",
+   "url": "https://kibbutzlotan.com/en/home-en/",
+   "idiomas": [
+    "en",
+    "he"
+   ],
+   "etiquetas": [
+    "kibutz",
+    "permacultura",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "Sarvodaya Shramadana Movement",
+   "tipo": "Organización",
+   "region": "Asia y Oceanía",
+   "pais": "Sri Lanka",
+   "descripcion": "Movimiento de desarrollo comunitario fundado en 1958 por A. T. Ariyaratne, basado en el trabajo voluntario compartido (shramadana) y en ideas gandhianas y budistas. Agrupa miles de sociedades de aldea en Sri Lanka.",
+   "url": "https://www.sarvodaya.org/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "aldeas",
+    "desarrollo comunitario",
+    "no violencia"
+   ]
+  },
+  {
+   "nombre": "SEKEM",
+   "tipo": "Organización",
+   "region": "África",
+   "pais": "Egipto",
+   "descripcion": "Iniciativa fundada en 1977 por Ibrahim Abouleish en tierras desérticas al noreste de El Cairo, que integra agricultura biodinámica, empresas, educación y desarrollo comunitario. Recibió el Right Livelihood Award en 2003.",
+   "url": "https://sekem.com/en/",
+   "idiomas": [
+    "en",
+    "ar",
+    "de"
+   ],
+   "etiquetas": [
+    "agricultura biodinámica",
+    "desarrollo sostenible",
+    "educación"
+   ]
+  },
+  {
+   "nombre": "Hurdal Økolandsby",
+   "tipo": "Ecoaldea",
+   "region": "Europa",
+   "pais": "Noruega",
+   "descripcion": "Ecoaldea al norte de Oslo, presentada como la primera y mayor de Noruega, con viviendas de materiales naturales y una granja en desarrollo regenerativo. Su historia incluye cambios de propiedad, por lo que conviene revisar su situación actual.",
+   "url": "https://hurdalokolandsby.no/",
+   "idiomas": [
+    "no",
+    "en"
+   ],
+   "etiquetas": [
+    "agricultura regenerativa",
+    "bioconstrucción",
+    "ecoaldea"
+   ]
+  },
+  {
+   "nombre": "LILAC (Low Impact Living Affordable Community)",
+   "tipo": "Cohousing y co-living",
+   "region": "Europa",
+   "pais": "Reino Unido",
+   "descripcion": "Cohousing de 20 viviendas de bajo impacto en Leeds, habitado desde 2013 y gestionado por sus residentes mediante un modelo de propiedad mutua que busca asequibilidad permanente. Comparte casa común, huertos y comidas semanales.",
+   "url": "https://www.lilac.coop/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "bioconstrucción",
+    "cohousing",
+    "vivienda asequible"
+   ]
+  },
+  {
+   "nombre": "La Borda",
+   "tipo": "Cohousing y co-living",
+   "region": "Europa",
+   "pais": "España",
+   "descripcion": "Cooperativa de vivienda en cesión de uso en Can Batlló (Sants, Barcelona), con 28 viviendas y espacios comunitarios sobre suelo público. Es un referente del modelo cooperativo; actualmente tiene lista de espera.",
+   "url": "https://www.laborda.coop/en/home/",
+   "idiomas": [
+    "ca",
+    "es",
+    "en"
+   ],
+   "etiquetas": [
+    "cesión de uso",
+    "cooperativa",
+    "vivienda"
+   ]
+  },
+  {
+   "nombre": "WWOOF (Federation of WWOOF Organisations)",
+   "tipo": "Voluntariado",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Red internacional que conecta a visitantes con granjas ecológicas donde ayudan a cambio de alojamiento y comida, como intercambio educativo y cultural. Cada país tiene su propia organización y membresía.",
+   "url": "https://wwoof.net/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "granjas ecológicas",
+    "intercambio",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "Workaway",
+   "tipo": "Voluntariado",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Plataforma de intercambio cultural, activa desde 2002, que conecta viajeros con anfitriones (familias, ONG, proyectos comunitarios) que ofrecen alojamiento y comida a cambio de ayuda. Requiere una cuota de registro.",
+   "url": "https://www.workaway.info/",
+   "idiomas": [
+    "en",
+    "es",
+    "fr",
+    "de"
+   ],
+   "etiquetas": [
+    "intercambio",
+    "proyectos comunitarios",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "Worldpackers",
+   "tipo": "Voluntariado",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Plataforma de intercambio de trabajo por alojamiento con anfitriones en más de 140 países, incluidos proyectos de impacto social. Funciona con membresía paga y el viaje corre por cuenta de cada persona.",
+   "url": "https://www.worldpackers.com/",
+   "idiomas": [
+    "en",
+    "es",
+    "pt"
+   ],
+   "etiquetas": [
+    "intercambio",
+    "viaje",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "HelpX (Help Exchange)",
+   "tipo": "Voluntariado",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Listado de anfitriones (granjas, granjas-escuela, albergues y otros) que ofrecen comida y alojamiento a cambio de ayuda práctica, pensado como intercambio cultural. Tiene niveles de membresía gratuito y pago.",
+   "url": "https://www.helpx.net/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "granjas",
+    "intercambio",
+    "voluntariado"
+   ]
+  },
+  {
+   "nombre": "Coliving.com",
+   "tipo": "Directorio",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Buscador comercial de espacios de co-living en cientos de ciudades, con filtros por país y ciudad. Útil para explorar ofertas urbanas de vivienda compartida; precios y disponibilidad deben verificarse en cada anuncio.",
+   "url": "https://coliving.com/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "buscador",
+    "co-living",
+    "vivienda compartida"
+   ]
+  },
+  {
+   "nombre": "Co-Liv",
+   "tipo": "Red",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Asociación internacional sin fines de lucro de profesionales del co-living, registrada en Francia y activa desde 2016. Publica investigación, guías de facilitación comunitaria y organiza encuentros, y amplía su foco a otras formas de vida compartida.",
+   "url": "https://co-liv.org/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "co-living",
+    "investigación",
+    "red profesional"
+   ]
+  },
+  {
+   "nombre": "Permaculture Association (Britain)",
+   "tipo": "Formación",
+   "region": "Europa",
+   "pais": "Reino Unido",
+   "descripcion": "Organización benéfica británica fundada en 1983 que promueve la permacultura mediante cursos, un diploma en diseño aplicado, membresía y proyectos. Tiene sede en Leeds.",
+   "url": "https://www.permaculture.org.uk/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "cursos",
+    "permacultura",
+    "red"
+   ]
+  },
+  {
+   "nombre": "Schumacher College",
+   "tipo": "Formación",
+   "region": "Europa",
+   "pais": "Reino Unido",
+   "descripcion": "Escuela de pensamiento ecológico en Totnes (Devon), hoy vinculada a la Satish Kumar Foundation tras el cierre de sus programas académicos en 2024. Ofrece cursos cortos presenciales y en línea sobre ecología, comunidad y transformación social.",
+   "url": "https://www.schumachercollege.org/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "cursos cortos",
+    "ecología",
+    "transformación social"
+   ]
+  },
+  {
+   "nombre": "Sociocracy For All",
+   "tipo": "Formación",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Organización sin fines de lucro fundada en 2016 que ofrece recursos, formación mayormente en línea y acompañamiento para aplicar la sociocracia en grupos y comunidades. Sus precios se ajustan a lo que cada persona puede pagar.",
+   "url": "https://www.sociocracyforall.org/",
+   "idiomas": [
+    "en",
+    "es"
+   ],
+   "etiquetas": [
+    "gobernanza",
+    "sociocracia",
+    "toma de decisiones"
+   ]
+  },
+  {
+   "nombre": "Holacracy",
+   "tipo": "Formación",
+   "region": "Global",
+   "pais": null,
+   "descripcion": "Sitio de HolacracyOne, que mantiene el marco de autogestión Holacracy y su constitución, con un curso básico gratuito y formación paga. Más orientado a organizaciones que a comunidades residenciales.",
+   "url": "https://www.holacracy.org/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "autogestión",
+    "gobernanza",
+    "organizaciones"
+   ]
+  },
+  {
+   "nombre": "Canadian Cohousing Network",
+   "tipo": "Red",
+   "region": "América del Norte",
+   "pais": "Canadá",
+   "descripcion": "Organización nacional sin fines de lucro que conecta personas y recursos para crear y sostener comunidades de cohousing en Canadá. Mantiene un directorio de comunidades por provincia y etapa, y guías para grupos que empiezan.",
+   "url": "https://cohousing.ca/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "cohousing",
+    "directorio",
+    "red nacional"
+   ]
+  },
+  {
+   "nombre": "CoHousing Australia",
+   "tipo": "Red",
+   "region": "Asia y Oceanía",
+   "pais": "Australia",
+   "descripcion": "Organización nacional de membresía, sin fines de lucro, que promueve la vivienda colaborativa impulsada por sus residentes mediante difusión, apoyo e incidencia. Ofrece recursos y noticias sobre cohousing en Australia.",
+   "url": "https://www.cohousingaustralia.org.au/",
+   "idiomas": [
+    "en"
+   ],
+   "etiquetas": [
+    "cohousing",
+    "incidencia",
+    "red nacional"
+   ]
+  },
+  {
+   "nombre": "Wohnprojekte-Portal (Stiftung trias)",
+   "tipo": "Directorio",
+   "region": "Europa",
+   "pais": "Alemania",
+   "descripcion": "Plataforma gratuita de la Stiftung trias, activa desde 2009, con una base de datos de proyectos de vivienda comunitaria en Alemania, Austria y Suiza, desde grupos en formación hasta proyectos realizados. Incluye también eventos y búsquedas de miembros.",
+   "url": "https://www.wohnprojekte-portal.de/wohnprojekte-entdecken/",
+   "idiomas": [
+    "de"
+   ],
+   "etiquetas": [
+    "cohousing",
+    "directorio",
+    "vivienda comunitaria"
+   ]
+  },
+  {
+   "nombre": "Vereniging Gemeenschappelijk Wonen",
+   "tipo": "Red",
+   "region": "Europa",
+   "pais": "Países Bajos",
+   "descripcion": "Asociación neerlandesa vinculada a los grupos de vivienda compartida (woongroepen), de los que registra varios cientos en el país. Punto de partida para conocer la tradición neerlandesa de vivienda comunitaria.",
+   "url": "https://gemeenschappelijkwonen.nl/the-association",
+   "idiomas": [
+    "nl",
+    "en"
+   ],
+   "etiquetas": [
+    "red nacional",
+    "vivienda comunitaria",
+    "woongroepen"
+   ]
+  },
   {
    "nombre": "Global Ecovillage Network (GEN)",
    "tipo": "Red",
