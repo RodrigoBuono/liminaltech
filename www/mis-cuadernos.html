@@ -185,7 +185,11 @@
   .tag{ border:1px solid var(--line); background:none; border-radius:30px; padding:3px 10px; font-size:.7rem; color:var(--fg-faint); cursor:pointer; transition:color .2s, border-color .2s; }
   .tag:hover{ color:var(--sage); border-color:rgba(143,172,130,.5); }
   .c-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:auto; padding-top:18px; font-size:.74rem; }
-  .c-host{ color:var(--fg-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .c-host{ color:var(--fg-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+  /* textos largos sin espacios (DOIs, nombres de revistas) no pueden ensanchar la tarjeta más que la pantalla */
+  .grid > .card{ min-width:0; }
+  .c-title, .c-auth, .c-sum{ overflow-wrap:break-word; }
+  .c-src, .c-place{ overflow-wrap:anywhere; }
   .c-go{ color:var(--sage); white-space:nowrap; letter-spacing:.4px; transition:transform .3s; }
   .card:hover .c-go{ transform:translateX(3px); }
   .c-place{ font-size:.8rem; color:var(--fg-dim); margin-top:6px; }
@@ -267,6 +271,7 @@
     .card{ transition:none; }
   }
 </style>
+<link rel="stylesheet" href="/fx.css">
 </head>
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -387,5 +392,8 @@
 
 <script src="/cuadernos-data.js" defer></script>
 <script src="/cuadernos.js" defer></script>
+<script src="/vendor/gsap.min.js" defer></script>
+<script src="/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/fx.js" defer></script>
 </body>
 </html>
