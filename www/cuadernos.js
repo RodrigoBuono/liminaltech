@@ -20,7 +20,7 @@
     if (!y) return false;
     return p === 'pre2000' ? y < 2000 : p === '2000s' ? y >= 2000 && y < 2010 : p === '2010s' ? y >= 2010 && y < 2020 : y >= 2020;
   };
-  const DIR_ORDER = ['Red', 'Directorio', 'Formación', 'Ecoaldea', 'Cohousing y co-living', 'Organización'];
+  const DIR_ORDER = ['Red', 'Directorio', 'Ecoaldea', 'Cohousing y co-living', 'Formación', 'Voluntariado', 'Organización'];
 
   const authorsText = a => {
     if (!a || !a.length) return '';
