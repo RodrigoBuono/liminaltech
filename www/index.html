@@ -118,6 +118,9 @@
   .reveal.in{ opacity:1; transform:none; }
   .scene p, .scene li, .scene h1,.scene h2,.scene h3, .scene h4, .scene h5, .scene .eyebrow{
     text-shadow:0 1px 22px rgba(8,10,13,.95), 0 0 8px rgba(8,10,13,.7); }
+  /* renglones equilibrados: títulos parejos y párrafos sin una palabra suelta al final */
+  .scene h1,.scene h2,.scene h3,.scene h4,.scene h5,.scene .eyebrow,.room-head .rh-t{ text-wrap:balance; }
+  .scene p,.scene li{ text-wrap:pretty; }
 
   /* rótulo del hero: en columna sobre el borde derecho, junto a los puntos de sección */
   @media (min-width:981px){

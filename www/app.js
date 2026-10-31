@@ -1,5 +1,14 @@
 (function(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Si se llega con un ancla (/#serv-1), el navegador scrollea la página hasta ahí
+  // ANTES de que se active el modo escenas, y ese desplazamiento queda congelado:
+  // todo se ve corrido. Se toma el ancla, se quita de la URL y la navegación la hace el motor.
+  let initialHash='';
+  if(!reduce && location.hash.length>1){
+    initialHash=decodeURIComponent(location.hash.slice(1));
+    history.replaceState(null,'',location.pathname+location.search);
+  }
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
   const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t;
   let vw=innerWidth, vh=innerHeight;
   let deck=false;            // modo escenas (desktop)
@@ -680,6 +689,7 @@
     document.body.classList.toggle('deck',deck);
     splitPricing(wantSplit);
     idx=Math.max(0,Math.min(idx,TOT-1));
+    if(deck){ document.documentElement.scrollTop=0; document.body.scrollTop=0; stage.scrollTop=0; }
     scenes.forEach((s,i)=>{
       s.classList.toggle('on', !deck||i===idx);
       if(deck){ setScene(s, i===idx?'none':'translateY(62vh)', i===idx?1:0, 0, true); }
@@ -807,9 +817,27 @@
   measure();
   requestAnimationFrame(tick);
 
-  // si se llega con un ancla (p. ej. /#precios desde Mis cuadernos), se viaja a esa sección
-  if(location.hash.length>1){
-    const i=indexOfTarget(decodeURIComponent(location.hash.slice(1)));
+  // Guardián: en modo escenas el fondo NUNCA se desplaza. Cualquier scroll del documento
+  // o del contenedor (ancla, foco del teclado, extensión del navegador) se devuelve a cero.
+  // Las escenas que scrollean por dentro no se tocan.
+  const pin=()=>{
+    if(!deck) return;
+    const de=document.documentElement, b=document.body;
+    if(de.scrollTop) de.scrollTop=0;
+    if(b.scrollTop) b.scrollTop=0;
+    if(stage.scrollTop) stage.scrollTop=0;
+    if(de.scrollLeft||b.scrollLeft){ de.scrollLeft=0; b.scrollLeft=0; }
+  };
+  document.addEventListener('scroll',e=>{
+    const t=e.target;
+    if(t===document||t===document.documentElement||t===document.body||t===stage) pin();
+  },true);
+  addEventListener('load',pin);
+  pin();
+
+  // si se llegó con un ancla (p. ej. /#precios desde Mis cuadernos), se viaja a esa sección
+  if(initialHash){
+    const i=indexOfTarget(initialHash);
     if(i>0) setTimeout(()=>go(i),450);
   }
 })();

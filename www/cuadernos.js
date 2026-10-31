@@ -74,6 +74,86 @@
   fillSelect($('#sPais'), Object.entries(count(dir, 'pais')).sort((a, b) => a[0].localeCompare(b[0], 'es')).map(([k, n]) => [k, k, n]), 'Todos');
   fillSelect($('#sDirIdioma'), byCount(countMulti(dir, 'idiomas')).map(([k, n]) => [k, LANG[k] || k.toUpperCase(), n]), 'Todos');
 
+  /* ---------- desplegables propios ----------
+     El <select> real sigue guardando el valor (y la lógica de filtros lo escucha igual);
+     encima se muestra un botón + lista redondeados con la estética de la web. */
+  const dds = [];
+  function closeAll(except) { dds.forEach(d => { if (d.wrap !== except) d.close(false); }); }
+  function enhanceSelect(sel) {
+    const labId = sel.getAttribute('aria-labelledby');
+    const wrap = document.createElement('div'); wrap.className = 'dd';
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dd-btn';
+    btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', sel.id + '-list');
+    btn.innerHTML = '<span class="dd-v"></span><svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg>';
+    const list = document.createElement('ul'); list.className = 'dd-list'; list.id = sel.id + '-list';
+    list.setAttribute('role', 'listbox'); list.tabIndex = -1;
+    if (labId) list.setAttribute('aria-labelledby', labId);
+    sel.classList.add('dd-native'); sel.tabIndex = -1; sel.setAttribute('aria-hidden', 'true');
+    sel.after(wrap); wrap.append(btn, list);
+    let active = -1;
+    const items = () => list.querySelectorAll('[role=option]');
+    function build() {
+      list.innerHTML = [...sel.options].map((o, i) => `<li role="option" id="${sel.id}-o${i}" data-i="${i}" aria-selected="${i === sel.selectedIndex}">${esc(o.textContent)}</li>`).join('');
+    }
+    function sync() {
+      const o = sel.options[sel.selectedIndex];
+      btn.querySelector('.dd-v').textContent = o ? o.textContent : '';
+      const lab = labId ? document.getElementById(labId).textContent : '';
+      btn.setAttribute('aria-label', `${lab}: ${o ? o.textContent : ''}`);
+      btn.classList.toggle('on', sel.id !== 'sOrden' && sel.value !== 'all');
+      items().forEach((li, i) => li.setAttribute('aria-selected', String(i === sel.selectedIndex)));
+    }
+    function setActive(i) {
+      const its = items(); if (!its.length) return;
+      active = Math.max(0, Math.min(i, its.length - 1));
+      its.forEach(x => x.classList.remove('act'));
+      its[active].classList.add('act'); list.setAttribute('aria-activedescendant', its[active].id);
+      its[active].scrollIntoView({ block: 'nearest' });
+    }
+    function open() {
+      closeAll(wrap); build();
+      const r = btn.getBoundingClientRect(), below = innerHeight - r.bottom;
+      wrap.classList.toggle('up', below < 280 && r.top > below);   // sin lugar abajo: abre hacia arriba
+      wrap.classList.add('open'); btn.setAttribute('aria-expanded', 'true');
+      setActive(sel.selectedIndex);
+      list.focus({ preventScroll: true });
+      if (document.activeElement !== list) requestAnimationFrame(() => list.focus({ preventScroll: true }));
+    }
+    function close(focusBtn) {
+      if (!wrap.classList.contains('open')) return;
+      wrap.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); list.removeAttribute('aria-activedescendant');
+      if (focusBtn) btn.focus();
+    }
+    function choose(i) {
+      if (i !== sel.selectedIndex) { sel.selectedIndex = i; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+      sync(); close(true);
+    }
+    btn.addEventListener('click', () => (wrap.classList.contains('open') ? close(false) : open()));
+    btn.addEventListener('keydown', e => { if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) { e.preventDefault(); open(); } });
+    list.addEventListener('click', e => { const li = e.target.closest('[role=option]'); if (li) choose(+li.dataset.i); });
+    list.addEventListener('mousemove', e => { const li = e.target.closest('[role=option]'); if (li && +li.dataset.i !== active) setActive(+li.dataset.i); });
+    list.addEventListener('keydown', e => {
+      const n = sel.options.length;
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); setActive(0); }
+      else if (e.key === 'End') { e.preventDefault(); setActive(n - 1); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(active); }
+      else if (e.key === 'Escape') { e.preventDefault(); close(true); }
+      else if (e.key === 'Tab') { close(false); }
+      else if (e.key.length === 1) {               // saltar a la opción que empieza con esa letra
+        const k = norm(e.key), opts = [...sel.options];
+        for (let j = 1; j <= n; j++) { const x = (active + j) % n; if (norm(opts[x].textContent).startsWith(k)) { setActive(x); break; } }
+      }
+    });
+    dds.push({ wrap, sync, close });
+    sync();
+  }
+  document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeAll(); });
+  addEventListener('resize', () => closeAll());
+  ['#sTipo', '#sIdioma', '#sPeriodo', '#sOrden', '#sRegion', '#sPais', '#sDirIdioma'].forEach(id => enhanceSelect($(id)));
+  const syncDropdowns = () => dds.forEach(d => d.sync());
+
   /* ---------- estado ---------- */
   const R0 = { q: '', tema: 'all', tipo: 'all', idioma: 'all', periodo: 'all', abierto: false, orden: 'recientes' };
   const D0 = { q: '', tipo: 'all', region: 'all', pais: 'all', idioma: 'all' };
@@ -169,6 +249,7 @@
     const badge = $(panel + ' .ftoggle .n');
     badge.hidden = !active; badge.textContent = active;
     $(which === 'repo' ? '#clearRepo' : '#clearDir').hidden = !(active || st.q);
+    syncDropdowns();
     const chips = $(which === 'repo' ? '#chipsRepo' : '#chipsDir');
     const val = which === 'repo' ? R.tema : Dst.tipo;
     chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.v === val)));
