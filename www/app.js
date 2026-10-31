@@ -817,6 +817,9 @@
   measure();
   requestAnimationFrame(tick);
 
+  // al terminar la intro de la esclusa, el título se anima en el momento en que la web aparece
+  addEventListener('intro:reveal',()=>{ if(deck) playReveals(scenes[idx]); });
+
   // Guardián: en modo escenas el fondo NUNCA se desplaza. Cualquier scroll del documento
   // o del contenedor (ancla, foco del teclado, extensión del navegador) se devuelve a cero.
   // Las escenas que scrollean por dentro no se tocan.
