@@ -69,6 +69,13 @@ async function start() {
   document.body.appendChild(box);
   const cvs = box.querySelector('canvas');
   const $ = s => box.querySelector(s);
+  let ended = false, ready = false, skipNow = null;
+  function skip() {
+    if (ended) return;
+    if (!ready) { ended = true; window.dispatchEvent(new Event('intro:reveal')); finish(true); return; }
+    skipNow();
+  }
+  $('.intro-skip').addEventListener('click', () => skip());
 
   // mientras dura la intro, la web de atrás no recibe teclado, rueda ni toques
   const page = [document.querySelector('nav'), document.getElementById('stagewrap'), document.getElementById('scenenav')].filter(Boolean);
@@ -130,6 +137,7 @@ async function start() {
   const sunDir = E_w.clone().multiplyScalar(sunL.x).add(N_w.clone().multiplyScalar(sunL.y)).add(U_w.clone().multiplyScalar(sunL.z)).normalize();
 
   const earthImg = await earthImgP;
+  if (ended) { renderer.dispose(); renderer.forceContextLoss(); return; }
   const earthTex = new Texture(earthImg);
   earthTex.colorSpace = SRGBColorSpace; earthTex.anisotropy = aniso;
   earthTex.wrapS = earthTex.wrapT = ClampToEdgeWrapping; earthTex.minFilter = LinearMipmapLinearFilter; earthTex.needsUpdate = true;
@@ -459,7 +467,8 @@ async function start() {
   renderer.compile(earthScene, earthCam); renderer.compile(scene, camera);
   draw();
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-  draw();
+  if (ended) { cloudRT.dispose(); earthTex.dispose(); renderer.dispose(); renderer.forceContextLoss(); return; }
+  draw(); ready = true;
   last = performance.now();
   gsap.ticker.add(tick);
   cleanupFns.push(() => gsap.ticker.remove(tick));
@@ -469,19 +478,16 @@ async function start() {
   try { localStorage.setItem('rb-intro', '1'); } catch (e) { /* nada */ }
 
   const skipBtn = $('.intro-skip');
-  skipBtn.addEventListener('click', skip);
   setTimeout(() => { try { skipBtn.focus({ preventScroll: true }); } catch (e) { /* nada */ } }, 300);
 
-  let ended = false;
-  function skip() {
-    if (ended) return;
+  skipNow = () => {
     tl.pause();
     html.classList.remove('intro-cover');
     gsap.to(S, { out: 0, duration: 0.35, ease: 'power1.out', onComplete: done });
     gsap.to(hud, { opacity: 0, duration: 0.25 });
     setTimeout(done, 700);   // en equipos lentos, cierra igual aunque la animación se demore
     window.dispatchEvent(new Event('intro:reveal'));
-  }
+  };
   function done() {
     if (ended) return; ended = true;
     gsap.ticker.remove(tick);
