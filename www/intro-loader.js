@@ -12,6 +12,7 @@
     if (!force && (seen || reduce)) return;
     if (!window.WebGLRenderingContext) return;
     h.classList.add('intro-pending');
+    var l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.href = '/intro/earth.webp'; document.head.appendChild(l);
     var s = document.createElement('script');
     s.type = 'module'; s.src = '/intro.js';
     s.onerror = function () { h.classList.remove('intro-pending'); };

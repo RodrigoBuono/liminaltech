@@ -793,8 +793,10 @@
     const c=sample(bgStops,p); bg.style.background=`rgb(${c[0]},${c[1]},${c[2]})`;
     if(!deck) bar.style.width=(p*100)+'%';
 
-    if(!reduce) renderSky(time,p,nmx,nmy);
-    if(!reduce) organism(time, (mx+innerWidth*0.03)*DPR, (my+innerHeight*0.03)*DPR, mouseOn);
+    // mientras la intro tapa toda la pantalla, el fondo no se dibuja (todo el rendimiento va a la intro)
+    const covered=document.documentElement.classList.contains('intro-cover');
+    if(!reduce && !covered) renderSky(time,p,nmx,nmy);
+    if(!reduce && !covered) organism(time, (mx+innerWidth*0.03)*DPR, (my+innerHeight*0.03)*DPR, mouseOn);
 
     // parallax sutil del lienzo con el mouse
     cvs.style.transform=`translate(${nmx*-14}px,${nmy*-11}px)`;
