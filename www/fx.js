@@ -127,21 +127,32 @@
 
   // tarjetas: aparecen en cascada a medida que entran en pantalla,
   // también después de buscar o filtrar (las grillas se vuelven a dibujar)
+  // Cada tarjeta se anima UNA sola vez. Solo se actúa ante tarjetas realmente nuevas
+  // (las que crea una búsqueda o un filtro). GSAP, al recalcular, saca y vuelve a poner
+  // momentáneamente tarjetas de la grilla oculta; tomar eso como un redibujado generaba
+  // un bucle infinito (recalcular -> mover tarjeta -> ocultar todo -> recalcular...).
+  const seen = new WeakSet();
   let batches = [];
   function revealCards() {
-    batches.forEach(t => t.kill()); batches = [];
-    const cards = document.querySelectorAll('#gridRepo .card, #gridDir .card');
-    if (!cards.length) return;
+    const fresh = [...document.querySelectorAll('#gridRepo .card, #gridDir .card')].filter(c => !seen.has(c));
+    if (!fresh.length) return false;
+    fresh.forEach(c => seen.add(c));
+    // se descartan los disparadores de tarjetas que ya no están en la página
+    batches = batches.filter(t => { if (t.trigger && !t.trigger.isConnected) { t.kill(); return false; } return true; });
     // la transición CSS de las tarjetas se pausa mientras GSAP las mueve (si no, se traban)
-    gsap.set(cards, { opacity: 0, y: 34, scale: 0.97, transition: 'none' });
-    batches = ST.batch(cards, {
+    gsap.set(fresh, { opacity: 0, y: 34, scale: 0.97, transition: 'none' });
+    batches = batches.concat(ST.batch(fresh, {
       start: 'top 94%',
       once: true,
       onEnter: els => gsap.to(els, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease, stagger: 0.07, overwrite: true, clearProps: 'transform,opacity,transition' })
-    });
+    }));
+    return true;
   }
   let pending = 0;
-  const queue = () => { cancelAnimationFrame(pending); pending = requestAnimationFrame(() => { revealCards(); ST.refresh(); }); };
+  const queue = () => {
+    cancelAnimationFrame(pending);
+    pending = requestAnimationFrame(() => { if (revealCards()) ST.refresh(); });
+  };
   ['gridRepo', 'gridDir'].forEach(id => new MutationObserver(queue).observe(document.getElementById(id), { childList: true }));
   revealCards();
 
