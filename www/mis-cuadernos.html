@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis cuadernos — Rodrigo Buono</title>
+<meta name="description" content="Repositorio de investigaciones y directorio de sitios sobre ecoaldeas, comunidades intencionales, co-living y nuevas formas de habitar, curado por Rodrigo Buono.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0c10'/%3E%3Ccircle cx='50' cy='50' r='9' fill='%238fac82'/%3E%3Ccircle cx='22' cy='28' r='4' fill='%23d1b087'/%3E%3Ccircle cx='78' cy='30' r='4' fill='%238fb4c9'/%3E%3Ccircle cx='26' cy='76' r='4' fill='%238fb4c9'/%3E%3Ccircle cx='76' cy='74' r='4' fill='%23d1b087'/%3E%3Cg stroke='%238fac82' stroke-width='2.5' opacity='.75'%3E%3Cpath d='M50 50 22 28M50 50 78 30M50 50 26 76M50 50 76 74'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mis cuadernos — Rodrigo Buono">
+<meta property="og:description" content="Repositorio académico y directorio del ecosistema de ecoaldeas, comunidades intencionales y co-living.">
+<meta property="og:url" content="https://www.rodrigobuono.com/mis-cuadernos">
+<meta property="og:site_name" content="Rodrigo Buono">
+<meta property="og:locale" content="es_AR">
+<meta property="og:image" content="https://www.rodrigobuono.com/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.rodrigobuono.com/og.jpg">
+<meta name="theme-color" content="#0a0c10">
+<link rel="canonical" href="https://www.rodrigobuono.com/mis-cuadernos">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{ --fg:#f2eee7; --fg-dim:#b6b0a5; --fg-faint:#8c867c; --sage:#8fac82; --earth:#d1b087; --cyan:#8fb4c9;
+    --line:rgba(236,231,223,.14); --card:rgba(12,15,19,.72); --bg:#0a0c10; --r:10px; }
+  html{ -webkit-font-smoothing:antialiased; scroll-behavior:smooth; }
+  body{ font-family:'Inter',sans-serif; color:var(--fg); background:var(--bg); line-height:1.6; overflow-x:hidden; min-height:100vh; }
+  ::selection{ background:var(--sage); color:#0d0f12; }
+  a{ color:inherit; text-decoration:none; }
+  button,input,select{ font:inherit; color:inherit; }
+  .ser{ font-family:'Fraunces',serif; font-weight:330; }
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible{ outline:2px solid var(--sage); outline-offset:3px; border-radius:6px; }
+  .sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* fondo */
+  #sky{ position:fixed; inset:0; z-index:-3; width:100%; height:100%; }
+  .glow{ position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:radial-gradient(ellipse 70% 50% at 80% 0%, rgba(143,172,130,.10), transparent 70%),
+               radial-gradient(ellipse 60% 50% at 0% 100%, rgba(209,176,135,.07), transparent 70%); }
+
+  /* nav */
+  nav{ position:sticky; top:0; z-index:50; }
+  /* el fondo desenfocado va en un pseudo-elemento: si estuviera en la barra misma,
+     el menú desplegado (position:fixed) quedaría encerrado dentro de ella */
+  nav::before{ content:''; position:absolute; inset:0; z-index:-2; background:linear-gradient(to bottom, rgba(10,12,16,.92), rgba(10,12,16,.72));
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid rgba(236,231,223,.06); transition:opacity .3s; }
+  .nav-in{ max-width:1320px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; }
+  .brand{ font-family:'Fraunces',serif; font-size:1.12rem; letter-spacing:.5px; }
+  .nav-links{ display:flex; gap:28px; list-style:none; }
+  .nav-links a{ font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; opacity:.72; position:relative; transition:opacity .3s; }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:-5px; width:0; height:1px; background:var(--fg); transition:width .4s cubic-bezier(.16,1,.3,1); }
+  .nav-links a:hover{ opacity:1; } .nav-links a:hover::after{ width:100%; }
+  .nav-links a[aria-current="page"]{ opacity:1; color:var(--sage); }
+  .nav-links a[aria-current="page"]::after{ width:100%; background:var(--sage); }
+  .burger{ display:none; flex-direction:column; gap:6px; background:none; border:0; cursor:pointer; padding:8px; margin:-8px; }
+  .burger span{ width:26px; height:1.5px; background:var(--fg); transition:.35s cubic-bezier(.16,1,.3,1); }
+  .burger[aria-expanded="true"] span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .burger[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+  main{ max-width:1320px; margin:0 auto; padding:0 48px; }
+
+  /* encabezado */
+  .hero{ padding:88px 0 46px; max-width:880px; }
+  .eyebrow{ font-size:.72rem; letter-spacing:3px; text-transform:uppercase; color:var(--sage); }
+  .hero h1{ font-size:clamp(3rem,8vw,6.2rem); line-height:.98; letter-spacing:-.02em; margin-top:18px; }
+  .hero h1 em{ font-style:italic; color:var(--sage); }
+  .lead{ color:var(--fg-dim); font-weight:300; font-size:1.08rem; max-width:640px; margin-top:24px; }
+  .stats{ display:flex; flex-wrap:wrap; gap:10px 34px; margin-top:34px; }
+  .stats span{ font-size:.78rem; letter-spacing:.5px; color:var(--fg-dim); }
+  .stats b{ font-family:'Fraunces',serif; font-weight:400; font-size:1.9rem; color:var(--fg); margin-right:8px; vertical-align:-3px; }
+
+  /* pestañas */
+  .tabs{ display:inline-flex; gap:4px; padding:5px; border:1px solid var(--line); border-radius:50px; background:rgba(12,15,19,.6);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  .tab{ border:0; background:none; cursor:pointer; padding:11px 26px; border-radius:50px; font-size:.82rem; letter-spacing:1.4px;
+    text-transform:uppercase; color:var(--fg-dim); transition:background .3s, color .3s; display:inline-flex; align-items:center; gap:10px; }
+  .tab:hover{ color:var(--fg); }
+  .tab[aria-selected="true"]{ background:var(--sage); color:#0d0f12; }
+  .tab .cnt{ font-family:'Fraunces',serif; letter-spacing:0; font-size:.9rem; opacity:.75; }
+
+  .panel{ padding:34px 0 40px; }
+  .panel[hidden]{ display:none; }
+  .pintro{ color:var(--fg-dim); font-weight:300; max-width:720px; margin-bottom:24px; }
+
+  /* barra de búsqueda y filtros */
+  .toolbar{ display:flex; gap:12px; align-items:center; }
+  .search{ flex:1; position:relative; display:block; }
+  .search svg{ position:absolute; left:20px; top:50%; transform:translateY(-50%); width:17px; height:17px; stroke:var(--fg-faint); fill:none; stroke-width:1.8; pointer-events:none; }
+  .search input{ width:100%; padding:16px 20px 16px 50px; border-radius:50px; border:1px solid var(--line); background:var(--card);
+    font-size:.95rem; transition:border-color .3s, background .3s; -webkit-appearance:none; appearance:none; }
+  .search input::placeholder{ color:var(--fg-faint); }
+  .search input:focus{ outline:none; border-color:var(--sage); background:rgba(14,18,22,.9); }
+  .search input::-webkit-search-cancel-button{ filter:invert(.8); }
+  .ftoggle{ display:none; }
+  .filters{ margin-top:16px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ border:1px solid var(--line); background:rgba(12,15,19,.55); border-radius:40px; padding:8px 16px; font-size:.8rem; cursor:pointer;
+    color:var(--fg-dim); transition:border-color .25s, color .25s, background .25s; display:inline-flex; gap:8px; align-items:center; }
+  .chip:hover{ border-color:rgba(143,172,130,.6); color:var(--fg); }
+  .chip[aria-pressed="true"]{ border-color:var(--sage); background:rgba(143,172,130,.16); color:var(--fg); }
+  .chip small{ font-size:.72rem; color:var(--fg-faint); }
+  .chip[aria-pressed="true"] small{ color:var(--sage); }
+  .selects{ display:flex; flex-wrap:wrap; gap:12px 18px; align-items:flex-end; margin-top:16px; }
+  .field{ display:flex; flex-direction:column; gap:6px; font-size:.66rem; letter-spacing:1.6px; text-transform:uppercase; color:var(--fg-faint); }
+  .field select{ appearance:none; -webkit-appearance:none; min-width:168px; padding:10px 38px 10px 14px; border-radius:8px; border:1px solid var(--line);
+    background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b6b0a5' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center/11px;
+    font-size:.86rem; letter-spacing:0; text-transform:none; color:var(--fg); cursor:pointer; }
+  .field select option{ background:#11151a; color:var(--fg); }
+  .switch{ display:inline-flex; align-items:center; gap:10px; font-size:.86rem; color:var(--fg-dim); cursor:pointer; padding:9px 0; user-select:none; }
+  .switch input{ appearance:none; -webkit-appearance:none; width:38px; height:22px; border-radius:20px; border:1px solid var(--line); background:rgba(12,15,19,.8);
+    position:relative; cursor:pointer; transition:background .25s, border-color .25s; flex-shrink:0; }
+  .switch input::after{ content:''; position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:var(--fg-dim); transition:transform .25s, background .25s; }
+  .switch input:checked{ background:rgba(143,172,130,.3); border-color:var(--sage); }
+  .switch input:checked::after{ transform:translateX(16px); background:var(--sage); }
+  .clear{ border:0; background:none; color:var(--sage); font-size:.82rem; cursor:pointer; padding:9px 4px; text-decoration:underline; text-underline-offset:4px; }
+  .clear[hidden]{ display:none; }
+
+  .count{ margin:28px 0 18px; font-size:.8rem; letter-spacing:.4px; color:var(--fg-faint); }
+  .count b{ color:var(--fg); font-weight:500; }
+
+  /* tarjetas */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:18px; }
+  .card{ position:relative; display:flex; flex-direction:column; padding:24px 24px 20px; border-radius:var(--r); border:1px solid var(--line);
+    background:var(--card); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    transition:border-color .3s, transform .35s cubic-bezier(.16,1,.3,1), background .3s; }
+  .card:hover, .card:focus-within{ border-color:rgba(143,172,130,.55); transform:translateY(-3px); background:rgba(16,20,24,.82); }
+  .c-top{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:.68rem; letter-spacing:1.2px; text-transform:uppercase; }
+  .badge{ padding:4px 10px; border-radius:30px; border:1px solid var(--line); color:var(--fg-dim); }
+  .badge.t{ color:var(--earth); border-color:rgba(209,176,135,.35); }
+  .badge.oa{ color:var(--sage); border-color:rgba(143,172,130,.45); }
+  .yr{ margin-left:auto; font-family:'Fraunces',serif; font-size:1rem; letter-spacing:0; text-transform:none; color:var(--fg-dim); }
+  .c-title{ font-family:'Fraunces',serif; font-weight:360; font-size:1.2rem; line-height:1.25; margin-top:16px; }
+  .stretch::after{ content:''; position:absolute; inset:0; border-radius:var(--r); z-index:1; }
+  .stretch:focus-visible{ outline:none; }
+  .stretch:focus-visible::after{ outline:2px solid var(--sage); outline-offset:2px; }
+  .c-auth{ font-size:.84rem; color:var(--fg); margin-top:10px; }
+  .c-src{ font-size:.78rem; color:var(--fg-faint); margin-top:3px; font-style:italic; }
+  .c-sum{ font-size:.86rem; color:var(--fg-dim); font-weight:300; margin-top:12px; line-height:1.55; }
+  .c-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; position:relative; z-index:2; }
+  .tag{ border:1px solid var(--line); background:none; border-radius:30px; padding:3px 10px; font-size:.7rem; color:var(--fg-faint); cursor:pointer; transition:color .2s, border-color .2s; }
+  .tag:hover{ color:var(--sage); border-color:rgba(143,172,130,.5); }
+  .c-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:auto; padding-top:18px; font-size:.74rem; }
+  .c-host{ color:var(--fg-faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .c-go{ color:var(--sage); white-space:nowrap; letter-spacing:.4px; transition:transform .3s; }
+  .card:hover .c-go{ transform:translateX(3px); }
+  .c-place{ font-size:.8rem; color:var(--fg-dim); margin-top:6px; }
+  .card.d .c-title{ font-size:1.32rem; }
+
+  .empty{ text-align:center; padding:60px 20px; color:var(--fg-dim); border:1px dashed var(--line); border-radius:var(--r); }
+  .empty[hidden]{ display:none; }
+  .empty button{ margin-top:14px; }
+  .more{ display:block; margin:30px auto 0; padding:14px 38px; border-radius:50px; border:1px solid var(--sage); background:none; color:var(--sage); cursor:pointer; font-size:.86rem; letter-spacing:.5px; transition:background .3s, color .3s; }
+  .more:hover{ background:var(--sage); color:#0d0f12; }
+  .more[hidden]{ display:none; }
+
+  /* pie */
+  .outro{ margin:30px 0 0; padding:48px 0 30px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:24px 40px; justify-content:space-between; align-items:flex-end; }
+  .outro h2{ font-size:clamp(1.6rem,3vw,2.3rem); line-height:1.1; }
+  .outro h2 em{ font-style:italic; color:var(--sage); }
+  .outro p{ color:var(--fg-dim); font-weight:300; margin-top:10px; max-width:520px; font-size:.95rem; }
+  .btn{ display:inline-flex; align-items:center; gap:9px; padding:15px 34px; border-radius:50px; border:1px solid var(--sage); color:var(--sage); font-size:.9rem; letter-spacing:.4px; transition:background .3s, color .3s; }
+  .btn:hover{ background:var(--sage); color:#0d0f12; }
+  .btn.wa{ border-color:var(--earth); color:var(--earth); }
+  .btn.wa:hover{ background:var(--earth); color:#0d0f12; }
+  .btns{ display:flex; flex-wrap:wrap; gap:12px; }
+  footer.legal{ max-width:1320px; margin:0 auto; padding:22px 48px 34px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px 20px;
+    font-size:.72rem; color:var(--fg-faint); letter-spacing:.3px; }
+  footer.legal a{ text-decoration:underline; text-underline-offset:3px; }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+  .reveal.in{ opacity:1; transform:none; }
+  .card.enter{ animation:enter .55s cubic-bezier(.16,1,.3,1) both; }
+  @keyframes enter{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+
+  @media (max-width:980px){
+    .nav-in{ padding:16px 22px; }
+    .burger{ display:flex; }
+    .nav-links{ position:fixed; inset:0; z-index:-1; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+      background:radial-gradient(ellipse 95% 75% at 50% 42%, rgba(16,24,19,.6), rgba(7,9,12,.8));
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:0; visibility:hidden; transition:opacity .4s, visibility .4s; }
+    nav.open .nav-links{ opacity:1; visibility:visible; }
+    nav.open::before{ opacity:0; }
+    .nav-links li{ width:min(76vw,330px); }
+    .nav-links a{ display:block; text-align:center; padding:16px 22px; font-size:.9rem; letter-spacing:2.4px; opacity:1;
+      border:1px solid rgba(236,231,223,.16); border-radius:50px; background:rgba(12,16,20,.7); }
+    .nav-links a::after{ display:none; }
+    .nav-links a[aria-current="page"]{ border-color:var(--sage); }
+    main{ padding:0 20px; }
+    .hero{ padding:56px 0 34px; }
+    .lead{ font-size:.98rem; }
+    .stats b{ font-size:1.6rem; }
+    .tabs{ display:flex; width:100%; }
+    .tab{ flex:1; justify-content:center; padding:11px 10px; font-size:.74rem; }
+    .ftoggle{ display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:var(--card); border-radius:50px; padding:14px 18px; font-size:.82rem; cursor:pointer; white-space:nowrap; }
+    .ftoggle[aria-expanded="true"]{ border-color:var(--sage); color:var(--sage); }
+    .ftoggle .n{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 6px; border-radius:20px; background:var(--sage); color:#0d0f12; font-size:.7rem; }
+    .ftoggle .n[hidden]{ display:none; }
+    .filters{ display:none; }
+    .filters.open{ display:block; }
+    .chips{ flex-wrap:nowrap; overflow-x:auto; margin:0 -20px; padding:2px 20px 6px; scrollbar-width:none; }
+    .chips::-webkit-scrollbar{ display:none; }
+    .chip{ flex-shrink:0; }
+    .selects{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .field select{ min-width:0; width:100%; }
+    .grid{ grid-template-columns:1fr; gap:14px; }
+    .card{ padding:20px 18px 16px; }
+    .search input{ font-size:16px; }
+    .outro{ flex-direction:column; align-items:flex-start; }
+    footer.legal{ padding:20px 20px 30px; }
+  }
+  @media (max-width:420px){
+    .selects{ grid-template-columns:1fr; }
+    .tab{ letter-spacing:1px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .card.enter{ animation:none; }
+    .card{ transition:none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="glow" aria-hidden="true"></div>
+
+<nav id="nav" aria-label="Principal">
+  <div class="nav-in">
+    <a href="/" class="brand">Rodrigo Buono</a>
+    <ul class="nav-links" id="menu">
+      <li><a href="/mis-cuadernos" aria-current="page">Mis cuadernos</a></li>
+      <li><a href="/#sobre">Sobre mí</a></li>
+      <li><a href="/#serv-1">Servicios</a></li>
+      <li><a href="/#precios">Precios</a></li>
+      <li><a href="/#contacto">Contacto</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+  <header class="hero">
+    <p class="eyebrow reveal">Biblioteca abierta</p>
+    <h1 class="ser reveal">Mis <em>cuadernos</em></h1>
+    <p class="lead reveal">Un archivo vivo de investigaciones, libros y sitios sobre ecoaldeas, comunidades intencionales, co-living y nuevas formas de habitar. Cada tarjeta te lleva a la fuente original.</p>
+    <div class="stats reveal" aria-label="Resumen del archivo">
+      <span><b id="nRepo">–</b>trabajos académicos</span>
+      <span><b id="nDir">–</b>sitios del ecosistema</span>
+      <span><b id="nLang">–</b>idiomas</span>
+    </div>
+  </header>
+
+  <div class="tabs reveal" role="tablist" aria-label="Secciones de Mis cuadernos">
+    <button class="tab" role="tab" id="tab-repo" aria-controls="panel-repo" aria-selected="true">Repositorio <span class="cnt" id="cRepo"></span></button>
+    <button class="tab" role="tab" id="tab-dir" aria-controls="panel-dir" aria-selected="false" tabindex="-1">Directorio <span class="cnt" id="cDir"></span></button>
+  </div>
+
+  <!-- REPOSITORIO -->
+  <section class="panel" id="panel-repo" role="tabpanel" aria-labelledby="tab-repo">
+    <p class="pintro">Artículos científicos, libros, capítulos y tesis sobre la vida en comunidad. Buscá, combiná filtros y abrí cada trabajo en su fuente original.</p>
+    <div class="toolbar">
+      <label class="search">
+        <span class="sr">Buscar en el repositorio</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4" stroke-linecap="round"/></svg>
+        <input id="qRepo" type="search" placeholder="Buscar por título, autor, lugar o tema…" autocomplete="off" spellcheck="false">
+      </label>
+      <button class="ftoggle" type="button" aria-expanded="false" aria-controls="fRepo">Filtros <span class="n" hidden></span></button>
+    </div>
+    <div class="filters" id="fRepo">
+      <div class="chips" id="chipsRepo" role="group" aria-label="Filtrar por tema"></div>
+      <div class="selects">
+        <label class="field">Tipo<select id="sTipo"></select></label>
+        <label class="field">Idioma<select id="sIdioma"></select></label>
+        <label class="field">Época<select id="sPeriodo"></select></label>
+        <label class="field">Ordenar<select id="sOrden">
+          <option value="recientes">Más recientes</option>
+          <option value="antiguos">Más antiguos</option>
+          <option value="az">Título (A–Z)</option>
+        </select></label>
+        <label class="switch"><input type="checkbox" id="sAbierto"> Solo acceso abierto</label>
+        <button class="clear" type="button" id="clearRepo" hidden>Limpiar filtros</button>
+      </div>
+    </div>
+    <p class="count" id="countRepo" aria-live="polite"></p>
+    <div class="grid" id="gridRepo"></div>
+    <button class="more" type="button" id="moreRepo" hidden>Mostrar más</button>
+    <div class="empty" id="emptyRepo" hidden>No hay trabajos con esa combinación.<br><button class="clear" type="button" data-clear="repo">Limpiar filtros</button></div>
+  </section>
+
+  <!-- DIRECTORIO -->
+  <section class="panel" id="panel-dir" role="tabpanel" aria-labelledby="tab-dir" hidden>
+    <p class="pintro">Redes, ecoaldeas, directorios para encontrar comunidades, espacios de formación y organizaciones del ecosistema. Todos los enlaces llevan a sus sitios oficiales.</p>
+    <div class="toolbar">
+      <label class="search">
+        <span class="sr">Buscar en el directorio</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4" stroke-linecap="round"/></svg>
+        <input id="qDir" type="search" placeholder="Buscar por nombre, país o palabra clave…" autocomplete="off" spellcheck="false">
+      </label>
+      <button class="ftoggle" type="button" aria-expanded="false" aria-controls="fDir">Filtros <span class="n" hidden></span></button>
+    </div>
+    <div class="filters" id="fDir">
+      <div class="chips" id="chipsDir" role="group" aria-label="Filtrar por tipo"></div>
+      <div class="selects">
+        <label class="field">Región<select id="sRegion"></select></label>
+        <label class="field">País<select id="sPais"></select></label>
+        <label class="field">Idioma del sitio<select id="sDirIdioma"></select></label>
+        <button class="clear" type="button" id="clearDir" hidden>Limpiar filtros</button>
+      </div>
+    </div>
+    <p class="count" id="countDir" aria-live="polite"></p>
+    <div class="grid" id="gridDir"></div>
+    <div class="empty" id="emptyDir" hidden>No hay sitios con esa combinación.<br><button class="clear" type="button" data-clear="dir">Limpiar filtros</button></div>
+  </section>
+
+  <section class="outro" aria-label="Sumar al archivo">
+    <div>
+      <h2 class="ser">¿Falta algo en <em>estos cuadernos</em>?</h2>
+      <p>Si conocés una investigación, una comunidad o una red que debería estar acá, contámela y la sumo.</p>
+    </div>
+    <div class="btns">
+      <a class="btn" href="mailto:contacto@rodrigobuono.com?subject=Sugerencia%20para%20Mis%20cuadernos">Sugerir por mail</a>
+      <a class="btn wa" href="https://wa.me/5491165718894?text=Hola%20Rodrigo%2C%20quiero%20sugerir%20algo%20para%20Mis%20cuadernos." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer class="legal">
+  <span>© 2026 Rodrigo Buono · <a href="/">Volver al inicio</a></span>
+  <span>Los enlaces llevan a sitios de terceros; cada contenido pertenece a sus autores.</span>
+</footer>
+
+<script src="/cuadernos-data.js" defer></script>
+<script src="/cuadernos.js" defer></script>
+</body>
+</html>

@@ -806,4 +806,10 @@
   });
   measure();
   requestAnimationFrame(tick);
+
+  // si se llega con un ancla (p. ej. /#precios desde Mis cuadernos), se viaja a esa sección
+  if(location.hash.length>1){
+    const i=indexOfTarget(decodeURIComponent(location.hash.slice(1)));
+    if(i>0) setTimeout(()=>go(i),450);
+  }
 })();
